@@ -33,8 +33,8 @@ app.use('/users', require('./routes/users'))
 app.use('/', require('./routes/orders'))
 app.use('/', require('./routes/products'))
 
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
+app.get('*', (req, res) => {
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 module.exports = app
