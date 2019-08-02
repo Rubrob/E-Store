@@ -1,0 +1,132 @@
+$primary-color: #444
+$secondary-color: #777
+$light-color: #e5e5e5
+
+.productSlider
+  position: relative
+  display: flex
+  width: 100%
+  min-height: 300px
+  background: #eceff0
+  margin-right: 30px
+  align-self: flex-start
+
+  &-arrow
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+    padding: 40px
+    cursor: pointer
+
+    &::after, &::before
+      content: ''
+      position: absolute
+      top: 50%
+      transform: translate(-50%, -50%) rotate(45deg)
+      width: 15px
+      height: 15px
+      border: 5px solid
+
+    &.--left
+      left: 60px
+      &::after, &::before
+        border-color: transparent transparent $primary-color $primary-color
+      &:hover
+        &::after, &::before
+          border-color: transparent transparent $secondary-color $secondary-color
+
+    &.--right
+      right: 25px
+      &::after, &::before
+        border-color: $primary-color $primary-color transparent transparent
+      &:hover
+        &::after, &::before
+          border-color: $secondary-color $secondary-color transparent transparent
+
+  &-primary
+    font-size: 0
+    margin: 0 20px
+    width: 80%
+    img
+      width: 100%
+      max-width: 800px
+
+  &-slides
+    align-self: center
+    height: 350px
+    min-height: 350px
+    overflow-x: hidden
+    overflow-y: scroll
+    text-align: center
+    cursor: pointer
+    & .slide
+      height: 60px
+      font-size: 0
+      margin: 0
+      &.active
+        position: relative
+        &:before
+          content: ''
+          position: absolute
+          left: 0
+          height: 100%
+          width: 3px
+          background: $primary-color
+      img
+        height: 60px
+
+    &::-webkit-scrollbar
+      height: 0
+      width: 2px
+    &::-webkit-scrollbar-thumb
+      background: $primary-color
+
+
+@media (max-width: 959.5px)
+  .productSlider
+    justify-content: flex-start
+    align-items: center
+    flex-direction: column-reverse
+
+    &-arrow
+      padding: 25px
+
+    &-slides
+      display: flex
+      align-items: center
+      width: 90%
+      min-width: 240px
+      max-width: 480px
+      height: 60px
+      min-height: 0
+      overflow-x: scroll
+      img
+        user-select: none
+
+      .slide
+        &.active
+          &::before
+            height: 3px
+            width: 100%
+            bottom: 0
+
+    &-primary
+      display: flex
+      justify-content: center
+      width: 100%
+      margin: 0 !important
+      img
+        width: 70%
+
+@media (max-width: 599.5px)
+
+  .productSlider
+    &-arrow
+      padding: 25px
+      &.--left
+        left: 5px
+      &.--right
+        right: 5px
+    &-primary
+      img
+        width: 100%

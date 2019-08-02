@@ -1,0 +1,44 @@
+$submit-bg: #f05
+$submit-color: #fff
+$primary-color: #444
+$secondary-color: #777
+$light-color: #e5e5e5
+
+.billingAddress
+  padding: 0
+
+.billing
+  border: 1px solid $light-color
+
+  header
+    padding: 15px
+    box-sizing: border-box
+    font-size: 20px
+    font-weight: 600
+    color: $primary-color
+    background: $light-color
+
+  form
+    padding: 20px
+    padding-top: 0
+    display: flex
+    flex-direction: column
+
+    .submit
+      align-self: flex-end
+      margin-top: 20px
+      padding: 15px 20px
+      font-weight: 700
+      background: $submit-bg
+      color: $submit-color
+      transition: .4s
+      box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14)
+      &:not(:disabled):hover,
+      &:not(:disabled):focus
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)
+      &:disabled
+        background: lighten($submit-bg, 20%)
+
+  .bas
+    margin-bottom: 20px
+    user-select: none

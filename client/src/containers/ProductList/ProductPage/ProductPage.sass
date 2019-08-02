@@ -1,0 +1,158 @@
+$primary-color: #444
+$secondary-color: #777
+$light-color: #e5e5e5
+
+@mixin h4
+  margin: 0
+  margin-bottom: 15px
+  font-size: 18px
+
+.productPage
+  padding: 60px 40px
+  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  max-width: 1200px
+  width: 100%
+  margin: auto
+
+  .mobileTitle
+    display: flex
+    justify-content: space-between
+    text-transform: capitalize
+    width: 100%
+
+  h4, h1
+    font-weight: normal
+    margin: 0
+    text-transform: capitalize
+
+
+  .desktopTitle
+    display: none
+    justify-content: space-between
+    margin-bottom: 20px
+    span
+      font-weight: 600
+
+  .productDescription
+    margin-top: 35px
+    h4
+      @include h4
+
+.productPage-content
+  display: flex
+  width: 100%
+
+  &-main
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    width: 100%
+    max-width: 360px
+    padding: 0
+    color: #444
+
+    .addToCart
+      width: 100%
+      margin: 0
+      padding: 20px
+      background: #444
+      border: none
+      border-radius: 30px
+      color: #fff
+      font-size: 15px
+      font-weight: 700
+      outline: none
+      transition: .4s
+      cursor: pointer
+      -webkit-appearance: none
+      &:disabled
+        background: lighten(#444, 40%)
+        cursor: default
+      &:not(:disabled):hover
+        box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 15px 0px rgba(0,0,0,0.12)
+
+    &-colors
+      width: 100%
+      margin: 0
+      margin-bottom: 15px
+      h4
+        @include h4
+      .availableColors
+        display: flex
+        justify-content: flex-start
+        flex-wrap: wrap
+        margin: 20px 0
+        & > a
+          width: 60px
+          min-width: 60px
+          height: 60px
+          margin: 2px
+          overflow: hidden
+          border-radius: 15px
+          cursor: pointer
+          img
+            height: 100%
+
+    &-sizes
+      margin-bottom: 15px
+      width: 100%
+      h4
+        @include h4
+      .availableSizes
+        display: grid
+        grid-gap: 4px
+        grid-template-columns: repeat(5,1fr)
+        width: 100%
+        &.onesize
+          grid-template-columns: 1fr !important
+        &-size
+          margin: 0
+          min-width: 30px
+          border: 1.5px solid #e5e5e5
+          height: 48px
+          line-height: 48px
+          border-radius: 15px
+          text-align: center
+          cursor: pointer
+          &.active
+            background: #444
+            color: #fff
+            border-color: #444
+          &:not(.active):hover
+            border-color: #777
+
+
+@media (max-width: 959.5px)
+
+  .productPage
+    padding: 20px 0
+    .desktopTitle
+      display: flex
+      padding: 0 24px
+
+  .productPage-content
+    justify-content: flex-start
+    align-items: center
+    flex-direction: column
+
+    .mobileTitle
+      display: none !important
+      background: #000
+
+    &-main
+      max-width: 100%
+      width: 100%
+      padding: 24px
+      box-sizing: border-box
+
+      &-colors
+        margin-top: 15px
+        .availableColors
+          overflow-x: scroll
+          white-space: nowrap
+          &::-webkit-scrollbar
+            height: 0
+  .productDescription
+    padding: 24px

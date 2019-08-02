@@ -1,0 +1,138 @@
+@mixin onHover
+  transform: translateY(0)
+  opacity: 1
+
+@mixin content
+  margin: 0
+  opacity: 0
+  font-weight: 400
+  letter-spacing: 1px
+
+.Trending
+  text-align: center
+  max-width: 1000px
+  margin: auto
+  font-size: 24px
+  margin-bottom: 80px
+  margin-top: 60px
+
+  .slick-dots
+    button::before
+      color: #444 !important
+
+  &-content
+    position: relative
+    display: inline-block
+    overflow: hidden
+    margin: 10px
+    min-width: 0
+    max-width: 290px
+    width: 100%
+    color: #fff
+    font-size: 16px
+    text-align: left
+    cursor: pointer
+
+    *
+      box-sizing: border-box
+      transition: all 0.25s ease
+
+    &:before
+      position: absolute
+      bottom: 10px
+      left: 10px
+      right: 10px
+      top: 100%
+      content: ''
+      background-color: #444a
+      transition: all 0.25s ease
+      transition-delay: 0.25s
+
+    img
+      vertical-align: top
+      max-width: 100%
+      backface-visibility: hidden
+
+    > div
+      position: absolute
+      top: 0
+      bottom: 0
+      left: 0
+      right: 0
+      z-index: 1
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+
+    h4
+      @include content
+      transform: translateY(-100%)
+      transition-delay: 0.05s
+      max-width: 90%
+      margin-bottom: 15px !important
+
+    span
+      @include content
+      background: #f05
+      padding: 5px 10px
+      box-sizing: border-box
+      border-radius: 10px
+      transform: translateY(-100%)
+      transition-delay: 0s
+
+    &:hover
+      &:before
+        top: 10px
+        transition-delay: 0s
+      h4
+        @include onHover
+        transition-delay: 0.3s
+      span
+        @include onHover
+        transition-delay: 0.2s
+
+
+.slick-slider
+  *
+    outline: none !important
+  .slick-arrow
+    width: 40px
+    height: 40px
+    border-radius: 5%
+    background: #eeea
+    z-index: 1000 !important
+    &:hover
+      background: #eeea
+    &::before
+      color: #444
+  .slick-prev
+    left: 22px
+  .slick-next
+    right: 20px
+
+
+
+@media (max-width: 600px)
+  .Trending
+    &-content
+      max-width: 200px
+    h2
+      font-size: 22px
+
+  .slick-slider
+    .slick-prev
+      left: 12px
+    .slick-next
+      right: 10px
+
+@media (max-width: 440px)
+  .Trending
+    &-content
+      max-width: 160px
+
+  .slick-slider
+    .slick-arrow
+      background: transparent
+      &:hover
+        background: transparent

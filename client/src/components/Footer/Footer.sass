@@ -1,0 +1,73 @@
+$primary-color: #444
+$secondary-color: #777
+$secondary-light: #999
+$light-color: #e5e5e5
+
+@mixin footerH4
+  margin-top: 0
+  font-weight: 700
+  font-size: 16px
+
+.Footer
+  width: 100%
+  background: $light-color
+  color: $primary-color
+  font-size: 14px
+
+  &-main
+    padding: 40px
+    margin: 0 auto
+    margin-top: 20px
+    margin-bottom: 20px
+    display: flex
+    flex-wrap: wrap
+    color: $secondary-color
+    justify-content: space-between
+
+    &-logo
+      img
+        height: 100px
+
+    &-contacts
+      h4
+        @include footerH4
+
+    &-social
+      h4
+        @include footerH4
+
+      &-icon
+        margin-right: 10px
+        padding: 10px
+        color: $light-color
+        background: $primary-color
+        border-radius: 10px
+        font-size: 16px
+        cursor: pointer
+        &:hover
+          color: $secondary-light
+
+    &-rights
+      font-size: 14px
+      text-align: center
+      padding-top: 20px
+      padding-bottom: 40px
+
+
+@media (max-width: 959.5px)
+  .Footer
+    &-main
+       &-rights
+          padding-bottom: 80px
+
+@media (max-width: 599.5px)
+  .Footer
+
+    &-main
+      padding: 20px
+      padding-top: 40px
+      flex-direction: column
+      &-logo
+        display: none
+      &-contacts
+        margin-bottom: 40px

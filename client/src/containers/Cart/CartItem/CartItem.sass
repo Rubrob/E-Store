@@ -1,0 +1,96 @@
+$primary-color: #444
+$secondary-color: #777
+$light-color: #e5e5e5
+
+@mixin productPseudo ($vertical)
+  content: ''
+  position: absolute
+  bottom: $vertical
+  left: 50%
+  transform: translateX(-50%)
+  width: 100%
+  height: 1px
+  background: $light-color
+
+@mixin title
+  color: $primary-color
+  font-weight: 700
+  text-align: left
+
+.ProductToBuy
+  position: relative
+  display: flex
+  padding: 8px
+  font-size: 14px
+  justify-content: space-between
+
+  &:not(:last-child)::before
+    @include productPseudo(0)
+
+  &-content
+    display: flex
+
+    &-img
+      align-self: center
+      img
+        height: 120px
+
+    &-data
+      align-self: center
+      width: 100%
+      margin-left: 8px
+      text-transform: capitalize
+
+      .sizeSelect,
+      .quantitySelect
+        display: flex
+        align-items: center
+      .sizeSelect
+        margin-top: -4px
+      .quantitySelect
+        margin-top: -8px
+
+      & > :first-child
+        @include title
+
+      & a
+        @include title
+        text-decoration: underline
+
+      *
+        color: $secondary-color
+        padding: 2px
+        box-sizing: border-box
+
+  &-controls
+    font-weight: 700
+    color: $primary-color
+    > div
+      right: 10px !important
+      position: absolute
+      margin-bottom: 10px
+      &:last-child
+        bottom: 5px
+      &:first-child
+        top: 7px
+        right: 5px
+
+
+@media (max-width: 599.5px)
+  .ProductToBuy
+    img
+      height: 100px
+
+    &-controls
+      > div
+        right: 20px !important
+      div:first-child
+        svg
+          font-size: 1.2rem !important
+      div:last-child
+        display: none
+
+
+.MuiPaper-root.MuiMenu-paper.MuiPaper-elevation8.MuiPopover-paper.MuiPaper-rounded
+  &::-webkit-scrollbar
+    width: 0px !important

@@ -1,0 +1,58 @@
+$primary-color: #444
+$secondary-color: #777
+$light-color: #e5e5e5
+
+@mixin productPseudo ($vertical)
+  content: ''
+  position: absolute
+  bottom: $vertical
+  left: 50%
+  transform: translateX(-50%)
+  width: 80%
+  height: 1px
+  background: $light-color
+
+@mixin title
+  color: $primary-color
+  font-weight: 700
+  text-align: left
+
+.checkoutProduct
+  position: relative
+  display: flex
+  padding: 8px
+  font-size: 14px
+
+  &:not(:last-child)::before
+    @include productPseudo(0)
+
+  &-img
+    align-self: center
+
+  img
+    height: 120px
+
+  &-info
+    align-self: center
+    margin-left: 8px
+    text-transform: capitalize
+
+    & > :first-child
+      @include title
+    & > :last-child
+      color: $primary-color
+      font-weight: 700
+
+    & a
+      @include title
+      text-decoration: underline
+
+    *
+      color: $secondary-color
+      padding: 2px
+      box-sizing: border-box
+
+@media (max-width: 959.9px)
+  .checkoutProduct
+    &::before
+      width: 90%

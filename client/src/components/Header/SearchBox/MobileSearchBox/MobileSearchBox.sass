@@ -1,0 +1,39 @@
+.MobileSearchBox
+  &-main
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: space-between
+
+  &.fixed
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    height: 100vh
+    padding: 15px
+    box-sizing: border-box
+    background: #fff
+    z-index: 1100
+    overflow-y: scroll
+
+  .suggestions
+    width: 100%
+    box-sizing: border-box
+    padding: 10px 20px
+    &-item
+      display: flex
+      align-items: flex-start
+      cursor: pointer
+      padding: 10px
+      color: #444
+      text-transform: capitalize
+      border-bottom: 1px solid #e5e5e5
+      transition: .2s
+      &:hover
+        opacity: .4
+      img
+        margin-right: 20px
+      > div > div
+        color: #777

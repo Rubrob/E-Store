@@ -1,0 +1,46 @@
+.DesktopSearchBox
+  position: relative
+  display: flex
+  max-width: 270px
+  border-radius: 25px
+  background: #e5e5e5
+
+  input
+    width: 100%
+    outline: none
+    border: none
+    background: none
+    color: #444
+    font-size: 15px
+
+  .suggestions-wrap
+    position: fixed
+    top: 66px
+    overflow-y: scroll
+    max-height: 350px
+    width: 100%
+    border-radius: 0 15px 0 15px
+
+    .suggestions
+      background: #fff
+      border-top: 1px solid #e5e5e5
+      padding: 10px 20px
+
+      &-item
+        display: flex
+        align-items: flex-start
+        padding: 10px
+        cursor: pointer
+        color: #444
+        text-transform: capitalize
+        border-bottom: 1px solid #e5e5e5
+        transition: .2s
+        &:hover
+          opacity: .4
+        &:last-child
+          border: none !important
+
+        img
+          margin-right: 20px
+        > div > div
+          color: #777

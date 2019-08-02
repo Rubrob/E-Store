@@ -1,0 +1,33 @@
+$submit-bg: #f05
+$submit-color: #fff
+$primary-color: #444
+$secondary-color: #777
+$secondary-light: #999
+$light-color: #e5e5e5
+
+.Profile
+  padding: 60px 20px
+  max-width: 1200px
+  margin: 0 auto
+
+nav
+  display: flex
+  justify-content: center
+  max-width: 300px
+  margin: 0 auto
+  border-bottom: 1px solid $light-color
+  a
+    padding: 20px
+    max-width: 70px
+    color: $primary-color
+    font-weight: 600
+    text-align: center
+    cursor: pointer
+    transition: .2s
+    &.active
+      color: $secondary-light
+    &:hover
+      color: $secondary-light
+
+  *
+    flex-basis: 100%
