@@ -94,8 +94,7 @@ class SignUp extends Component {
 
         <div className='oauth-container'>
           <FacebookLogin
-            appId='438064760309728'
-            // appId={process.env.REACT_APP_FB_CLIENT_ID}
+            appId={process.env.REACT_APP_FB_CLIENT_ID}
             textButton='FACEBOOK'
             cssClass='SingUpIn-via f'
             fields='name,email,picture'
@@ -103,8 +102,7 @@ class SignUp extends Component {
             icon='fa-facebook'
           />
           <GoogleLogin
-            clientId='136772154382-ki3smei0i0ulbdvtv87iv9o4k3r5aib8.apps.googleusercontent.com'
-            // clientId={process.env.REACT_APP_G_CLIENT_ID}
+            clientId={process.env.REACT_APP_G_CLIENT_ID}
             buttonText='GOOGLE'
             className='SingUpIn-via g'
             onSuccess={this.responseGoogle}
