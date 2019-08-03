@@ -19,7 +19,7 @@ function SubHeader(props) {
 
   return (
     <div className={`SubHeader ${fixed ? 'fixed' : ''}`}>
-      {!match && <h2 className='SubHeader-title'>{props.searchedStr}</h2>}
+      {!match && <h2 className='SubHeader-title' children={props.searchedStr} />}
       <div>
         {match ? <FilterTriger /> : <FilterTriger title='Filter'/>}
         {match && <div>{filtered.length} {filtered.length > 1 ? 'Items' : 'Item'}</div>}

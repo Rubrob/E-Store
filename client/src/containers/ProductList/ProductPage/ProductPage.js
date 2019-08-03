@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './ProductPage.sass'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { ampersand } from '../../../utils'
-import { getProductPage } from '../../../reducers/actions/products'
 import { addToCart } from '../../../reducers/actions/cart'
 import ProductSlider from './ProductSlider/ProductSlider'
 
@@ -11,27 +9,25 @@ function ProductPage (props){
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
-  const { pp, addToCart } = props
-  const { match: { params: { colorId } }, currency } = props
+  const { pp, cp } = props
 
+  const { addToCart } = props
+  const { ids: { colorId, productId }, currency, history } = props
   const { title, price, description, category, gender, subcategory, colors, id } = pp
-  const currItem = colors.filter(item => colorId === item.id)[0] || []
-  const { images = [], sizes = [], availability = 1 } = currItem
+  const { images, sizes, availability, color } = cp
+  const url = props.history.location.pathname
 
   const [slide, setSlide] = useState(0)
-  const [size, setSize] = useState(sizes[0] === "One Size" ? "One Size" : 0)
+  const [size, setSize] = useState(sizes[0] === 'One Size' ? 'One Size' : 0)
 
-  const resetPage = () => {
-    setSize(sizes[0] === "One Size" ? "One Size" : 0)
-    setSlide(0)
-  }
+  const subTitle = `${gender}'s ${ampersand(subcategory || '')} ${category === 'shoes' ? category : null}`
 
   const add = () => {
-    addToCart({
+    const data = {
       title,
-      productId: id,
+      productId,
       colorId,
-      color: currItem.color,
+      color,
       gender,
       price,
       size,
@@ -39,30 +35,31 @@ function ProductPage (props){
       qty: 1,
       img: images[0],
       availability,
-      url: window.location.pathname,
-      currency,
-    })
+      url
+    }
+
+    addToCart(data)
   }
 
   const availableColors = colors.map(color =>
-    <Link
+    <img
       key={color.id}
-      to={`/pp/${id}/${color.id}`}
-      onClick={resetPage}
-      children={<img src={color.preview} alt='img' />} />)
+      alt='img'
+      src={color.preview}
+      onClick={() => history.push(`/pp/${id}/${color.id}`)} />)
 
   const availableSizes = sizes.map((item) =>
     <div
       key={item}
       onClick={() => setSize(item)}
-      className={`availableSizes-size ${size === item ? 'active' : ''}`}
+      className={`avSizes-size ${size === item ? 'active' : ''}`}
       children={item}
       />)
 
   const productPageTitle = <>
     <div>
-      <h4>{`${gender}'s`} {ampersand(subcategory)} {category === 'shoes' && category}</h4>
-      <h1 children={title} />
+      <h4>{subTitle}</h4>
+      <h1>{title}</h1>
     </div>
     <span children={`${currency}${price}`} />
   </>
@@ -71,15 +68,15 @@ function ProductPage (props){
     <div className='productPage'>
       <div className='desktopTitle' children={productPageTitle} />
       <div className='productPage-content'>
-        <ProductSlider images={images} slide={slide} setSlide={setSlide}/>
+        <ProductSlider images={images} slide={slide} setSlide={setSlide} />
         <div className='productPage-content-main'>
           <div className='mobileTitle' children={productPageTitle} />
             {!(colors.length <= 1) && <div className='productPage-content-main-colors'>
-            <div className='availableColors' children={availableColors} />
+            <div className='avColors' children={availableColors} />
           </div>}
           <div className='productPage-content-main-sizes'>
             <h4>Select Size</h4>
-            <div className={`availableSizes ${sizes.length < 2 ? 'onesize' : ''}`} children={availableSizes} />
+            <div className={`avSizes ${sizes.length < 2 ? 'onesize' : ''}`} children={availableSizes} />
           </div>
           <button disabled={!size} className='addToCart' onClick={add} children='Add To Cart' />
         </div>
@@ -92,12 +89,15 @@ function ProductPage (props){
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  pp: getProductPage(ownProps.match.params.productId, state.products.products),
-  currency: state.products.currency
+const mapStateToProps = state => ({
+  pp: state.products.pp,
+  cp: state.products.cp,
+  currency: state.products.currency,
+  productPage: state.products.productPage,
+  products: state.products.products
 })
 const mapDispatchToProps = dispatch => ({
-  addToCart: value => dispatch(addToCart(value))
+  addToCart: value => dispatch(addToCart(value)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductPage)

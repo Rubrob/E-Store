@@ -28,6 +28,7 @@ $white: #fff
     display: flex
     flex-direction: column
     width: 100%
+    margin-bottom: 10%
     box-sizing: border-box
     background: $white
     transition: .4s
@@ -173,8 +174,20 @@ $white: #fff
     &.orange
       background: #f80
 
+@media (max-width: 959.5px)
+  .productCard
+    width: calc(33.33% - 8px)
+    margin-bottom: 8%
+
+@media (max-width: 739.5px)
+  .productCard
+    margin-bottom: 17%
+    width: calc(50% - 8px)
 
 @media (max-width: 599.5px)
+  .productCard
+    margin-bottom: 10%
+    width: calc(50% - 8px)
   .colors
     .color
       display: inline-block
@@ -185,8 +198,10 @@ $white: #fff
 @media (max-width: 499.5px)
   .productCard
     width: 160px
+    width: calc(50% - 4px)
     height: 255px
     margin: 4px 2px
+    margin-bottom: 20vw !important
     &:nth-child(even)
       margin-left: 2px
     .absolute
@@ -199,9 +214,16 @@ $white: #fff
 
 @media (max-width: 469.5px)
   .productCard
+    width: calc(50% - 4px)
+    margin-bottom: 17wv !important
     &:nth-child(odd)
       margin: 4px 0
       padding-right: 4px
     &:nth-child(even)
       margin: 4px 0
       padding-left: 4px
+
+@media (max-width: 359.5px)
+  .productCard
+    width: 50%
+    margin-bottom: 8vw !important

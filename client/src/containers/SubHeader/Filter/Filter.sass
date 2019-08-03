@@ -1,7 +1,8 @@
 
-@mixin filterContainer
+@mixin filterContainer($repeat)
   display: grid
-  grid-template-columns: repeat(5, 1fr)
+  grid-gap: 4px
+  grid-template-columns: repeat($repeat, 1fr)
   width: 100%
   padding: 20px 0
   box-sizing: border-box
@@ -47,13 +48,14 @@
       &:first-child
         margin-top: 0
     &-content
-      @include filterContainer
+      @include filterContainer(4)
 
       .size
         @include filterItems
-        padding: 10px 0
+        padding: 8px 0
         text-align: center
         border: 1px solid #e5e5e5
+        border-radius: 15px
         &.active, &:hover
           @include filterSize
 

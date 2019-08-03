@@ -5,7 +5,7 @@ $light-color: #e5e5e5
 @mixin h4
   margin: 0
   margin-bottom: 15px
-  font-size: 18px
+  font-size: 16px
 
 .productPage
   padding: 60px 40px
@@ -39,6 +39,7 @@ $light-color: #e5e5e5
     margin-top: 35px
     h4
       @include h4
+      font-weight: bold
 
 .productPage-content
   display: flex
@@ -55,7 +56,7 @@ $light-color: #e5e5e5
 
     .addToCart
       width: 100%
-      margin: 0
+      margin-top: 15px
       padding: 20px
       background: #444
       border: none
@@ -75,45 +76,36 @@ $light-color: #e5e5e5
 
     &-colors
       width: 100%
-      margin: 0
-      margin-bottom: 15px
-      h4
-        @include h4
-      .availableColors
+      .avColors
         display: flex
         justify-content: flex-start
         flex-wrap: wrap
         margin: 20px 0
-        & > a
+        img
           width: 60px
           min-width: 60px
           height: 60px
           margin: 2px
-          overflow: hidden
-          border-radius: 15px
+          border-radius: 5px
           cursor: pointer
-          img
-            height: 100%
 
     &-sizes
-      margin-bottom: 15px
       width: 100%
       h4
         @include h4
-      .availableSizes
+        margin-top: 15px
+      .avSizes
         display: grid
         grid-gap: 4px
-        grid-template-columns: repeat(5,1fr)
+        grid-template-columns: repeat(4, 1fr)
         width: 100%
         &.onesize
           grid-template-columns: 1fr !important
         &-size
-          margin: 0
           min-width: 30px
-          border: 1.5px solid #e5e5e5
-          height: 48px
-          line-height: 48px
-          border-radius: 15px
+          border: 1px solid #e5e5e5
+          padding: 10px
+          border-radius: 5px
           text-align: center
           cursor: pointer
           &.active
@@ -123,9 +115,7 @@ $light-color: #e5e5e5
           &:not(.active):hover
             border-color: #777
 
-
 @media (max-width: 959.5px)
-
   .productPage
     padding: 20px 0
     .desktopTitle
@@ -138,8 +128,7 @@ $light-color: #e5e5e5
     flex-direction: column
 
     .mobileTitle
-      display: none !important
-      background: #000
+      display: none
 
     &-main
       max-width: 100%
@@ -148,11 +137,17 @@ $light-color: #e5e5e5
       box-sizing: border-box
 
       &-colors
-        margin-top: 15px
-        .availableColors
+        .avColors
+          margin: 0
+          margin-bottom: 20px
+          flex-wrap: nowrap
           overflow-x: scroll
-          white-space: nowrap
           &::-webkit-scrollbar
             height: 0
   .productDescription
     padding: 24px
+
+@media (max-width: 599.5px)
+  .productPage
+    .desktopTitle
+      padding: 0 10px

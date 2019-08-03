@@ -33,7 +33,7 @@ function Filter(props) {
             return <FilterItem key={size} active={active} content={size} className='size' type='size' value={size}/>
           })}
       </FilterBlock>
-      <Button className='Filter-reset' onClick={resetFilter} children={'Reset'} />
+      <Button className='Filter-reset' onClick={resetFilter} >Reset</Button>
     </div>
   )
 }

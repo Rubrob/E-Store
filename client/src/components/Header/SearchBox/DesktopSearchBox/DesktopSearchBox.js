@@ -40,6 +40,7 @@ function DesktopSearchBox(props) {
     }
 
     if(evt.keyCode === 27) {
+      evt.target.blur()
       clear('')
       setOpen(false)
     }

@@ -13,10 +13,7 @@ export const FETCH_PRODUCTS_START = 'FETCH_PRODUCTS_START'
 export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS'
 export const FETCH_PRODUCTS_FAIL = 'FETCH_PRODUCTS_FAIL'
 
-export const getProductPage = (id, products) => {
-  const product = products.filter(product => id === product.id)
-  return product[0]
-}
+export const getProductPage = (id, products) => products.filter(product => id === product.id)[0]
 
 export const sortHighToLow = () => ({ type: SORT_HIGH_TO_LOW })
 export const sortLowToHigh = () => ({ type: SORT_LOW_TO_HIGH })
@@ -52,6 +49,30 @@ export const getFilters = (products) => {
 }
 
 export const fetchProducts = () => async dispatch => {
-  const res = await axios.get('/products')
-  dispatch({ type: FETCH_PRODUCTS_SUCCESS, payload: res.data.products })
+  dispatch({ type: FETCH_PRODUCTS_START })
+  try {
+    const res = await axios.get('/products')
+    dispatch({ type: FETCH_PRODUCTS_SUCCESS, payload: res.data.products })
+  } catch (err) {
+    dispatch({ type: FETCH_PRODUCTS_FAIL })
+  }
+}
+
+
+export const fetchProductPage = (id, cid, products, redirect) => async dispatch => {
+  let data = []
+  if(products.length === 0){
+    const res = await axios.get('/products')
+    data = res.data.products
+  }else{
+    data = products
+  }
+  let PP = getProductPage(id, data)
+  let PC = getProductPage(cid, PP.colors)
+
+  if(!PP || !PC){
+    redirect()
+  }else{
+    dispatch({ type: 'FETCH_PP', payload: { PP, PC } })
+  }
 }

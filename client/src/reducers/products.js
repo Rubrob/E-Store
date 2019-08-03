@@ -8,12 +8,14 @@ import {
   FILTER_PRODUCTS_WITH_URL,
   SEARCH,
   RESET_FILTER,
-  FETCH_PRODUCTS_SUCCESS
+  FETCH_PRODUCTS_SUCCESS,
+  FETCH_PRODUCTS_START,
+  FETCH_PRODUCTS_FAIL
 } from './actions/products';
 
 const initialState = {
-  products: [],
   currency: '$',
+  products: [],
   filter: {
     gender: '',
     category: '',
@@ -23,7 +25,6 @@ const initialState = {
   },
   searched: [],
   filtered: [],
-  productPage: {},
   categories: [{
     id: 1,
     title: "Men",
@@ -58,7 +59,22 @@ const initialState = {
     }]
   }],
   searchedStr: '',
-  filterOpen: false
+  isFetching: false,
+  isFetchingError: false,
+  pp: {
+    title: '',
+    gender: '',
+    category: '',
+    subcategory: '',
+    description: '',
+    price: '',
+    colors: []
+  },
+  cp: {
+    images: [],
+    color: '',
+    sizes: ['One Size']
+  }
 }
 
 const productCardReducer = (state = initialState, { type, payload }) => {
@@ -133,11 +149,9 @@ const productCardReducer = (state = initialState, { type, payload }) => {
       if(URLFILTER.gender){
         URLProducts = URLProducts.filter(item => item.gender === URLFILTER.gender)
       }
-
       if(URLFILTER.category){
         URLProducts = URLProducts.filter(item => item.category === URLFILTER.category)
       }
-
       if(URLFILTER.subcategory){
         URLProducts = URLProducts.filter(item => item.subcategory === URLFILTER.subcategory)
       }
@@ -172,7 +186,13 @@ const productCardReducer = (state = initialState, { type, payload }) => {
     case RESET_FILTER:
       return { ...state, filter: { color: [], size: [] }, filtered: [...state.searched] }
     case FETCH_PRODUCTS_SUCCESS:
-      return { ...state, products: payload }
+      return { ...state, products: payload, isFetching: false, isFetchingError: false }
+    case FETCH_PRODUCTS_START:
+      return { ...state, isFetching: true }
+    case FETCH_PRODUCTS_FAIL:
+      return { ...state, isFetching: false, isFetchingError: true }
+    case 'FETCH_PP':
+      return { ...state, pp: payload.PP, cp: payload.PC }
     default:
       return { ...state }
   }

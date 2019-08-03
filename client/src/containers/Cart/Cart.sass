@@ -2,12 +2,12 @@ $primary-color: #444
 $secondary-color: #777
 $secondary-light: #999
 $light-color: #e5e5e5
+$ligth-gray: #6e6e6e
 $white: #fff
 $red: #f05
 
 .Cart
   padding-top: 60px
-
   h1
     text-align: center
   &-miniInfo
@@ -80,12 +80,15 @@ $red: #f05
       &-toCheckout
         margin-left: 0
         &-link
-          background: $primary-color !important
+          background: $ligth-gray
           position: fixed
           bottom: 0
           left: 0
           width: 100%
           margin: 0
+          &:disabled
+            background: lighten($ligth-gray, 20%)
+            cursor: default
 
 @media (max-width: 600px)
   .Cart

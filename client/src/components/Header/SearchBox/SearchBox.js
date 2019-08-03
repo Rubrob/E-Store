@@ -24,7 +24,7 @@ function SearchField(props) {
     const { value } = evt.target
     let suggestions = []
     if(value.length > 0){
-      const regexp = new RegExp(`^${value}`, 'i')
+      const regexp = new RegExp(`${value}`, 'im')
       suggestions = [...products].sort().filter(v => regexp.test(v.title))
     }
     setState({
@@ -51,23 +51,29 @@ function SearchField(props) {
       search(value)
       suggestionsCallback()
     }
+    console.log(text)
 
     return (
       <div className='suggestions'>
-        {suggestions.map(item =>
-          <div
-            key={item.id}
-            className='suggestions-item'
-            onClick={() => clickSuggestion(item.title)}
-            >
+        {suggestions.map(item => {
+          const index = item.title.toLowerCase().indexOf(text)
+          console.log(item.title, item.title.toLowerCase().indexOf(text), item.title.substring(index, index + text.length))
+          return <div
+          key={item.id}
+          className='suggestions-item'
+          onClick={() => clickSuggestion(item.title)}
+          >
             <img src={item.colors[0].preview} alt='img' style={{height: 70}}/>
             <div>
-              <strong children={item.title.substring(0, text.length)} />
-              {item.title.substring(text.length)}
+              {item.title.substring(0, index)}
+              <strong children={item.title.substring(index, index + text.length)} />
+              {/* {item.title.substring(text.length)} */}
+              {item.title.substring(index + text.length)}
               <div>{`${item.gender}'s`}</div>
               <div>{currency}{item.price}</div>
             </div>
-          </div>)}
+          </div>
+          })}
       </div>
     )
   }
