@@ -21,6 +21,10 @@ function ProductPage (props){
   const [size, setSize] = useState(sizes[0] === 'One Size' ? 'One Size' : 0)
 
   const subTitle = `${gender}'s ${ampersand(subcategory || '')} ${category === 'shoes' ? category : null}`
+  const reset = () => {
+    setSlide(0)
+    setSize(sizes[0] === 'One Size' ? 'One Size' : 0)
+  }
 
   const add = () => {
     const data = {
@@ -46,7 +50,10 @@ function ProductPage (props){
       key={color.id}
       alt='img'
       src={color.preview}
-      onClick={() => history.push(`/pp/${id}/${color.id}`)} />)
+      onClick={() => {
+        history.push(`/pp/${id}/${color.id}`)
+        reset()
+      }} />)
 
   const availableSizes = sizes.map((item) =>
     <div
