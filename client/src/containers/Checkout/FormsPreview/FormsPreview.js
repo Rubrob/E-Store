@@ -6,7 +6,7 @@ function FormsPreview(props) {
 
   const fullname = (firstname = '', lastname = '') => <div>{firstname} {lastname}</div>
   const arr = Object.entries(content)
-  const previewContent = arr.map(([key, value]) => (key === 'firstname' || key === 'lastname') ? null : <div key={key}>{value}</div>)
+  const previewContent = arr.map(([key, value]) => (key === 'firstname' || key === 'lastname') ? null : <div key={key} children={value} />)
 
   return (
     <div className={`FormsPreview ${cn}`}>

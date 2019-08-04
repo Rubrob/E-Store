@@ -5,7 +5,6 @@ import { addFilter, removeFilter, resetFilter, getFilters } from '../../../reduc
 import { Done } from '@material-ui/icons'
 import { Button } from '@material-ui/core'
 import FilterItem from './FilterItem/FilterItem'
-import FilterBlock from './FilterBlock/FilterBlock'
 
 function Filter(props) {
   const { resetFilter } = props
@@ -17,6 +16,16 @@ function Filter(props) {
     let active = false
     filter[type].forEach(fColor => active = (value === fColor) ? true : false)
     return active
+  }
+
+  const FilterBlock = (props) => {
+    const { title, children } = props
+    return (
+      <div className='FilterBlock'>
+        <div className='FilterBlock-header'>{title}</div>
+        <div className='FilterBlock-content'>{children}</div>
+      </div>
+    )
   }
 
   return (

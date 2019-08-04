@@ -1,5 +1,6 @@
 $primary-color: #444
 $secondary-color: #777
+$secondary-light: #999
 $light-color: #e5e5e5
 
 @mixin productPseudo ($vertical)
@@ -8,14 +9,14 @@ $light-color: #e5e5e5
   bottom: $vertical
   left: 50%
   transform: translateX(-50%)
-  width: 80%
+  width: 90%
   height: 1px
   background: $light-color
 
 @mixin title
   color: $primary-color
   font-weight: 700
-  text-align: left
+  font-size: 16px
 
 .checkoutProduct
   position: relative
@@ -30,29 +31,23 @@ $light-color: #e5e5e5
     align-self: center
 
   img
+    align-self: center
+    display: block
     height: 120px
 
   &-info
     align-self: center
     margin-left: 8px
     text-transform: capitalize
-
     & > :first-child
       @include title
     & > :last-child
       color: $primary-color
-      font-weight: 700
+      font-weight: 500
 
-    & a
-      @include title
+    a
       text-decoration: underline
 
-    *
-      color: $secondary-color
-      padding: 2px
-      box-sizing: border-box
-
-@media (max-width: 959.9px)
-  .checkoutProduct
-    &::before
-      width: 90%
+    > div
+      color: $secondary-light
+      padding-bottom: 2px

@@ -1,6 +1,8 @@
 
 .Carousel
   max-width: 100%
+  .slick-slide
+    transition: .4s
   .slick-dots
     bottom: 20px
     button::before
@@ -9,41 +11,42 @@
   img
     width: 100%
     max-width: 100%
+    padding: 10px 10px
+    box-sizing: border-box
   &-block
     position: relative
     &-text
       position: absolute
-      top: 80px
-      left: 80px
-      text-align: left
+      top: 0
+      left: 0
+      width: 100%
+      padding: 20px
+      padding-left: 80px
+      padding-top: 80px
       color: #fff
+      box-sizing: border-box
       h1
         margin: 0
         margin-bottom: 10px
-        text-align: left
         font-size: 40px
-        text-shadow: 3px 3px 6px #000
       div
         font-size: 16px
-        font-weight: 300
-        text-shadow: 3px 5px 6px #000, -2px -4px 6px #000
 
 
 @media (max-width: 959.5px)
   .Carousel
     &-block
       &-text
-        top: 30px
-        left: 30px
+        padding-top: 30px
+        padding-left: 30px
 
 @media (max-width: 600px)
   .Carousel
     &-block
       &-text
         padding: 20px
-        top: 0px
-        left: 0px
         h1
           font-size: 20px
+          margin-bottom: 5px
         div
           font-size: 14px

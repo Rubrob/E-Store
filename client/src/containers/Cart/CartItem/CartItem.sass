@@ -8,14 +8,14 @@ $light-color: #e5e5e5
   bottom: $vertical
   left: 50%
   transform: translateX(-50%)
-  width: 100%
+  width: 90%
   height: 1px
   background: $light-color
 
 @mixin title
   color: $primary-color
   font-weight: 700
-  text-align: left
+  font-size: 16px
 
 .ProductToBuy
   position: relative
@@ -29,15 +29,22 @@ $light-color: #e5e5e5
 
   &-content
     display: flex
+    width: 100%
 
     &-img
       align-self: center
       img
+        display: block
         height: 120px
 
     &-data
+      // display: flex
+      // flex-direction: column
+      // justify-content: space-between
+      // justify-content: center
       align-self: center
-      width: 100%
+      flex: 100%
+      color: #999
       margin-left: 8px
       text-transform: capitalize
 
@@ -45,50 +52,46 @@ $light-color: #e5e5e5
       .quantitySelect
         display: flex
         align-items: center
-      .sizeSelect
-        margin-top: -4px
-      .quantitySelect
-        margin-top: -8px
 
       & > :first-child
         @include title
 
       & a
         @include title
-        text-decoration: underline
-
-      *
-        color: $secondary-color
-        padding: 2px
+        // text-decoration: underline
+      > div
         box-sizing: border-box
+        margin-bottom: 2px
+        *
+          color: #999
 
   &-controls
-    font-weight: 700
+    font-weight: 500
     color: $primary-color
+    display: flex
+    text-align: right
+    flex-direction: column
+    justify-content: space-between
     > div
-      right: 10px !important
-      position: absolute
-      margin-bottom: 10px
       &:last-child
-        bottom: 5px
-      &:first-child
-        top: 7px
-        right: 5px
+        // color: #999
+      // margin-bottom: 12px
 
 
 @media (max-width: 599.5px)
   .ProductToBuy
+    padding: 10px 20px
     img
       height: 100px
 
     &-controls
-      > div
-        right: 20px !important
+      right: 20px
       div:first-child
         svg
           font-size: 1.2rem !important
       div:last-child
         display: none
+        // margin-bottom: 6px
 
 
 .MuiPaper-root.MuiMenu-paper.MuiPaper-elevation8.MuiPopover-paper.MuiPaper-rounded

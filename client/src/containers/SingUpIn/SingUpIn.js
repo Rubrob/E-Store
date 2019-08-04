@@ -11,7 +11,6 @@ import { signUp, logIn, oauthGoogle, oauthFacebook } from '../../reducers/action
 import Toaster, { notify } from '../../components/Toaster/Toaster'
 import CustomTextField from './../Checkout/CustomTextField/CustomTextField'
 
-
 function LogInFields(props) {
   return(
     <>

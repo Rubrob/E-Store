@@ -3,6 +3,10 @@ import { Select, MenuItem, InputBase } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const CustomInput = withStyles(() => ({
+  root: {
+    paddingRight: 0,
+    paddingLeft: 4
+  },
   input: {
     fontSize: 14,
     padding: '0 20px 0 0px',

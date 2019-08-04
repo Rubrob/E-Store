@@ -13,6 +13,7 @@ import CustomSelect from '../CustomSelect/CustomSelect'
 
 function CartItem(props) {
   const data = props.cartProducts[props.i]
+  const { currency } = props
   const {
     url,
     img,
@@ -23,7 +24,6 @@ function CartItem(props) {
     sizes,
     availability,
     qty,
-    currency,
     price
   } = data
 
@@ -46,21 +46,23 @@ function CartItem(props) {
           </div>
           <div className='quantitySelect'>
             Quantity: <CustomSelect data={arrayFromNumber(availability)} primary={qty} onChangeData={data} onChange={changeQuantity}/>
-            <span style={{fontSize: 10, paddingRight: 5}}>x</span>{currency}{price}
+            {/* <span style={{fontSize: 10, paddingRight: 5}}>x</span>{currency}{price} */}
           </div>
+        </div>
+
+        <div className='ProductToBuy-controls'>
+          <div onClick={() => deleteCartProduct(data)} children={<Clear />} />
+          <div>{currency}{data.qty * price}</div>
         </div>
       </div>
 
-      <div className='ProductToBuy-controls'>
-        <div onClick={() => deleteCartProduct(data)} children={<Clear />} />
-        <div>{currency}{data.qty * price}</div>
-      </div>
     </div>
   )
 }
 
 const mapStateToProps = state => ({
-  cartProducts: state.cart.cartProducts
+  cartProducts: state.cart.cartProducts,
+  currency: state.products.currency
 })
 const mapDispatchToProps = dispatch => ({
   changeProductQuantity: value => dispatch(changeProductQuantity(value)),

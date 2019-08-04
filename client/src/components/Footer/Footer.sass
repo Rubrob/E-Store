@@ -10,10 +10,8 @@ $light-color: #e5e5e5
   font-size: 16px
 
 .Footer
-  width: 100%
   margin-top: 80px
   background: #444
-  font-size: 14px
 
   &-main
     display: flex
@@ -27,6 +25,8 @@ $light-color: #e5e5e5
       > div:first-child
         @include footerH4
 
+    &-contacts
+      font-size: 14px
     &-social
       &-icon
         margin-right: 10px
@@ -39,11 +39,11 @@ $light-color: #e5e5e5
         &:hover
           background: #fff
     &-rights
-      border-top: 1px solid rgba(229, 229, 229, .2)
-      padding: 20px
-      color: rgba(229, 229, 229, .5)
+      padding: 20px 0
       font-size: 12px
       text-align: center
+      color: rgba(229, 229, 229, .5)
+      border-top: 1px solid rgba(229, 229, 229, .2)
 
 
 @media (max-width: 959.5px)
@@ -55,10 +55,8 @@ $light-color: #e5e5e5
 
 @media (max-width: 599.5px)
   .Footer
-
     &-main
       padding: 20px
-      padding-top: 40px
       flex-direction: column
       &-contacts
         margin-bottom: 40px

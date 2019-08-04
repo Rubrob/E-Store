@@ -2,6 +2,7 @@ import React from 'react'
 import './OrdersPage.sass'
 import { connect } from 'react-redux'
 import CheckoutProduct from '../../Checkout/CheckoutCart/CheckoutProduct/CheckoutProduct'
+import { totalRecalculation } from './../../../reducers/actions/cart';
 
 function OrderPage({ orders, currency }) {
   return (
@@ -14,7 +15,7 @@ function OrderPage({ orders, currency }) {
             {item.map((p, i) => <CheckoutProduct key={i} withUrl info={p}/>)}
             <div className='profileOrders-block-total'>
               Total
-              <span>{currency}{item.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)}</span>
+              <span>{currency}{totalRecalculation(item)}</span>
             </div>
           </div>
         )}

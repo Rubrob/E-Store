@@ -21,7 +21,7 @@ function SubHeader(props) {
     <div className={`SubHeader ${fixed ? 'fixed' : ''}`}>
       {!match && <h2 className='SubHeader-title' children={props.searchedStr} />}
       <div>
-        {match ? <FilterTriger /> : <FilterTriger title='Filter'/>}
+        {match ? <FilterTriger /> : <FilterTriger label='Filter'/>}
         {match && <div>{filtered.length} {filtered.length > 1 ? 'Items' : 'Item'}</div>}
         {match ? <Sort /> : <Sort label='Sort By' />}
       </div>

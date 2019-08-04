@@ -19,6 +19,10 @@ export const deleteCartProduct = value => ({ type: DELETE_CART_PRODUCT, payload:
 export const setShippingAddress = value => ({ type: SET_SHIPPING, payload: value })
 export const changeDelivery = value => ({ type: CHANGE_DELIVERY, payload: value })
 
+export const totalRecalculation = (products) => {
+  return products.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
+}
+
 export const nextStep = () => ({ type: NEXT_STEP })
 export const prevStep = () => ({ type: PREV_STEP })
 

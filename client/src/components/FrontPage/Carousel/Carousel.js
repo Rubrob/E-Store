@@ -15,6 +15,13 @@ export default function({data}) {
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
+    centerMode: true,
+    responsive: [{
+      breakpoint: 959.5,
+        settings: {
+          centerPadding: '0px'
+        }
+    }]
   }
 
   return (

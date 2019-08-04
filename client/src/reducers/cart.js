@@ -12,9 +12,7 @@ import {
   EMPTY_CART,
 } from './actions/cart'
 
-const totalRecalculation = (products) => {
-  return products.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
-}
+import { totalRecalculation } from './actions/cart'
 
 const initialState = {
   cartProducts: JSON.parse(localStorage.getItem('CART')) || [],

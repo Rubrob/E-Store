@@ -13,7 +13,8 @@ const StyledButton = withStyles({
     borderRadius: 0,
     marginRight: 20,
     '@media (max-width: 959.5px)': {
-      width: 50
+      width: 50,
+      marginRight: 0
     },
     '&.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-colorInherit': {
       padding: 0
@@ -42,17 +43,14 @@ function FilterTriger(props)  {
     <StyledButton
       className='FilterTriger'
       onClick={props.toggle}
-      text={props.title}
+      text={props.label}
       icon={<FontAwesomeIcon icon='sliders-h' />}
       />
   )
 }
 
-const mapStateToProps = state => ({
-  filterOpen: state.products.filterOpen
-})
 const mapDispatchToProps = dispatch => ({
   toggle: () => dispatch(toggleFilter())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterTriger)
+export default connect(null, mapDispatchToProps)(FilterTriger)

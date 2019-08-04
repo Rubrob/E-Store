@@ -56,7 +56,7 @@ function Billing(props) {
           <PaymentFields />
 
           <FormControlLabel
-            className='bas'
+            style={{marginBottom: 20}}
             control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
             label='Billing address same as shipping'
             />

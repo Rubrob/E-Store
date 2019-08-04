@@ -6,15 +6,16 @@
   margin: 0
   opacity: 0
   font-weight: 400
+  box-sizing: border-box
   letter-spacing: 1px
 
 .Trending
   text-align: center
-  max-width: 1000px
-  margin: auto
+  max-width: 1200px
+  margin: 0 auto
   font-size: 24px
-  margin-bottom: 80px
-  margin-top: 60px
+  margin-top: 40px
+  padding: 10px
 
   .slick-dots
     button::before
@@ -23,14 +24,10 @@
   &-content
     position: relative
     display: inline-block
-    overflow: hidden
-    margin: 10px
-    min-width: 0
     max-width: 290px
     width: 100%
     color: #fff
     font-size: 16px
-    text-align: left
     cursor: pointer
 
     *
@@ -38,20 +35,18 @@
       transition: all 0.25s ease
 
     &:before
+      content: ''
       position: absolute
-      bottom: 10px
+      top: 100%
       left: 10px
       right: 10px
-      top: 100%
-      content: ''
+      bottom: 10px
       background-color: #444a
       transition: all 0.25s ease
-      transition-delay: 0.25s
+      transition-delay: 0.3s
 
     img
-      vertical-align: top
       max-width: 100%
-      backface-visibility: hidden
 
     > div
       position: absolute
@@ -67,21 +62,20 @@
 
     h4
       @include content
-      transform: translateY(-100%)
-      padding: 10px
+      margin-bottom: 10px
       text-align: center
+      transform: translateY(-100%)
       transition-delay: 0.05s
-      max-width: 90%
-      margin-bottom: 15px !important
 
-    span
+    button
       @include content
       background: #f05
+      color: #fff
+      font-size: 14px
       padding: 5px 10px
       box-sizing: border-box
-      border-radius: 10px
-      transform: translateY(-100%)
-      // transition-delay: 0s
+      border-radius: 4px
+      transform: translateY(100%)
 
     &:hover
       &:before
@@ -90,7 +84,7 @@
       h4
         @include onHover
         transition-delay: 0.3s
-      span
+      button
         @include onHover
         transition-delay: 0.2s
 
@@ -99,11 +93,7 @@
   .slick-arrow
     width: 40px
     height: 40px
-    border-radius: 5%
-    background: #eeea
-    z-index: 1000 !important
-    &:hover
-      background: #eeea
+    z-index: 1000
     &::before
       color: #444
   .slick-prev
@@ -112,6 +102,12 @@
     right: 20px
 
 
+@media (max-width: 600px)
+    .Trending
+    &-content
+      max-width: 200px
+      h4
+        font-size: 16px
 
 @media (max-width: 600px)
   .Trending
@@ -122,7 +118,7 @@
 
   .slick-slider
     .slick-prev
-      left: 12px
+      left: 10px
     .slick-next
       right: 10px
 
@@ -130,9 +126,3 @@
   .Trending
     &-content
       max-width: 160px
-
-  .slick-slider
-    .slick-arrow
-      background: transparent
-      &:hover
-        background: transparent
