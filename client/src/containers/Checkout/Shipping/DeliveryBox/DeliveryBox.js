@@ -1,23 +1,54 @@
 import React from 'react'
-import './DeliveryBox.sass'
 import { connect } from 'react-redux'
-import { changeDelivery } from '../../../../reducers/actions/cart'
 import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core'
+import { withStyles, makeStyles } from '@material-ui/core/styles'
+import { changeDelivery } from '../../../../reducers/actions/cart'
 import { freeIfZero } from '../../../../utils'
 
-function DeliveryBox(props) {
+const CustomFormControlLabel = withStyles({
+  root: {
+    '& .MuiFormControlLabel-label': {
+      width: '100%'
+    },
+    '& .MuiRadio-root': {
+      padding: '5px 10px'
+    },
+  }
+})(FormControlLabel)
 
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    textTransform: 'capitalize'
+  },
+  content: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  plan: {
+    width: '100%'
+  },
+  cost: {
+    marginRight: -6
+  }
+})
+
+function DeliveryBox(props) {
+  const classes = useStyles()
   const { input } = props
   const { currency, deliveryMethods, changeDelivery, delivery } = props
 
   return (
     <RadioGroup {...input} value={delivery} onChange={(evt) => changeDelivery(evt.target.value)} >
       <h4>Select your shipping speed</h4>
-      {Object.keys(deliveryMethods).map(key => <div className='DeliveryBox' key={key}>
-          <FormControlLabel className='DeliveryBox-plan' value={key} control={<Radio className='radio'/>} label={key} />
-          <span className='DeliveryBox-cost'>
-            {freeIfZero(deliveryMethods[key], currency)}
-          </span>
+      {Object.keys(deliveryMethods).map(key => <div className={classes.root} key={key}>
+          <CustomFormControlLabel className={classes.plan} value={key} control={<Radio />} label={
+          <div className={classes.content}>
+            {key}
+            <span className={classes.cost} children={freeIfZero(deliveryMethods[key], currency)} />
+          </div>} />
         </div>)}
     </RadioGroup>
   )

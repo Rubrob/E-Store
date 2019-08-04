@@ -1,10 +1,4 @@
-$primary-color: #444
-$secondary-color: #777
-$secondary-light: #999
-$light-color: #e5e5e5
-$ligth-gray: #6e6e6e
-$white: #fff
-$red: #f05
+@import '../../variables'
 
 .Cart
   padding-top: 60px
@@ -14,7 +8,7 @@ $red: #f05
     text-align: center
     margin-bottom: 80px
     font-weight: 700
-    color: $secondary-color
+    color: $secondary-black
     span
       font-weight: normal
 
@@ -44,7 +38,7 @@ $red: #f05
       max-width: 280px
       margin-left: 40px
       padding: 20px
-      background: $primary-color
+      background: $primary-black
       color: $white
       font-size: 16px
       &-main
@@ -61,11 +55,11 @@ $red: #f05
         justify-content: space-between
         margin-top: 20px
         padding: 20px
-        background: $red
+        background: $primary-red
         color: $white
         font-weight: 700
         &:disabled
-          background: lighten($red, 20%)
+          background: lighten($primary-red, 20%)
           cursor: default
 
 @media (max-width: 959.5px)
@@ -79,14 +73,14 @@ $red: #f05
       &-toCheckout
         margin-left: 0
         &-link
-          background: $ligth-gray
+          background: $secondary-black-dark
           position: fixed
           bottom: 0
           left: 0
           width: 100%
           margin: 0
           &:disabled
-            background: lighten($ligth-gray, 20%)
+            background: lighten($secondary-black-dark, 20%)
 
 @media (max-width: 600px)
   .Cart

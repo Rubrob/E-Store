@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import './App.css'
+import './App.sass'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import Header from './components/Header/Header'
@@ -35,7 +35,7 @@ function App(props) {
 
   return (
     <>{isFetching ? <Loader /> :
-    <div className="App">
+    <div className='App'>
       <Header />
         <main className='App-container'>
           <Route exact path='/' render={() => <FrontPage />}/>

@@ -1,18 +1,19 @@
+@import '../../../../variables'
 .MobileDrawer
   width: 250px
   height: 100vh
   overflow-y: visible
-  color: #444
-  background: #f7f7f7
+  color: $primary-black
+  background: $mobile-menu-bg
 
   .listItem
     width: 100%
     height: 49px
     line-height: 49px
-    border-bottom: 1px solid #e7e7e7
+    border-bottom: 1px solid $mobile-menu-border
     box-sizing: border-box
     &:first-child
-      background: #fff !important
+      background: $white !important
     &:first-child:not(.listHeader) span
       margin-left: 8px
     & .link

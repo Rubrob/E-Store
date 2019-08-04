@@ -37,12 +37,13 @@ function DesktopAccount(props) {
   const handleClose = () => setAnchorEl(null)
 
   const { isAuthenticated, token } = props
+  const { logOut } = props
   const button = (isAuthenticated && token.length > 0 ?
     <>
       <AccountCircle />
-      <span className='accountText myAccount' children={'My Account'} />
+      <span className='accountText myAccount' children='My Account' />
     </> :
-    <Link to='/register' className='accountText' children={'Join / Log In'} />
+    <Link to='/register' className='accountText' children='Join / Log In' />
   );
 
   return (
@@ -69,7 +70,7 @@ function DesktopAccount(props) {
           <MenuItem onClick={handleClose}>Orders</MenuItem>
         </Link>
         <MenuItem onClick={() => {
-            props.logOut()
+            logOut()
             handleClose()
           }}>Log Out
         </MenuItem>

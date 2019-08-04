@@ -1,24 +1,21 @@
-$primary-color: #444
-$secondary-color: #777
-$secondary-light: #999
-$light-color: #e5e5e5
+@import '../../variables'
 
 @mixin footerH4
-  color: #fff
+  color: $white
   margin: 20px 0
   font-weight: 700
   font-size: 16px
 
 .Footer
   margin-top: 80px
-  background: #444
+  background: $primary-black
 
   &-main
     display: flex
     justify-content: space-between
     padding: 40px
     padding-top: 20px
-    color: rgba(229, 229, 229, .5)
+    color: rgba($white, .45)
 
     &-contacts,
     &-social
@@ -31,19 +28,19 @@ $light-color: #e5e5e5
       &-icon
         margin-right: 10px
         padding: 10px
-        color: #444
-        background: rgba(229, 229, 229, .5)
+        color: $primary-black
+        background: rgba($white, .45)
         border-radius: 50%
         font-size: 16px
         cursor: pointer
         &:hover
-          background: #fff
+          background: $white
     &-rights
       padding: 20px 0
       font-size: 12px
       text-align: center
-      color: rgba(229, 229, 229, .5)
-      border-top: 1px solid rgba(229, 229, 229, .2)
+      color: rgba($white, .45)
+      border-top: 1px solid rgba($light-gray, .2)
 
 
 @media (max-width: 959.5px)

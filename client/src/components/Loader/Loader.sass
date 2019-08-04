@@ -1,24 +1,27 @@
+@import '../../variables'
+
 .CustomLoader
 	position: fixed
 	top: 0
 	left: 0
 	right: 0
 	bottom: 0
+	z-index: 10000
 	width: 100vw
 	height: 100vh
 	display: flex
 	justify-content: center
 	align-items: center
-	owerflow: hidden
-	background: #f1f1f1
+	background: $loader-bg
+	background: $loader-bg
 	&-container
 		display: flex
 		span
 			width: 10px
 			height: 10px
 			margin-right: 5px
-			background: #fffa
-			box-shadow: 0px 20px 10px rgba(#000, .2)
+			background: $white-semitransparent
+			box-shadow: 0px 20px 10px rgba($black, .2)
 			border-radius: 10px
 			&:first-child
 				animation: loadbars 1s cubic-bezier(0.645,0.045,0.355,1) infinite 0s

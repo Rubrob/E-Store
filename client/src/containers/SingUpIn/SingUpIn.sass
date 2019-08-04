@@ -1,16 +1,4 @@
-$facebook: #0d47a1
-// #4c69ba
-$google: #eeeeee
-// #f44336
-$primary: #444
-$secondary: #777
-$secondary-light: #999
-$secondary-light-transparent: #999a
-$red: #f44336
-$primary-red: #f05
-$light: #e5e5e5
-$white: #fff
-$white-transparent: rgba(255, 255, 255, .25)
+@import '../../variables'
 
 .SingUpIn
   padding: 60px
@@ -21,7 +9,7 @@ $white-transparent: rgba(255, 255, 255, .25)
     margin: 0
   &-container
     padding: 40px 20px
-    box-shadow: 0 0 15px $light, 0 0 15px $secondary-light-transparent
+    box-shadow: 0 0 15px $light-gray, 0 0 15px $secondary-black-light-transparent
     width: 100%
     max-width: 420px
     display: flex
@@ -51,18 +39,14 @@ $white-transparent: rgba(255, 255, 255, .25)
       color: $white !important
   .input
     margin-top: 20px
-  .error
-    font-size: 14px
-    color: $red
-
 
   &-route
-    color: $secondary-light
+    color: $secondary-black-light
     span
       position: relative
       flex-direction: column
       margin-left: 10px
-      color: $primary
+      color: $primary-black
       &::after
         content: ''
         position: absolute
@@ -70,7 +54,7 @@ $white-transparent: rgba(255, 255, 255, .25)
         left: 0
         height: 1px
         width: 100%
-        background: $primary
+        background: $primary-black
   &-divider
     display: flex
     align-items: center
@@ -87,7 +71,7 @@ $white-transparent: rgba(255, 255, 255, .25)
       width: 100%
       height: 1px
       margin: 0 1em
-      background: $secondary
+      background: $secondary-black
 
 
   &-via

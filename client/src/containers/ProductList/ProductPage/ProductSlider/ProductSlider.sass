@@ -1,13 +1,11 @@
-$primary-color: #444
-$secondary-color: #777
-$light-color: #e5e5e5
+@import '../../../../variables'
 
 .productSlider
   position: relative
   display: flex
   width: 100%
   min-height: 300px
-  background: #eceff0
+  background: $img-bg
   margin-right: 30px
   align-self: flex-start
 
@@ -30,18 +28,18 @@ $light-color: #e5e5e5
     &.--left
       left: 60px
       &::after, &::before
-        border-color: transparent transparent $primary-color $primary-color
+        border-color: transparent transparent $primary-black $primary-black
       &:hover
         &::after, &::before
-          border-color: transparent transparent $secondary-color $secondary-color
+          border-color: transparent transparent $secondary-black $secondary-black
 
     &.--right
       right: 0px
       &::after, &::before
-        border-color: $primary-color $primary-color transparent transparent
+        border-color: $primary-black $primary-black transparent transparent
       &:hover
         &::after, &::before
-          border-color: $secondary-color $secondary-color transparent transparent
+          border-color: $secondary-black $secondary-black transparent transparent
 
   &-primary
     margin: 0 20px
@@ -72,7 +70,7 @@ $light-color: #e5e5e5
           left: 0
           height: 100%
           width: 3px
-          background: $primary-color
+          background: $primary-black
       img
         height: 60px
 
@@ -80,7 +78,7 @@ $light-color: #e5e5e5
       height: 0
       width: 2px
     &::-webkit-scrollbar-thumb
-      background: $primary-color
+      background: $primary-black
 
 
 @media (max-width: 959.5px)

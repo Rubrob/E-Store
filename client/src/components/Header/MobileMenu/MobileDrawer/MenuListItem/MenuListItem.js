@@ -1,9 +1,32 @@
 import React, { useState } from 'react'
-import './MenuListItem.sass'
 import { Drawer, ListItem, ListItemText } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
 
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+
+const CustomDrawer = withStyles(() => ({
+  root: {
+    width: 250,
+    color: '#444',
+    '& .MuiDrawer-paper': {
+      width: 'inherit',
+      background: '#f7f7f7',
+      overflowY: 'visible',
+    }
+  }
+}))(Drawer)
+
+const useStyles = makeStyles({
+  listHeader: {
+    width: '100%',
+    marginLeft: -24,
+    textAlign: 'center',
+    fontWeight: 700,
+  }
+})
+
 function MenuListItem({children, title, icon}) {
+  const classes = useStyles()
   const [open, setOpen] = useState(false);
   const [header, setHeader] = useState('')
 
@@ -21,13 +44,13 @@ function MenuListItem({children, title, icon}) {
         <KeyboardArrowRight />
       </ListItem>
 
-      <Drawer variant='persistent' anchor='right' className='Drawer' open={open} classes={{paper: 'drawerPaper'}}>
+      <CustomDrawer variant='persistent' anchor='right' className='Drawer' open={open}>
         <ListItem button className='listItem listHeader' onClick={handleDrawerClose}>
           <KeyboardArrowLeft />
-          <span>{header}</span>
+          <span className={classes.listHeader} children={header} />
         </ListItem>
         {children}
-      </Drawer>
+      </CustomDrawer>
     </>
   );
 }

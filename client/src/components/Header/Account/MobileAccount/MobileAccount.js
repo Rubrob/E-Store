@@ -22,10 +22,10 @@ function MobileAccount(props) {
       <MenuListItem title='My Account' icon={<AccountCircle />}>
         <MenuListLink text='Profile' parentLink={'/'} type='link' nodash link={'profile'}/>
         <MenuListLink text='Orders' parentLink={'/'} type='link' nodash link={'profile/orders'}/>
-        <ListItem button className='listItem' onClick={onLogOut} children={'Log Out'} />
+        <ListItem button className='listItem' onClick={onLogOut} children='Log Out' />
       </MenuListItem> :
       <ListItem button className='listItem listHeader JoinLogIn' onClick={closeMenu}>
-        <Link to={`/register`} className='link' children={'Join / Log In'} />
+        <Link to={`/register`} className='link' children='Join / Log In' />
       </ListItem>
     }</>
   )

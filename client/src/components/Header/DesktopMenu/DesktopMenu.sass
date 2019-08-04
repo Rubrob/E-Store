@@ -1,9 +1,4 @@
-$primary-color: #444
-$secondary-color: #777
-$light-color: #999
-$slight: #e5e5e5
-$white: #fff
-$active-color: #000
+@import '../../../variables'
 
 @mixin pseudo($width, $height)
   content: ''
@@ -22,20 +17,20 @@ $active-color: #000
     height: 100%
     margin: 0
     padding: 20px 27px
-    box-sizing: border-box
     font-size: 16px
-    font-weight: 700
+    font-weight: 500
+    color: $primary-black
+    box-sizing: border-box
     cursor: pointer
-    color: $primary-color
     transition: .4s cubic-bezier(0.075, 0.82, 0.165, 1)
     &.active, &:hover
-      color: $active-color
+      color: $black
     &.active::before
       @include pseudo(100%, 3px)
       bottom: .5px
       right: 0
+      background: $primary-black
       border-radius: 20px
-      background: $primary-color
 
   .menu
     position: fixed
@@ -47,11 +42,11 @@ $active-color: #000
     justify-content: center
     width: 100%
     box-sizing: border-box
-    color: $primary-color
-    text-transform: capitalize
+    color: $primary-black
     background: $white
-    border-top: 1px solid $slight
+    border-top: 1px solid $light-gray
     box-shadow: 0px 2px 4px -2px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14)
+    text-transform: capitalize
     &.open
       left: 0
       display: flex
@@ -66,16 +61,17 @@ $active-color: #000
         @include pseudo(1px, 100%)
         top: 0
         right: 0
-        background: $slight
+        background: $light-gray
 
       h3
         width: 100%
         margin: 7.5px 0
+        color: $primary-black
+        font-weight: 500
         cursor: pointer
-        color: $primary-color
 
       h3:hover, .subcategories_blocks >:hover
-        color: $active-color
+        color: $black
 
       .subcategories_blocks
         display: flex
@@ -88,14 +84,14 @@ $active-color: #000
           padding: 2px 0
           cursor: pointer
           font-size: 14px
-          color: $secondary-color
+          color: $secondary-black
           position: relative
           &::before
             @include pseudo(0, .5px)
             bottom: -2px
             right: 0
             transition: .5s
-            background: $secondary-color
+            background: $secondary-black
           &:hover::before
             left: 0
             width: 100%

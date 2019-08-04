@@ -1,3 +1,4 @@
+@import '../../../variables'
 @mixin onHover
   transform: translateY(0)
   opacity: 1
@@ -19,14 +20,14 @@
 
   .slick-dots
     button::before
-      color: #444 !important
+      color: $primary-black !important
 
   &-content
     position: relative
     display: inline-block
     max-width: 290px
     width: 100%
-    color: #fff
+    color: $white
     font-size: 16px
     cursor: pointer
 
@@ -41,7 +42,7 @@
       left: 10px
       right: 10px
       bottom: 10px
-      background-color: #444a
+      background-color: rgba($primary-black, .6)
       transition: all 0.25s ease
       transition-delay: 0.3s
 
@@ -69,8 +70,8 @@
 
     button
       @include content
-      background: #f05
-      color: #fff
+      background: $primary-red
+      color: $white
       font-size: 14px
       padding: 5px 10px
       box-sizing: border-box
@@ -95,7 +96,7 @@
     height: 40px
     z-index: 1000
     &::before
-      color: #444
+      color: $primary-black
   .slick-prev
     left: 22px
   .slick-next

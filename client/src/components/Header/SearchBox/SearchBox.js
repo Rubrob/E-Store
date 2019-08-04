@@ -51,23 +51,20 @@ function SearchField(props) {
       search(value)
       suggestionsCallback()
     }
-    console.log(text)
 
     return (
       <div className='suggestions'>
         {suggestions.map(item => {
           const index = item.title.toLowerCase().indexOf(text)
-          console.log(item.title, item.title.toLowerCase().indexOf(text), item.title.substring(index, index + text.length))
           return <div
           key={item.id}
           className='suggestions-item'
           onClick={() => clickSuggestion(item.title)}
           >
-            <img src={item.colors[0].preview} alt='img' style={{height: 70}}/>
+            <img src={item.colors[0].preview} alt='img' />
             <div>
               {item.title.substring(0, index)}
               <strong children={item.title.substring(index, index + text.length)} />
-              {/* {item.title.substring(text.length)} */}
               {item.title.substring(index + text.length)}
               <div>{`${item.gender}'s`}</div>
               <div>{currency}{item.price}</div>

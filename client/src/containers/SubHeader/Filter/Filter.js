@@ -27,21 +27,20 @@ function Filter(props) {
       </div>
     )
   }
+  const sizesBlock = bySize.map(size => {
+    const active = setActive(filter, 'size')(size)
+    return <FilterItem key={size} active={active} content={size} className='size' type='size' value={size}/>
+  })
+
+  const colorsBlock = byColor.map(color => {
+    const active = setActive(filter, 'color')(color)
+    return <FilterItem key={color} active={active} className={`color ${color}`} content={<Done />} type='color' value={color}/>
+  })
 
   return (
     <div className={`Filter ${hide ? 'hide' : ''}`}>
-      <FilterBlock title='Color'>
-          {byColor.map(color => {
-            const active = setActive(filter, 'color')(color)
-            return <FilterItem key={color} active={active} className={`color ${color}`} content={<Done />} type='color' value={color}/>
-          })}
-      </FilterBlock>
-      <FilterBlock title='Size'>
-          {bySize.map(size => {
-            const active = setActive(filter, 'size')(size)
-            return <FilterItem key={size} active={active} content={size} className='size' type='size' value={size}/>
-          })}
-      </FilterBlock>
+      <FilterBlock title='Color' children={colorsBlock} />
+      <FilterBlock title='Size' children={sizesBlock} />
       <Button className='Filter-reset' onClick={resetFilter} >Reset</Button>
     </div>
   )

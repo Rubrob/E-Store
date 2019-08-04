@@ -28,13 +28,13 @@ function CheckoutCart(props) {
       <div className={`checkoutCartMainContent ${expand ? 'expand' : ''}`}>
         <div className='checkoutSummary'>
           <div>Subtotal
-            <span>{currency}{total}</span>
+            <span children={`${currency}${total}`} />
           </div>
           <div>Delivery
-            <span>{freeIfZero(deliveryMethods[delivery], currency)}</span>
+            <span children={freeIfZero(deliveryMethods[delivery], currency)} />
           </div>
           <div>Total
-            <span>{currency}{total + deliveryMethods[delivery]}</span>
+            <span children={`${currency}${total + deliveryMethods[delivery]}`} />
           </div>
         </div>
         <div>

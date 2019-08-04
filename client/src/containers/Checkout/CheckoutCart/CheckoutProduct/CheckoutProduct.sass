@@ -1,21 +1,8 @@
-$primary-color: #444
-$secondary-color: #777
-$secondary-light: #999
-$light-color: #e5e5e5
-
-@mixin productPseudo ($vertical)
-  content: ''
-  position: absolute
-  bottom: $vertical
-  left: 50%
-  transform: translateX(-50%)
-  width: 90%
-  height: 1px
-  background: $light-color
+@import '../../../../variables'
 
 @mixin title
-  color: $primary-color
-  font-weight: 700
+  color: $primary-black
+  font-weight: 500
   font-size: 16px
 
 .checkoutProduct
@@ -25,7 +12,7 @@ $light-color: #e5e5e5
   font-size: 14px
 
   &:not(:last-child)::before
-    @include productPseudo(0)
+    @include bottomBorder
 
   &-img
     align-self: center
@@ -42,12 +29,11 @@ $light-color: #e5e5e5
     & > :first-child
       @include title
     & > :last-child
-      color: $primary-color
+      color: $primary-black
       font-weight: 500
-
     a
       text-decoration: underline
 
     > div
-      color: $secondary-light
+      color: $secondary-black-light
       padding-bottom: 2px

@@ -1,16 +1,18 @@
+@import '../../../../variables'
+
 .DesktopSearchBox
   position: relative
   display: flex
   max-width: 270px
   border-radius: 25px
-  background: #e5e5e5
+  background: $light-gray
 
   input
     width: 100%
     outline: none
     border: none
     background: none
-    color: #444
+    color: $primary-black
     font-size: 15px
 
   .suggestions-wrap
@@ -22,8 +24,8 @@
     border-radius: 0 15px 0 15px
 
     .suggestions
-      background: #fff
-      border-top: 1px solid #e5e5e5
+      background: $white
+      border-top: 1px solid $light-gray
       padding: 10px 20px
 
       &-item
@@ -31,9 +33,9 @@
         align-items: flex-start
         padding: 10px
         cursor: pointer
-        color: #444
+        color: $primary-black
         text-transform: capitalize
-        border-bottom: 1px solid #e5e5e5
+        border-bottom: 1px solid $light-gray
         transition: .2s
         &:hover
           opacity: .4
@@ -43,4 +45,4 @@
         img
           margin-right: 20px
         > div > div
-          color: #777
+          color: $secondary-black

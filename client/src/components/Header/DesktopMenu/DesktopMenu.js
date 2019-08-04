@@ -12,13 +12,17 @@ const DesktopMenu = ({title, menu}) => {
   const menuItems = menu.map(item => (
     <div key={item.id} className='categories_blocks'>
       <h3>
-        <Link to={`/p/${tlc(title)}-${tlc(item.title)}`}>{ampersand(item.title)}</Link>
+        <Link
+          to={`/p/${tlc(title)}-${tlc(item.title)}`}
+          children={ampersand(item.title)} />
       </h3>
       <div className='subcategories_blocks'>
-        {item.subcategories.map(el =>
-          <Link key={el} to={`/p/${tlc(title)}-${tlc(item.title)}-${tlc(el)}`} onClick={closeMenu}>
-            {ampersand(el)}
-          </Link>
+        {item.subcategories.map(subitem =>
+          <Link
+            key={subitem}
+            to={`/p/${tlc(title)}-${tlc(item.title)}-${tlc(subitem)}`}
+            onClick={closeMenu}
+            children={ampersand(subitem)} />
         )}
       </div>
     </div>
