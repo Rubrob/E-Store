@@ -3,6 +3,7 @@ import './Trending.sass'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
 
 function Trending({ data }) {
   const settings = {
@@ -11,6 +12,10 @@ function Trending({ data }) {
     infinite: true,
     slidesToShow: 3,
     slidesToScroll: 3,
+    lazyLoad: true,
+    centerMode: true,
+    prevArrow: <SamplePrevArrow />,
+    nextArrow: <SampleNextArrow />,
     responsive: [
       {
         breakpoint: 959.5,
@@ -29,9 +34,28 @@ function Trending({ data }) {
     ]
   }
 
+  function SamplePrevArrow({ className, style, onClick }) {
+    return (
+      <span
+        className={'trendingarrow prev'}
+        onClick={onClick}
+        children={<KeyboardArrowLeft />}
+        />
+    );
+  }
+  function SampleNextArrow({ className, style, onClick }) {
+    return (
+      <div
+        className={'trendingarrow next'}
+        onClick={onClick}
+        children={<KeyboardArrowRight />}
+        />
+    );
+
+  }
   const TrendingContent = ({ data }) => (
-    <div className='Trending-content'>
-      <img src={data.img} alt='img'/>
+    <div className='Trending-content' style={{backgroundImage: `url(${data.img})`}}>
+      <img src={data.img} alt='img' />
       <div>
         <h4>{data.title}</h4>
         <button>Shop Now</button>

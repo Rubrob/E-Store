@@ -20,12 +20,12 @@ function ProductList(props) {
       {filtered.length > 0 && <SubHeader />}
       {match && <h2>{searchedStr}</h2>}
       <div className='flex-row'>
-        {filtered.length > 0 && (match ? 
-          <SwipeableDrawer 
-          open={filterOpen} 
-          onClose={toggle} 
-          onOpen={toggle} 
-          children={<Filter />} /> : 
+        {filtered.length > 0 && (match ?
+          <SwipeableDrawer
+            open={filterOpen}
+            onClose={toggle}
+            onOpen={toggle}
+            children={<Filter />} /> :
           <Filter hide={filterOpen}/>)}
         <div className='ProductList-content'>
           <div className='ProductList-main'>

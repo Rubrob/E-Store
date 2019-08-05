@@ -1,4 +1,5 @@
 @import '../../../variables'
+
 @mixin onHover
   transform: translateY(0)
   opacity: 1
@@ -12,25 +13,42 @@
 
 .Trending
   text-align: center
-  max-width: 1200px
+  max-width: 1000px
   margin: 0 auto
   font-size: 24px
-  margin-top: 40px
-  padding: 10px
+  margin-bottom: 80px
+  margin-top: 60px
+  padding: 0 20px
 
+  .trendingarrow
+    position: absolute
+    top: 50%
+    z-index: 10
+    padding: 10px
+    cursor: pointer
+    transform: translateY(-50%)
+    &.prev
+      left: 0px
+    &.next
+      right: 0px
+    svg
+      font-size: 2rem
+      display: block
   .slick-dots
     button::before
       color: $primary-black !important
 
   &-content
     position: relative
-    display: inline-block
-    max-width: 290px
-    width: 100%
+    background-size: contain
+    margin-right: 20px
+    background-repeat: no-repeat
+    background-position: center
     color: $white
-    font-size: 16px
+    font-size: 1rem
+    border-radius: 5px
+    overflow: hidden
     cursor: pointer
-
     *
       box-sizing: border-box
       transition: all 0.25s ease
@@ -38,11 +56,16 @@
     &:before
       content: ''
       position: absolute
-      top: 100%
-      left: 10px
-      right: 10px
-      bottom: 10px
-      background-color: rgba($primary-black, .6)
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      height: 100%
+      width: 100%
+      opacity: 0
+      background: inherit
+      filter: blur(15px)
+      box-shadow: inset 0 0 0 2000px rgba($white, .15)
       transition: all 0.25s ease
       transition-delay: 0.3s
 
@@ -63,6 +86,8 @@
 
     h4
       @include content
+      color: #444
+      width: 80%
       margin-bottom: 10px
       text-align: center
       transform: translateY(-100%)
@@ -70,8 +95,8 @@
 
     button
       @include content
-      background: $primary-red
-      color: $white
+      background: #f05
+      color: #fff
       font-size: 14px
       padding: 5px 10px
       box-sizing: border-box
@@ -80,7 +105,7 @@
 
     &:hover
       &:before
-        top: 10px
+        opacity: 1
         transition-delay: 0s
       h4
         @include onHover
@@ -89,41 +114,15 @@
         @include onHover
         transition-delay: 0.2s
 
-
-.slick-slider
-  .slick-arrow
-    width: 40px
-    height: 40px
-    z-index: 1000
-    &::before
-      color: $primary-black
-  .slick-prev
-    left: 22px
-  .slick-next
-    right: 20px
-
-
-@media (max-width: 600px)
-    .Trending
-    &-content
-      max-width: 200px
-      h4
-        font-size: 16px
-
 @media (max-width: 600px)
   .Trending
-    &-content
-      max-width: 200px
+    h4
+      font-size: 16px
     h2
       font-size: 22px
 
-  .slick-slider
-    .slick-prev
-      left: 10px
-    .slick-next
-      right: 10px
-
-@media (max-width: 440px)
-  .Trending
-    &-content
-      max-width: 160px
+    .trendingarrow
+      &.prev
+        left: -10px
+      &.next
+        right: -10px

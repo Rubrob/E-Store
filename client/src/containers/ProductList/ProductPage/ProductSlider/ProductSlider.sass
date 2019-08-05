@@ -1,123 +1,113 @@
 @import '../../../../variables'
 
 .productSlider
-  position: relative
-  display: flex
-  width: 100%
-  min-height: 300px
-  background: $img-bg
-  margin-right: 30px
-  align-self: flex-start
+  display: grid
+  grid-template-columns: 100px 1fr
+  align-items: center
+  flex: 1
 
   &-arrow
     position: absolute
     top: 50%
     transform: translateY(-50%)
-    padding: 40px
+    padding: 15px
+    color: $primary-black
     cursor: pointer
-
-    &::after, &::before
-      content: ''
-      position: absolute
-      top: 50%
-      transform: translate(-50%, -50%) rotate(45deg)
-      width: 12px
-      height: 12px
-      border: 4px solid
-
+    transition: .4s
+    &:hover
+      color: $secondary-black-light
+      &.--right
+        right: -5px
+      &.--left
+        left: -5px
+    svg
+      font-size: 2.5rem
+      display: block
     &.--left
-      left: 60px
-      &::after, &::before
-        border-color: transparent transparent $primary-black $primary-black
-      &:hover
-        &::after, &::before
-          border-color: transparent transparent $secondary-black $secondary-black
-
+      left: 0
     &.--right
       right: 0px
-      &::after, &::before
-        border-color: $primary-black $primary-black transparent transparent
-      &:hover
-        &::after, &::before
-          border-color: $secondary-black $secondary-black transparent transparent
-
   &-primary
-    margin: 0 20px
+    position: relative
+    justify-self: center
     width: 100%
-    max-width: 800px
+    max-width: 620px
     img
       display: block
       width: 100%
       height: auto
 
   &-slides
-    align-self: center
-    height: 350px
-    min-height: 350px
-    overflow-x: hidden
-    overflow-y: scroll
-    text-align: center
+    justify-self: center
+    height: 365px
+    width: 100%
+    max-width: 70px
+    padding: 5px
+    box-sizing: border-box
+    overflow: auto
     cursor: pointer
-    & .slide
-      height: 60px
-      font-size: 0
-      margin: 0
+
+    .slide
+      margin: 8px 0
+      max-width: 60px
+      position: relative
+      transition: .4s
       &.active
-        position: relative
-        &:before
-          content: ''
-          position: absolute
-          left: 0
-          height: 100%
-          width: 3px
-          background: $primary-black
+        transform: scale(.8)
+        box-shadow: 0px 5px 8px 0px rgba(#aaa, 0.4), 0px -2px 1px 0px rgba(#aaa, 0.1)
       img
+        display: block
         height: 60px
 
     &::-webkit-scrollbar
       height: 0
-      width: 2px
+      width: 0
     &::-webkit-scrollbar-thumb
       background: $primary-black
 
+@media (min-width: 1560px)
+  .productSlider
+    &-primary
+      max-width: 800px
 
 @media (max-width: 959.5px)
   .productSlider
-    justify-content: flex-start
-    align-items: center
-    flex-direction: column-reverse
-
-    &-arrow
-      padding: 25px
-      &.--right
-        right: 60px
-
+    grid-template-columns: 1fr
+    background: $img-bg
+    &-primary
+      grid-row: 1
     &-slides
       display: flex
-      align-items: center
-      width: 90%
+      justify-self: center
+      max-width: 100%
       min-width: 240px
-      max-width: 480px
+      max-width: 420px
       height: 60px
-      min-height: 0
+      padding: 0
       overflow-x: scroll
+      overflow-y: hidden
+      background: $light-gray
 
       .slide
-        &.active
-          &::before
-            height: 3px
-            width: 100%
-            bottom: 0
+        margin: 0
 
 @media (max-width: 599.5px)
   .productSlider
+    &-primary
+      max-width: 100%
+
     &-arrow
-      padding: 20px
-      &:before, &:after
-        width: 10px
-        height: 10px
-        border-width: 2px
-      &.--left
-        left: 5px
-      &.--right
-        right: 5px
+      padding: 5px
+      &:hover
+        &.--right
+          right: 0 !important
+        &.--left
+          left: 0 !important
+
+@media (max-width: 419.5px)
+  .productSlider
+    &-slides
+      .slide
+        margin: 0
+        &:first-child.active
+          margin-left: -5px
