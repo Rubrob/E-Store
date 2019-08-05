@@ -10,7 +10,7 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
 function ProductCard({ product, currency }) {
 
   const match = useMediaQuery('(max-width: 480px)')
-  const { title, price, colors, subcategory, id, gender } = product
+  const { title, price, colors, subcategory, id, gender, category } = product
   const preview = colors[0].preview
   const quantity = colors.length > 1 ? 'Colors' : 'Color'
 
@@ -82,7 +82,7 @@ function ProductCard({ product, currency }) {
 
         <div className='productInfo'>
           <div className='title'>{title}</div>
-          <div>{`${gender}'s`}{ampersand(subcategory)}</div>
+          <div>{`${gender}'s ${ampersand(subcategory)} ${category === 'shoes' ? category : ''}`}</div>
           <div className='price'>{currency}{price}</div>
           <div className='colors'>
             {colors.map((color, i) => (match && i >= 4) ? null : <span key={color.color} className={`color ${color.color}`} />)}

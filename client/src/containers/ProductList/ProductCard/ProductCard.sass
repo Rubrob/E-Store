@@ -162,10 +162,16 @@
     &.orange
       background: #f80
 
+
 @media (max-width: 1200.5px)
   .productCard
     width: calc(33.33% - 4px)
 
+@media (max-width: 959.5px)
+  .productCard
+    width: calc(50% - 4px)
+    &::before
+      display: none
 
 @media (max-width: 739.5px)
   .productCard
@@ -173,20 +179,19 @@
 
 @media (max-width: 599.5px)
   .productCard
+    .previewBox
+      display: none
+      margin-bottom: 0
     .colors
       .color
         display: inline-block
+
 @media (max-width: 499.5px)
   .productCard
     width: calc(50% - 1.5px)
     margin: 3px 0
     &:nth-child(even)
       margin-left: 3px
-    &::before
-      display: none
-    .previewBox
-      display: none
-      margin-bottom: 0
     .productInfo
       font-size: 0.8rem
       & .title
