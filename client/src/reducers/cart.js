@@ -15,23 +15,6 @@ import {
 } from './actions/cart'
 
 const cart = JSON.parse(localStorage.getItem('CART'))
-const fakeitem = {
-  availability: 13,
-  color: "pink",
-  colorId: "Grt3H-pink",
-  gender: "men",
-  img: "https://assets.adidas.com/images/w_840,h_840,f_auto,q_auto:sensitive,fl_lossy/28e054c800ea44a4a8bea7fb007fc05d_9366/Gazelle_Shoes_Pink_BB5472_01_standard.jpg",
-  price: 85,
-  productId: "Grt3H",
-  qty: 1,
-  size: 111,
-  sizes: [6.5, 7, 7.5, 8, 8.5, 9, 9.5, 11],
-  title: "Gazelle",
-  url: "/pp/Grt3H/Grt3H-pink",
-}
-// cart.push(fakeitem)
-// localStorage.setItem('CART', JSON.stringify([...cart, fakeitem]))
-
 const initialState = {
   cartProducts: cart || [],
   currency: '$',

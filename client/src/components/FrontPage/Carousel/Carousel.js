@@ -26,6 +26,8 @@ export default function({data}) {
     autoplay: true,
     speed: 2000,
     dots: false,
+    slidesToShow: 1,
+    adaptiveHeight: true,
     infinite: true,
     centerMode: true,
     centerPadding: '60px',

@@ -12,9 +12,9 @@ const CustomTypography = withStyles(() => ({
 }))(Typography)
 
 const carouselData = [
-  { url: '/images/cslide_2.jpg', title: 'THE BEST CHOISE' },
-  { url: '/images/cslide_4.jpg', title: 'THE BEST BIKE GEAR TO BUY THiS SPRING' },
-  { url: '/images/cslide_5.jpg', title: 'GET A SECOND WIND' }
+  { url: '/images/slide_1.jpg', title: 'THE BEST CHOISE' },
+  { url: '/images/slide_2.jpg', title: 'THE BEST BIKE GEAR TO BUY THiS SPRING' },
+  { url: '/images/slide_3.jpg', title: 'GET A SECOND WIND' }
 ]
 
 const swiperData = [
@@ -57,8 +57,8 @@ function FrontPage() {
       <div className='news'>
         <CustomTypography variant='h4' component='h2' align='center' children='STORE NEWS' />
         <div>
-          <News img={'images/cslide_7.jpg'} text={'Shoes made for running high'} />
-          <News img={'images/cslide_8.jpg'} text={'Waterproof features'} />
+          <News img={'images/slide_4.jpg'} text={'Shoes made for running high'} />
+          <News img={'images/slide_5.jpg'} text={'Waterproof features'} />
         </div>
       </div>
 

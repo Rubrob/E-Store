@@ -32,13 +32,13 @@
     display: flex
     justify-content: center
     min-width: 100%
-    max-width: 1600px
+    max-width: inherit
     box-sizing: border-box
     overflow: hidden
     > div
       position: relative
       max-height: 700px
-      width: 50%
+      width: 100%
       &:first-child
         margin-right: 10px
       > div
@@ -52,8 +52,10 @@
           &:hover
             background: rgba(#fff, .1)
             color: #fff
-    img
-      width: 100%
+      img
+        width: 100%
+        height: auto
+        max-height: inherit
 
 @media (max-width: 959.5px)
   .news

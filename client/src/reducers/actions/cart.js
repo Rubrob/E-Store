@@ -74,25 +74,6 @@ export const changeProductSize = value => ({ type: CHANGE_PRODUCT_SIZE, payload:
 
 export const checkCartProducts = (products, cart)  => dispatch => {
 
-  // const checked = []
-  // const checkCartRelevance = (item, cartItem) => {
-  //   return item.id === cartItem.colorId && item.availability >= cartItem.availability && item.sizes.indexOf(cartItem.size) !== -1
-  // }
-
-  // const sortCart = (arr, comparable) => arr.forEach(item => {
-  //   if(checkCartRelevance(item, comparable)){
-  //     if(checked.indexOf(comparable) === -1){
-  //       checked.push(comparable)
-  //     }
-  //   }
-  // })
-
-  // const loopCart = (item, cart) => {
-  //   cart.forEach(cartItem => item.id === cartItem.productId ? sortCart(item.colors, cartItem) : null)
-  // }
-
-  // products.forEach(item => loopCart(item, cart))
-
   return new Promise((resolve, reject) => {
     resolve(cart)
   })
@@ -118,14 +99,6 @@ export const checkCartProducts = (products, cart)  => dispatch => {
     products.forEach(item => loopCart(item, checked))
 
     return pchecked
-  })
-  .then((res) => {
-    console.log(cart)
-    console.log(res)
-    // if (res.length) {
-    //   dispatch({ type: RESET_CART, payload: res })
-    // }
-    return res
   })
   .then(res => {
     if (res.length) {

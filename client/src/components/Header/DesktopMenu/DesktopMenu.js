@@ -19,9 +19,8 @@ const DesktopMenu = ({title, menu}) => {
       </Typography>
       <div className='subcategories_blocks'>
         {item.subcategories.map(subitem =>
-        <Typography variant='body2' component='div' className='subcategories_blocks-title'>
+        <Typography key={subitem} variant='body2' component='div' className='subcategories_blocks-title'>
           <Link
-            key={subitem}
             to={`/p/${tlc(title)}-${tlc(item.title)}-${tlc(subitem)}`}
             onClick={closeMenu}
             children={ampersand(subitem)} />
