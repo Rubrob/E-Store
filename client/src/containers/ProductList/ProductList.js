@@ -70,7 +70,7 @@ function ProductList(props) {
   return (
     <div className={classes.productList}>
       {filtered.length > 0 && <SubHeader />}
-      {match && <Typography variant='h5' children={searchedStr} />}
+      {(match && filtered.length > 0) && <Typography variant='h5' children={searchedStr} />}
       <div className={classes.flexRow}>
         {filtered.length > 0 && (match ?
           <SwipeableDrawer
