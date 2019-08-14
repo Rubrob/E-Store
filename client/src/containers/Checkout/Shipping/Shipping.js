@@ -6,7 +6,7 @@ import { compose } from 'redux'
 import { validate } from '../../../validation/checkout'
 import { freeIfZero } from '../../../utils'
 import { Lock } from '@material-ui/icons'
-import { ButtonBase } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import DeliveryBox from './DeliveryBox/DeliveryBox'
 import FormsPreview from '../FormsPreview/FormsPreview'
 import CheckoutForm from './../CheckoutForm/CheckoutForm'
@@ -14,7 +14,7 @@ import { submitShipping, prevStep } from '../../../reducers/actions/cart'
 
 function Shipping (props) {
 
-  const { handleSubmit, valid } = props
+  const { handleSubmit, invalid } = props
   const { step, prevStep, submitShipping, delivery, currency, shipping, deliveryMethods } = props
   const { firstname, lastname, address, city, zip, country, email, phone } = shipping
 
@@ -25,15 +25,17 @@ function Shipping (props) {
   }
 
   const delChild = <div className='delChild'>
-    <h4 className='delChild-title'>Shipping Speed</h4>
-    <div className='delChild-content'>
+    <Typography variant='body1' gutterBottom className='delChild-title' children={'Shipping Speed'} />
+    <Typography variant='body2' className='delChild-content'>
       {delivery}: {freeIfZero(deliveryMethods[delivery], currency)}
-    </div>
+    </Typography>
   </div>
 
   return (
     <div className='shipping'>
-      <header>SHIPPING</header>
+      <div className='shipping-title'>
+        <Typography variant='h6' component='h4' children='SHIPPING' />
+      </div>
       {step >= 2 ? <div className='shipping-preview'>
           <FormsPreview title='Shipping Address' content={previewContent} children={delChild} />
           <div className='prev' onClick={prevStep}>Edit</div>
@@ -41,17 +43,21 @@ function Shipping (props) {
         <form onSubmit={handleSubmit(submit)}>
           <CheckoutForm type='shipping' />
 
-          <div className='shippingNote'>
-            <Lock />
-            Your privacy is important to us. We will only contact you if there is an issue with your order.
-          </div>
+          <Typography variant='caption' className='shippingNote'>
+            <Lock fontSize='inherit' />
+            <span>
+              Your privacy is important to us. We will only contact you if there is an issue with your order.
+            </span>
+          </Typography>
 
           <DeliveryBox />
 
-          <ButtonBase
+          <Button
+            color='secondary'
+            variant='contained'
             type='submit'
             className='submit'
-            disabled={!valid}
+            disabled={invalid}
             children={'SAVE & CONTINUE'}
             />
         </form>}

@@ -10,11 +10,10 @@
       display: flex
       align-items: center
       align-self: stretch
-      cursor: pointers
       margin-right: 20px
-      padding: 10px
+      padding-left: 6px
       .logo
-        height: 46px
+        height: 40px
 
     .desktopMenu
       display: flex
@@ -26,17 +25,20 @@
     color: #444
 
 
-@media (max-width: 599.5px)
-  .Header
-    .leftSide
-      .logoButton
-        .logo
-          height: 40px
-    .MuiToolbar-gutters
-      padding: 0 5px
-
 @media (max-width: 959.5px)
   .Header
     .leftSide
       .desktopMenu
         display: none
+
+@media (max-width: 599.5px)
+  .toolbar
+    min-height: 48px !important
+  .Header
+    .leftSide
+      .logoButton
+        padding-left: 12px
+        .logo
+          height: 34px
+    .MuiToolbar-gutters
+      padding: 5px 5px

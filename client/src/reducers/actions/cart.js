@@ -12,15 +12,17 @@ export const CHANGE_PRODUCT_SIZE = 'CHANGE_PRODUCT_SIZE'
 export const DELETE_CART_PRODUCT = 'DELETE_CART_PRODUCT'
 export const EMPTY_CART = 'EMPTY_CART'
 export const CART_INIT = 'CART_INIT'
-
+export const RESET_CART = 'RESET_CART'
+export const TOTAL_PRICE_RECALCULATION = 'TOTAL_PRICE_RECALCULATION'
 
 export const addToCart = value => ({ type: ADD_TO_CART, payload: value })
 export const deleteCartProduct = value => ({ type: DELETE_CART_PRODUCT, payload: value})
 export const setShippingAddress = value => ({ type: SET_SHIPPING, payload: value })
 export const changeDelivery = value => ({ type: CHANGE_DELIVERY, payload: value })
 
-export const totalRecalculation = (products) => {
-  return products.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
+export const totalRecalculation = (cart) => dispatch => {
+  const recalculation = cart.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
+  dispatch({ type: TOTAL_PRICE_RECALCULATION, payload: recalculation })
 }
 
 export const nextStep = () => ({ type: NEXT_STEP })
@@ -70,19 +72,80 @@ export const submitCheckout = (data, callbacks) => async dispatch => {
 export const changeProductQuantity = value => ({ type: CHANGE_PRODUCT_QUANTITY, payload: value})
 export const changeProductSize = value => ({ type: CHANGE_PRODUCT_SIZE, payload: value})
 
-export const checkCartProducts = (products, cart)  => {
-  const checked = []
-  const checkColorAvailability = (arr, comparable) => arr.forEach(item => {
-    if(item.availability < comparable.availability ||
-      item.sizes.indexOf(comparable.size) === -1 ||
-      item.id !== comparable.colorId){
-      checked.push(comparable)
+export const checkCartProducts = (products, cart)  => dispatch => {
+
+  // const checked = []
+  // const checkCartRelevance = (item, cartItem) => {
+  //   return item.id === cartItem.colorId && item.availability >= cartItem.availability && item.sizes.indexOf(cartItem.size) !== -1
+  // }
+
+  // const sortCart = (arr, comparable) => arr.forEach(item => {
+  //   if(checkCartRelevance(item, comparable)){
+  //     if(checked.indexOf(comparable) === -1){
+  //       checked.push(comparable)
+  //     }
+  //   }
+  // })
+
+  // const loopCart = (item, cart) => {
+  //   cart.forEach(cartItem => item.id === cartItem.productId ? sortCart(item.colors, cartItem) : null)
+  // }
+
+  // products.forEach(item => loopCart(item, cart))
+
+  return new Promise((resolve, reject) => {
+    resolve(cart)
+  })
+  .then((checked) => {
+    const pchecked = []
+
+    const checkCartRelevance = (item, cartItem) => {
+      return item.id === cartItem.colorId && item.availability >= cartItem.availability && item.sizes.indexOf(cartItem.size) !== -1
+    }
+
+    const sortCart = (arr, cartItem) => arr.forEach(item => {
+      if(checkCartRelevance(item, cartItem)){
+        if(pchecked.indexOf(cartItem) === -1){
+          pchecked.push(cartItem)
+        }
+      }
+    })
+
+    const loopCart = (item, cart) => {
+      cart.forEach(cartItem => item.id === cartItem.productId ? sortCart(item.colors, cartItem) : null)
+    }
+
+    products.forEach(item => loopCart(item, checked))
+
+    return pchecked
+  })
+  .then((res) => {
+    console.log(cart)
+    console.log(res)
+    // if (res.length) {
+    //   dispatch({ type: RESET_CART, payload: res })
+    // }
+    return res
+  })
+  .then(res => {
+    if (res.length) {
+      dispatch({ type: RESET_CART, payload: res })
     }
   })
 
-  products.forEach(item => cart.forEach(cartItem => item.id === cartItem.productId ? checkColorAvailability(item.colors, cartItem) : null))
+  // const forSome = []
 
-  return new Set(checked).size >= 1 ? false : true
+  // products.forEach(product => {
+  //   cart.forEach(item => {
+  //     const some = (a) => a.id === item.colorId && a.availability >= item.availability && a.sizes.indexOf(item.size) !== -1
+  //     if(product.colors.some(some)){
+  //       forSome.push(item)
+  //     }
+  //   })
+  // })
+  // console.log('forSome', forSome);
+
+  // return checked.length >= 1 ? false : true
 }
 
 export const emptyCart = () => ({ type: EMPTY_CART })

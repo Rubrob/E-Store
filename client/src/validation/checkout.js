@@ -1,6 +1,14 @@
+
+export const required = value => value ? undefined : null
+
+const maxLength = max => value =>
+  value && value.length > max ? `Must be ${max} characters or less` : undefined
+export const maxLength2 = maxLength(2)
+
 export const validate = (inputs) => {
   const errors = {};
   const emailReg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+  console.log(inputs)
 
   const { firstname, lastname, country, city, zip, address, email, phone, password } = inputs
   const { cardnumber, exp, cvv } = inputs
@@ -44,7 +52,7 @@ export const validate = (inputs) => {
   if (!email) {
     errors.email = 'Please enter your email address'
   } else if (!emailReg.test(email)) {
-    errors.email = 'Please enter a valid  email address'
+    errors.email = 'Please enter a valid email address'
   }
 
   if (!phone) {

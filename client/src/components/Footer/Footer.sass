@@ -1,11 +1,5 @@
 @import '../../variables'
 
-@mixin footerH4
-  color: $white
-  margin: 20px 0
-  font-weight: 700
-  font-size: 16px
-
 .Footer
   margin-top: 80px
   background: $primary-black
@@ -14,46 +8,26 @@
     display: flex
     justify-content: space-between
     padding: 40px
-    padding-top: 20px
     color: rgba($white, .45)
 
-    &-contacts,
-    &-social
-      > div:first-child
-        @include footerH4
+    &-contacts, &-social
+      h4
+        color: $white
 
-    &-contacts
-      font-size: 14px
-    &-social
-      &-icon
-        margin-right: 10px
-        padding: 10px
-        color: $primary-black
-        background: rgba($white, .45)
-        border-radius: 50%
-        font-size: 16px
-        cursor: pointer
-        &:hover
-          background: $white
     &-rights
       padding: 20px 0
-      font-size: 12px
-      text-align: center
+      font-size: 12px !important
       color: rgba($white, .45)
       border-top: 1px solid rgba($light-gray, .2)
 
-
 @media (max-width: 959.5px)
-  .Footer
-    &-main
-       &-rights
-        &.cart-mode
-          padding-bottom: 80px
+  .cart-mode
+    padding-bottom: 80px
 
 @media (max-width: 599.5px)
   .Footer
     &-main
-      padding: 20px
+      padding: 40px 20px
       flex-direction: column
       &-contacts
         margin-bottom: 40px

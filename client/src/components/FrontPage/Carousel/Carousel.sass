@@ -2,54 +2,69 @@
 
 .Carousel
   max-width: 100%
-  .slick-slide
-    transition: .4s
-  .slick-dots
-    bottom: 20px
-    button::before
-      font-size: 12.5px
-      color: $white!important
-  img
-    width: 100%
-    max-width: 100%
-    padding: 10px 10px
-    box-sizing: border-box
   &-block
-    position: relative
+    display: flex !important
+    justify-content: center
+    padding: 10px
+    > div
+      position: relative
+      display: flex
+      justify-content: center
+      width: 100%
+      max-width: 1600px
+      padding: 0 20px
+      box-sizing: border-box
+    img
+      width: 100%
+      height: auto
     &-text
       position: absolute
+      display: flex
+      flex-direction: column
+      justify-content: space-between
       top: 0
-      left: 0
-      width: 100%
-      padding: 20px
-      padding-left: 80px
-      padding-top: 80px
-      color: $white
+      left: 40px
+      padding: 60px
+      width: calc(100% - 80px)
+      margin-right: -40px
       box-sizing: border-box
-      h1
-        margin: 0
-        margin-bottom: 10px
-        font-size: 40px
-      div
-        font-size: 16px
-
+      color: $white
+      h2
+        font-size: 60px
+        margin-bottom: 30px
+        text-shadow: 0px 0px 10px #000
+      button
+        background: #f05
+        max-width: 100px
+        &:hover
+          background: rgba(#f05, .4)
 
 @media (max-width: 959.5px)
   .Carousel
     &-block
+      padding: 0
       &-text
-        padding-top: 30px
-        padding-left: 30px
+        justify-content: flex-end
+        padding: 50px
+        bottom: 0
+        h2
+          font-size: 40px
 
 @media (max-width: 600px)
   .Carousel
+    max-height: 840px
+    width: auto
+    .slick-list
+      overflow: hidden
+      max-height: 840px
     &-block
-      &-text
-        padding: 20px
-        h1
-          font-size: 20px
-          margin-bottom: 5px
-        div
-          font-size: 14px
-    img
       padding: 0
+      > div
+        padding: 0
+      &-text
+        left: 0
+        padding: 20px
+        h2
+          font-size: 40px
+          margin-bottom: 10px
+          text-shadow: 0px 0px 10px #000

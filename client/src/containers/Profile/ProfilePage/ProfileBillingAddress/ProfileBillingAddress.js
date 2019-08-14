@@ -4,13 +4,13 @@ import { reduxForm } from 'redux-form'
 import { validate } from '../../../../validation/checkout'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { ButtonBase } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import { setBillingAddress } from '../../../../reducers/actions/auth'
 import FormsPreview from './../../../Checkout/FormsPreview/FormsPreview'
 import CheckoutForm from './../../../Checkout/CheckoutForm/CheckoutForm'
 
 function ProfileBillingAddress(props) {
-  const { handleSubmit, valid } = props
+  const { handleSubmit, invalid } = props
   const { setBilling, billing } = props
   const { firstname, lastname, address, city, zip, country } = billing
 
@@ -25,8 +25,7 @@ function ProfileBillingAddress(props) {
     }
   }
 
-  const preview = isValues && <FormsPreview content={{ firstname, lastname, address, city, zip, country }} cn='pBillingPreview' />
-
+  const preview = isValues && <FormsPreview content={{ firstname, lastname, address, city, zip, country }} />
   const label = isValues ? 'Edit' : 'Add'
 
   const submit = async (value) => {
@@ -36,16 +35,24 @@ function ProfileBillingAddress(props) {
 
   return (
     <div className={`profileBillingAddress ${isValues ? '' : (!expand && 'toAdd')}`}>
-      <div className='profileBillingAddress-header'>Billing Address</div>
+      <Typography variant='h6' className='profileBillingAddress-header' children={'Billing Address'} />
       <div className='profileBillingAddress-preview'>
         {expand ? <form onSubmit={handleSubmit(submit)}>
           <CheckoutForm type='billing' />
           <div className='formBtns'>
-            <ButtonBase onClick={() => setExpand(false)} children={'Cancel'} />
-            <ButtonBase type='submit' disabled={!valid} children={'Save'} />
+            <Button
+              variant='contained'
+              onClick={() => setExpand(false)}
+              children='Cancel' />
+            <Button
+              variant='contained'
+              color='secondary'
+              type='submit'
+              disabled={invalid}
+              children='Save' />
           </div>
         </form> : preview}
-        {!expand && <ButtonBase className='expandForm' onClick={() => setExpand(true)} children={label} />}
+        {!expand && <Button variant='contained' className='expandForm' onClick={() => setExpand(true)} children={label} />}
       </div>
     </div>
   )

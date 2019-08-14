@@ -2,15 +2,10 @@
 
 .Cart
   padding-top: 60px
-  h1
-    text-align: center
   &-miniInfo
-    text-align: center
-    margin-bottom: 80px
-    font-weight: 700
     color: $secondary-black
-    span
-      font-weight: normal
+    margin-bottom: 50px !important
+    font-weight: bold !important
 
   &-main
     display: flex
@@ -20,15 +15,8 @@
     box-sizing: border-box
 
     &-products
-      max-width: 700px
       width: 100%
-      flex: 1
-      padding: 20px
-      padding-top: 0
-      padding-left: 0
-      box-sizing: border-box
-      .noProducts
-        text-align: center
+      max-width: 700px
 
     &-toCheckout
       display: flex
@@ -36,31 +24,15 @@
       align-self: flex-start
       width: 100%
       max-width: 280px
-      margin-left: 40px
+      margin-left: 60px
       padding: 20px
+      box-sizing: border-box
       background: $primary-black
       color: $white
-      font-size: 16px
       &-main
-        h4
-          margin-top: 0
-          font-size: 18px
-        > div
-          padding: 5px 0
-          &:last-child
-            font-weight: 700
-      &-link
-        display: flex
-        align-items: center
-        justify-content: space-between
-        margin-top: 20px
-        padding: 20px
-        background: $primary-red
-        color: $white
-        font-weight: 700
-        &:disabled
-          background: lighten($primary-red, 20%)
-          cursor: default
+        margin-bottom: 20px
+        > div:last-child
+          font-weight: bold
 
 @media (max-width: 959.5px)
   .Cart
@@ -68,19 +40,19 @@
       flex-direction: column
       align-items: center
       &-products
-        padding-left: 20px
+        padding: 0 20px
 
       &-toCheckout
-        margin-left: 0
-        &-link
-          background: $secondary-black-dark
-          position: fixed
-          bottom: 0
-          left: 0
-          width: 100%
-          margin: 0
-          &:disabled
-            background: lighten($secondary-black-dark, 20%)
+        position: fixed
+        z-index: 100
+        left: 0
+        bottom: 0
+        max-width: 100%
+        margin: 0
+        padding: 0
+        background: $white
+        &-main
+          display: none
 
 @media (max-width: 600px)
   .Cart

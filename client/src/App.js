@@ -18,7 +18,8 @@ import { fas, faSort, faSlidersH } from '@fortawesome/free-solid-svg-icons'
 import { filterURL, filterProductsWithURL } from './reducers/actions/products'
 import { fetchMember } from './reducers/actions/auth'
 import { fetchProducts, fetchProductPage } from './reducers/actions/products'
-import Loader from './components/Loader/Loader';
+import Loader from './components/Loader/Loader'
+import Toaster from './components/Toaster/Toaster'
 
 library.add(fab, fas, faSort, faSlidersH)
 
@@ -36,6 +37,7 @@ function App(props) {
   return (
     <>{isFetching ? <Loader /> :
     <div className='App'>
+      <Toaster />
       <Header />
         <main className='App-container'>
           <Route exact path='/' render={() => <FrontPage />}/>

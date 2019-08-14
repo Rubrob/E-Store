@@ -5,31 +5,28 @@ import { compose } from 'redux'
 import { reduxForm, Field } from 'redux-form'
 import FacebookLogin from 'react-facebook-login'
 import GoogleLogin from 'react-google-login'
-import { Button } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import { validate } from '../../validation/checkout'
 import { signUp, logIn, oauthGoogle, oauthFacebook } from '../../reducers/actions/auth'
-import Toaster, { notify } from '../../components/Toaster/Toaster'
+import { notify } from '../../components/Toaster/Toaster'
 import CustomTextField from './../Checkout/CustomTextField/CustomTextField'
 
 
-function LogInFields(props) {
-  return(
-    <>
-      <Field className='input' name='email' label='Email' type='email' component={CustomTextField} />
-      <Field className='input' name='password' autoComplete='on' label='Password' type='password' component={CustomTextField} />
-    </>
-  )
-}
-function SingUpFields(props) {
-  return(
-    <>
-      <Field className='input' name='firstname' label='First Name' component={CustomTextField} />
-      <Field className='input' name='lastname' label='Last Name' component={CustomTextField} />
-      <Field className='input' name='email' label='Email' type='email' component={CustomTextField} />
-      <Field className='input' name='password' autoComplete='on' label='Password' type='password' component={CustomTextField} />
-    </>
-  )
-}
+const LogInFields = (props) => (
+  <>
+    <Field className='input' name='email' label='Email' type='email' component={CustomTextField} />
+    <Field className='input' name='password' autoComplete='on' label='Password' type='password' component={CustomTextField} />
+  </>
+)
+
+const SingUpFields = (props) => (
+  <>
+    <Field className='input' name='firstname' label='First Name' component={CustomTextField} />
+    <Field className='input' name='lastname' label='Last Name' component={CustomTextField} />
+    <Field className='input' name='email' label='Email' type='email' component={CustomTextField} />
+    <Field className='input' name='password' autoComplete='on' label='Password' type='password' component={CustomTextField} />
+  </>
+)
 
 class SignUp extends Component {
   constructor(props) {
@@ -81,13 +78,12 @@ class SignUp extends Component {
 
     return (
      <div className='SingUpIn'>
-      <Toaster />
       <div className='SingUpIn-container'>
-        <h2>{formTitle}</h2>
+        <Typography variant='h5' children={formTitle} />
 
         <form onSubmit={handleSubmit(this.submit)}>
           {this.state.toggle ? <LogInFields /> : <SingUpFields />}
-          <Button type='submit' className='submit' children={linkText} />
+          <Button type='submit' variant='contained' color='secondary' className='submit' children={linkText} />
         </form>
 
         <div className='SingUpIn-divider'>{linkText} Via</div>

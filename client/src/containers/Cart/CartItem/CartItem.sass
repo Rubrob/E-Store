@@ -1,16 +1,10 @@
 @import '../../../variables'
 
-@mixin title
-  color: $primary-black
-  font-weight: 500
-  font-size: 16px
-
 .ProductToBuy
   position: relative
   display: flex
   justify-content: space-between
   padding: 8px
-  font-size: 14px
 
   &:not(:last-child)::before
     @include bottomBorder
@@ -26,21 +20,11 @@
         height: 120px
 
     &-data
-      flex: 100%
+      width: 100%
       align-self: center
       color: $secondary-black-light
       margin-left: 8px
       text-transform: capitalize
-
-      > :first-child
-        @include title
-      a
-        @include title
-      > div
-        margin-bottom: 2px
-        box-sizing: border-box
-        *
-          color: $secondary-black-light
 
   &-controls
     display: flex
@@ -48,23 +32,12 @@
     justify-content: space-between
     color: $primary-black
     font-weight: 500
-    text-align: right
-
 
 @media (max-width: 599.5px)
   .ProductToBuy
     padding: 10px 20px
     img
       height: 100px
-
-    &-controls
-      right: 20px
-      div:first-child
-        svg
-          font-size: 1.2rem !important
-      div:last-child
-        display: none
-
 
 .MuiPaper-root.MuiMenu-paper.MuiPaper-elevation8.MuiPopover-paper.MuiPaper-rounded
   &::-webkit-scrollbar

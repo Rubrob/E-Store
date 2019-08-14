@@ -1,8 +1,8 @@
 import React from 'react'
 import './Toaster.sass'
 import { Error, CheckCircle } from '@material-ui/icons'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const notify = (type, message) => {
   if(type === 'error'){
@@ -14,7 +14,7 @@ export const notify = (type, message) => {
       closeButton: false,
       className: 'toaster error',
       position: 'top-center',
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -32,7 +32,7 @@ export const notify = (type, message) => {
       closeButton: false,
       className: 'toaster success',
       position: 'top-center',
-      autoClose: false,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

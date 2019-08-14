@@ -12,7 +12,7 @@ const StyledMenu = withStyles({
   },
 })(props => (
   <Menu
-    id="sort-menu"
+    id='sort-menu'
     elevation={0}
     getContentAnchorEl={null}
     keepMounted
@@ -51,15 +51,14 @@ const StyledButton = withStyles({
   },
   })(({icon, text, ...rest}) => (
     <Button
-      aria-controls="sort-menu"
-      aria-haspopup="true"
-      color="inherit"
+      aria-controls='sort-menu'
+      aria-haspopup='true'
+      color='inherit'
       {...rest}>
       {text}
       {icon}
     </Button>
   ));
-
 
 function Sort(props) {
   const { lowToHigh, highToLow } = props

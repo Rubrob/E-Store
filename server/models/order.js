@@ -6,6 +6,10 @@ const orderSchema = new Schema({
     order: [ { type: Object } ],
     delivery: { type: String },
     addresses: {},
+    date: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 module.exports = mongoose.model('order', orderSchema)

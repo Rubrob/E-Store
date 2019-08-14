@@ -1,48 +1,74 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './ProductSlider.sass'
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
+import { Button } from '@material-ui/core'
+import {
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  KeyboardArrowDown,
+  KeyboardArrowUp
+} from '@material-ui/icons'
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
-function ProductSlider({ images, slide, setSlide }) {
-  const slideHandle = (type) => {
-    switch(type){
-      case 'prev':
-        if(slide <= 0) setSlide(images.length - 1)
-        else setSlide(slide - 1)
-        break
-
-      case 'next':
-        if(slide >= images.length - 1) setSlide(0)
-        else setSlide(slide + 1)
-        break
-      default:
-        break
-    }
+class ProductSlider extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      nav1: null,
+      nav2: null,
+    };
   }
 
-  return (
-    <div className='productSlider'>
-      <div className='productSlider-slides'>
-        {images.map((img, i) =>
-          <div
-            key={i}
-            onClick={() => setSlide(i)}
-            className={`slide ${slide === i ? 'active' : ''}`}
-            children={<img src={img} alt='img' />}
-            />)}
+  componentDidMount() {
+    this.setState({
+      nav1: this.slider1,
+      nav2: this.slider2,
+    });
+  }
+
+  render() {
+    const CustomArrow = ({ icon, onClick, classess }) => <Button className={classess} onClick={onClick} children={icon} />
+
+    const settings = {
+      className: 'primarySlider',
+      dots: false,
+      asNavFor: this.state.nav2,
+      ref: slider => (this.slider1 = slider),
+      adaptiveHeight: true,
+      fade: true,
+      prevArrow: <CustomArrow icon={<KeyboardArrowLeft />} classess='productslider_arrow-prev' />,
+      nextArrow: <CustomArrow icon={<KeyboardArrowRight />} classess='productslider_arrow-next' />
+    }
+
+    const settings2 = {
+      className: 'secondarySlider',
+      dots: false,
+      slidesToShow: 5,
+      asNavFor: this.state.nav1,
+      ref: slider => (this.slider2 = slider),
+      prevArrow: <CustomArrow classess='productslider_arrow-prev' icon={<KeyboardArrowUp />}/>,
+      nextArrow: <CustomArrow classess='productslider_arrow-next' icon={<KeyboardArrowDown />}/>,
+      vertical: true,
+      focusOnSelect: true,
+      responsive: [
+        {
+          breakpoint: 959.5,
+          settings: {
+            vertical: false,
+            swipeToSlide: true
+          }
+        },
+      ]
+    }
+
+    return (
+      <div className='productslider'>
+        <Slider {...settings2} children={this.props.images.map(img => <img src={img} alt='img' />)}/>
+        <Slider {...settings} children={this.props.images.map(img => <img src={img} alt='img' />)}/>
       </div>
-      <div className='productSlider-primary' >
-        <img src={images[slide]} alt='img' />
-        <div
-          className='productSlider-arrow --left'
-          onClick={() => slideHandle('prev')}
-          children={<KeyboardArrowLeft />}/>
-        <div
-          className='productSlider-arrow --right'
-          onClick={() => slideHandle('next')}
-          children={<KeyboardArrowRight />} />
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default ProductSlider

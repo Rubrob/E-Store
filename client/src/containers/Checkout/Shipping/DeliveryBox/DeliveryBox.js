@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Radio, RadioGroup, FormControlLabel } from '@material-ui/core'
+import { Radio, RadioGroup, FormControlLabel, Typography } from '@material-ui/core'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import { changeDelivery } from '../../../../reducers/actions/cart'
 import { freeIfZero } from '../../../../utils'
@@ -20,7 +20,13 @@ const CustomFormControlLabel = withStyles({
 const useStyles = makeStyles({
   root: {
     display: 'flex',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+  },
+  radioGroup: {
+    marginTop: 20
+  },
+  title: {
+    fontWeight: 700,
   },
   content: {
     width: '100%',
@@ -41,14 +47,26 @@ function DeliveryBox(props) {
   const { currency, deliveryMethods, changeDelivery, delivery } = props
 
   return (
-    <RadioGroup {...input} value={delivery} onChange={(evt) => changeDelivery(evt.target.value)} >
-      <h4>Select your shipping speed</h4>
+    <RadioGroup
+      {...input}
+      value={delivery}
+      className={classes.radioGroup}
+      onChange={(evt) => changeDelivery(evt.target.value)} >
+      <Typography
+        variant='subtitle1'
+        className={classes.title}
+        paragraph
+        children={'Select your shipping speed'} />
       {Object.keys(deliveryMethods).map(key => <div className={classes.root} key={key}>
           <CustomFormControlLabel className={classes.plan} value={key} control={<Radio />} label={
-          <div className={classes.content}>
+          <Typography variant='body1' component='div' className={classes.content}>
             {key}
-            <span className={classes.cost} children={freeIfZero(deliveryMethods[key], currency)} />
-          </div>} />
+            <Typography
+              variant='body1'
+              component='span'
+              className={classes.cost}
+              children={freeIfZero(deliveryMethods[key], currency)} />
+          </Typography>} />
         </div>)}
     </RadioGroup>
   )

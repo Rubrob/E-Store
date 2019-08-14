@@ -1,6 +1,6 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
 const CSSField = withStyles({
   root: {
@@ -10,11 +10,19 @@ const CSSField = withStyles({
     '& label.Mui-focused': {
       color: '#999',
     },
+    '& label.Mui-focused.Mui-error': {
+      color: '#f44336'
+    },
     '& .MuiInput-underline:after': {
       borderBottomColor: '#999',
     },
-    '& .Mui-error::after': {
-      borderBottomColor: '#f44336'
+    '& .Mui-error': {
+      '&::after':{
+        borderBottomColor: '#f44336'
+      },
+    },
+    '& .Mui-error.Mui-focused fieldset': {
+      borderColor: '#f44336 !important'
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
@@ -44,6 +52,7 @@ function CustomTextField ({ input, label, meta: { touched, invalid, error }, ...
     <div className={`textField ${input.name}`}>
       <CSSField
         fullWidth
+        variant='outlined'
         label={label}
         {...input}
         {...custom}

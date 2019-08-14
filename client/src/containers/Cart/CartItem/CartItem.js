@@ -3,6 +3,8 @@ import './CartItem.sass'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { arrayFromNumber} from '../../../utils'
+import { Typography, IconButton } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import { Clear } from '@material-ui/icons'
 import {
   changeProductQuantity,
@@ -10,6 +12,15 @@ import {
   deleteCartProduct,
 } from '../../../reducers/actions/cart'
 import CustomSelect from '../CustomSelect/CustomSelect'
+
+const CartItemTitle = withStyles(() => ({
+  root: {
+    '& a': {
+      fontWeight: 600,
+      color: '#444',
+    }
+  }
+}))((props) => <Typography variant='body1' component='div' {...props} />)
 
 function CartItem(props) {
   const data = props.cartProducts[props.i]
@@ -35,24 +46,26 @@ function CartItem(props) {
   return (
     <div className='ProductToBuy'>
       <div className='ProductToBuy-content'>
-        <Link to={url} className='ProductToBuy-content-img' children={<img src={img} alt='img'/>} />
+        <Link to={url} className='ProductToBuy-content-img' children={<img src={img} alt='img' />} />
 
         <div className='ProductToBuy-content-data'>
-          <Link to={url} children={title} />
-          <div>Gender: {gender}'s</div>
-          <div>Color: {color}</div>
-          <div className='sizeSelect'>
-            Size: <CustomSelect data={sizes} primary={size} onChangeData={data} onChange={changeSize}/>
-          </div>
-          <div className='quantitySelect'>
+          <CartItemTitle children={<Link to={url} children={title} />}/>
+          <Typography variant='body2' component='div' children={`Gender: ${gender}'s`} />
+          <Typography variant='body2' component='div' children={`Color: ${color}`} />
+          <Typography variant='body2' component='div'>
+            Size: <CustomSelect data={sizes} primary={size} onChangeData={data} onChange={changeSize} />
+          </Typography>
+          <Typography variant='body2' component='div'>
             Quantity: <CustomSelect data={arrayFromNumber(availability)} primary={qty} onChangeData={data} onChange={changeQuantity}/>
-            {/* <span style={{fontSize: 10, paddingRight: 5}}>x</span>{currency}{price} */}
-          </div>
+          </Typography>
         </div>
 
         <div className='ProductToBuy-controls'>
-          <div onClick={() => deleteCartProduct(data)} children={<Clear />} />
-          <div>{currency}{data.qty * price}</div>
+          <IconButton
+            size='small'
+            onClick={() => deleteCartProduct(data)}
+            children={<Clear />} />
+          <Typography variant='body1' component='div'>{currency}{data.qty * price}</Typography>
         </div>
       </div>
 

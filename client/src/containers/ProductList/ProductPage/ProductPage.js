@@ -1,30 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import './ProductPage.sass'
 import { connect } from 'react-redux'
+import { Button, withWidth, Typography } from '@material-ui/core'
 import { ampersand } from '../../../utils'
 import { addToCart } from '../../../reducers/actions/cart'
+import { notify } from './../../../components/Toaster/Toaster'
 import ProductSlider from './ProductSlider/ProductSlider'
 
-function ProductPage (props){
+class ProductPage extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      size: 0,
+    };
+  }
 
-  useEffect(() => { window.scrollTo(0, 0) }, [])
+  componentDidMount() {
+    window.scrollTo(0, 0)
+    this.setState({
+      size: this.props.cp.sizes[0] === 'One Size' ? 'One Size' : 0,
+    });
+  }
 
-  const { pp, cp } = props
+  render() {
 
-  const { addToCart } = props
-  const { ids: { colorId, productId }, currency, history } = props
+  const { ids: { colorId, productId }, currency, history, addToCart,  pp, cp } = this.props
   const { title, price, description, category, gender, subcategory, colors, id } = pp
   const { images, sizes, availability, color } = cp
-  const url = props.history.location.pathname
-
-  const [slide, setSlide] = useState(0)
-  const [size, setSize] = useState(sizes[0] === 'One Size' ? 'One Size' : 0)
 
   const subTitle = `${gender}'s ${ampersand(subcategory || '')} ${category === 'shoes' ? category : null}`
-  const reset = () => {
-    setSlide(0)
-    setSize(sizes[0] === 'One Size' ? 'One Size' : 0)
-  }
 
   const add = () => {
     const data = {
@@ -34,15 +38,16 @@ function ProductPage (props){
       color,
       gender,
       price,
-      size,
+      size: this.state.size,
       sizes,
       qty: 1,
       img: images[0],
       availability,
-      url
+      url: history.location.pathname
     }
 
     addToCart(data)
+    notify('success', 'Succesfully added to your cart')
   }
 
   const availableColors = colors.map(color =>
@@ -52,48 +57,84 @@ function ProductPage (props){
       src={color.preview}
       onClick={() => {
         history.push(`/pp/${id}/${color.id}`)
-        reset()
+        this.setState({
+          size: sizes[0] === 'One Size' ? 'One Size' : 0
+        })
       }} />)
 
   const availableSizes = sizes.map((item) =>
     <div
       key={item}
-      onClick={() => setSize(item)}
-      className={`avSizes-size ${size === item ? 'active' : ''}`}
+      onClick={() => this.setState({size: item})}
+      className={`avSizes-size ${this.state.size === item ? 'active' : ''}`}
       children={item}
       />)
 
-  const productPageTitle = <>
-    <div>
-      <h4>{subTitle}</h4>
-      <h1>{title}</h1>
+  const ProductPageTitle = ({classes}) => (
+    <div className={`productPage-title ${classes || ''}`}>
+      <div>
+        <Typography variant='subtitle1' component='h4' children={subTitle} />
+        <Typography variant='h4' component='h1' children={title} />
+      </div>
+      <Typography variant='body1' component='span' children={`${currency}${price}`} />
     </div>
-    <span children={`${currency}${price}`} />
-  </>
+  )
+
+  const productDesctiptionImgs = (count) => {
+    return Array.from(Array(count), (_, i) =>
+      <div key={i} className={`productDescription-partical p${i + 1}`} style={{ backgroundImage: `url(${images[0]})` }} />
+    )
+  }
+
+  const match = this.props.width === 'sm' || this.props.width === 'xs'
 
   return (
     <div className='productPage'>
-      <div className='desktopTitle' children={productPageTitle} />
+      <ProductPageTitle classes='desktop' />
       <div className='productPage-content'>
-        <ProductSlider images={images} slide={slide} setSlide={setSlide} />
+        <ProductSlider images={images}/>
         <div className='productPage-content-main'>
-          <div className='mobileTitle' children={productPageTitle} />
-            {!(colors.length <= 1) && <div className='productPage-content-main-colors'>
+          <ProductPageTitle classes='mobile' />
+            {colors.length >= 2 && <div className='productPage-content-main-colors'>
             <div className='avColors' children={availableColors} />
           </div>}
           <div className='productPage-content-main-sizes'>
-            <h4>Select Size</h4>
+            <Typography variant='subtitle1' component='h4' paragraph children={'Select Size'} />
             <div className={`avSizes ${sizes.length < 2 ? 'onesize' : ''}`} children={availableSizes} />
           </div>
-          <button disabled={!size} className='addToCart' onClick={add} children='Add To Cart' />
+          <Button
+            variant='contained'
+            fullWidth
+            disabled={!this.state.size}
+            className='addToCart'
+            onClick={add}
+            children='Add To Cart' />
         </div>
       </div>
       <div className='productDescription'>
-        <h4>Description</h4>
-        {description}
+        {match ? <Typography variant='body1' component='div' children={description} /> : null}
+        <div class='productDescription-desktop'>
+          <div className='productDescription-photo'>
+            {productDesctiptionImgs(4)}
+          </div>
+            <Typography
+              className='productDescription-desktop-title'
+              variant='h3'
+              align='right'
+              paragraph
+              component='div'
+              children={title} />
+            <Typography
+              className='productDescription-desktop-body'
+              variant='body1'
+              component='div'
+              children={description} />
+        </div>
       </div>
+
     </div>
   )
+  }
 }
 
 const mapStateToProps = state => ({
@@ -107,4 +148,4 @@ const mapDispatchToProps = dispatch => ({
   addToCart: value => dispatch(addToCart(value)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductPage)
+export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(ProductPage))

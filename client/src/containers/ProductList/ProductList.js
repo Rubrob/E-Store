@@ -1,35 +1,87 @@
 import React from 'react'
-import './ProductList.sass'
 import { connect } from 'react-redux'
+import {
+  useMediaQuery,
+  SwipeableDrawer,
+  Typography,
+  makeStyles
+} from '@material-ui/core'
+import { toggleFilter } from '../../reducers/actions/trigers'
 import SubHeader from '../SubHeader/SubHeader'
 import Filter from './../SubHeader/Filter/Filter'
 import ProductCard from './ProductCard/ProductCard'
-import { useMediaQuery, SwipeableDrawer } from '@material-ui/core'
-import { toggleFilter } from '../../reducers/actions/trigers'
+
+const useStyles =makeStyles(() => ({
+  productList: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: 400,
+    marginTop: 100,
+    padding: '0 60px',
+    boxSizing: 'border-box',
+  },
+  flexRow: {
+    display: 'flex',
+    width: '100%'
+  },
+  content: {
+    width: '100%',
+    marginBottom: 100,
+  },
+  main: {
+    paddingTop: 20,
+    display: 'flex',
+    flexWrap: 'wrap',
+    maxWidth: 1240,
+    minWidth: 300,
+    width: '100%'
+  },
+  title: {
+    width: '100%'
+  },
+  '@media (max-width: 959.5px)': {
+    productList: {
+      width: '100%',
+      padding: 0,
+      alignItems: 'center'
+    },
+  },
+  '@media (max-width: 599.5px)': {
+    productList: {
+      marginTop: 40
+    }
+  }
+}))
 
 function ProductList(props) {
 
+  const classes = useStyles()
+
   const match = useMediaQuery('(max-width: 959.5px)')
-  const { filtered, currency, searchedStr, filterOpen } = props
+  const { filtered, currency, searchedStr, isfilterOpen } = props
   const { toggle } = props
   const productCards = filtered.map(p => <ProductCard key={p.id} product={p} currency={currency} />)
-  const nonFound = `I couldn't find any products your requested`
 
   return (
-    <div className='ProductList'>
+    <div className={classes.productList}>
       {filtered.length > 0 && <SubHeader />}
-      {match && <h2>{searchedStr}</h2>}
-      <div className='flex-row'>
+      {match && <Typography variant='h5' children={searchedStr} />}
+      <div className={classes.flexRow}>
         {filtered.length > 0 && (match ?
           <SwipeableDrawer
-            open={filterOpen}
+            open={isfilterOpen}
             onClose={toggle}
             onOpen={toggle}
             children={<Filter />} /> :
-          <Filter hide={filterOpen}/>)}
-        <div className='ProductList-content'>
-          <div className='ProductList-main'>
-            {filtered.length < 1 ? <h2 className='ProductList-title' children={nonFound} /> : productCards}
+          <Filter hide={isfilterOpen}/>)}
+        <div className={classes.content}>
+          <div className={classes.main}>
+            {filtered.length < 1 ?
+              <Typography
+                variant='h5'
+                align='center'
+                className={classes.title}
+                children={`I Couldn't Find Any Products Your Requested`} /> : productCards}
           </div>
         </div>
       </div>
@@ -41,7 +93,7 @@ const mapStateToProps = state => ({
   filtered: state.products.filtered,
   searchedStr: state.products.searchedStr,
   currency: state.products.currency,
-  filterOpen: state.trigers.filter
+  isfilterOpen: state.trigers.filter
 })
 const mapDispatchToProps = dispatch => ({
   toggle: () => dispatch(toggleFilter())

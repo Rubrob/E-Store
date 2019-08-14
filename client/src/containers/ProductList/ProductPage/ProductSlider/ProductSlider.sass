@@ -1,113 +1,102 @@
 @import '../../../../variables'
 
-.productSlider
-  display: grid
-  grid-template-columns: 100px 1fr
+.productslider
+  position: relative
+  display: flex
   align-items: center
-  flex: 1
+  justify-content: center
+  width: 70%
+  background: $img-bg
 
-  &-arrow
-    position: absolute
-    top: 50%
-    transform: translateY(-50%)
-    padding: 15px
-    color: $primary-black
-    cursor: pointer
-    transition: .4s
-    &:hover
-      color: $secondary-black-light
-      &.--right
-        right: -5px
-      &.--left
-        left: -5px
-    svg
-      font-size: 2.5rem
-      display: block
-    &.--left
+.primarySlider
+  width: 64%
+  .productslider_arrow
+    &-prev, &-next
+      position: absolute
+      z-index: 10
+      padding: 0
+      color: $primary-black
+
+  .slick-list
+    max-height: 640px
+    .slick-slide
+      display: flex
+      justify-content: center
+      *
+        max-height: 640px
+        max-width: 640px
+
+  .productslider_arrow
+    &-prev, &-next
+      top: 50%
+      transform: translateY(-50%)
+      svg
+        font-size: 3rem
+    &-prev
       left: 0
-    &.--right
-      right: 0px
-  &-primary
-    position: relative
-    justify-self: center
-    width: 100%
-    max-width: 620px
-    img
-      display: block
-      width: 100%
-      height: auto
+    &-next
+      right: 0
 
-  &-slides
-    justify-self: center
-    height: 365px
-    width: 100%
-    max-width: 70px
-    padding: 5px
-    box-sizing: border-box
-    overflow: auto
-    cursor: pointer
+.secondarySlider
+  position: absolute
+  left: 40px
+  max-height: 350px
+  max-width: 60px
 
-    .slide
-      margin: 8px 0
-      max-width: 60px
-      position: relative
-      transition: .4s
-      &.active
-        transform: scale(.8)
-        box-shadow: 0px 5px 8px 0px rgba(#aaa, 0.4), 0px -2px 1px 0px rgba(#aaa, 0.1)
-      img
-        display: block
-        height: 60px
+  .slick-slide
+    transition: .4s
+  .slick-current
+    transform: scale(.5)
+  .productslider_arrow
+    &-prev, &-next
+      padding: 0
+      background: rgba($primary-black, .2)
+      transform: translateX(-50%)
+      left: 50%
+    &-prev
+      top: 0
+    &-next
+      bottom: 0
 
-    &::-webkit-scrollbar
-      height: 0
-      width: 0
-    &::-webkit-scrollbar-thumb
-      background: $primary-black
+@media (min-width: 1600px)
+  .productslider
+    .slick-list
+      max-height: 840px !important
+    .slick-slide
+      *
+        max-height: 840px !important
+        max-width: 840px !important
 
-@media (min-width: 1560px)
-  .productSlider
-    &-primary
-      max-width: 800px
 
 @media (max-width: 959.5px)
-  .productSlider
-    grid-template-columns: 1fr
-    background: $img-bg
-    &-primary
-      grid-row: 1
-    &-slides
-      display: flex
-      justify-self: center
-      max-width: 100%
-      min-width: 240px
-      max-width: 420px
-      height: 60px
-      padding: 0
-      overflow-x: scroll
-      overflow-y: hidden
-      background: $light-gray
+  .productslider
+    flex-direction: column-reverse
+    width: 100%
+  .primarySlider
+    width: 100%
+    .slick-list
+      max-height: 640px
+      .slick-slide
+        display: flex
+        justify-content: center
+        *
+          max-height: 640px
+          max-width: 640px
+  .secondarySlider
+    position: static
+    display: flex
+    width: 100%
+    max-width: 400px
+    max-height: 60px
+    height: 60px
+    .slick-list
+      .slick-slide
+        display: flex
+        justify-content: center
+        *
+          max-height: 60px
+          max-width: 60px
 
-      .slide
-        margin: 0
-
-@media (max-width: 599.5px)
-  .productSlider
-    &-primary
-      max-width: 100%
-
-    &-arrow
-      padding: 5px
-      &:hover
-        &.--right
-          right: 0 !important
-        &.--left
-          left: 0 !important
-
-@media (max-width: 419.5px)
-  .productSlider
-    &-slides
-      .slide
-        margin: 0
-        &:first-child.active
-          margin-left: -5px
+    .productslider_arrow
+      &-prev, &-next
+        display: none

@@ -22,14 +22,14 @@ const CustomAppBar = withStyles({
 })(AppBar)
 
 function Header(props) {
+  const { categories } = props
+  const desktopMenuData = categories.map((item, i) => <DesktopMenu key={i} title={item.title} menu={item.categories} />)
   return (
     <CustomAppBar position='fixed' className='Header'>
       <Toolbar className='toolbar'>
         <div className='leftSide'>
-          <Link to='/' className='logoButton' children={<img src={logo} alt='logo' className='logo'/>} />
-          <div className='desktopMenu'>
-            {props.categories.map(item => <DesktopMenu key={item.title} title={item.title} menu={item.categories} /> )}
-          </div>
+          <Link to='/' className='logoButton' children={<img src={logo} className='logo' alt='logo' />} />
+          <div className='desktopMenu' children={desktopMenuData} />
         </div>
         <div className='rightSide'>
           <SearchBox />

@@ -1,0 +1,92 @@
+@import '../../variables'
+
+.brand_container
+  display: flex
+  padding-top: 100px
+  max-height: 600px
+  justify-content: center
+  flex-direction: column
+  overflow: hidden
+  .brand_wrapper
+    display: flex
+    justify-content: center
+    align-items: center
+    box-sizing: border-box
+    padding: 100px 30px
+    padding-bottom: 30px
+    .brand:not(:last-child)
+      margin-right: 40px
+    .brand
+      max-height: 150px
+      max-width: 150px
+      min-width: 60px
+      min-height: 60px
+      width: 100%
+      height: 100%
+
+.news
+  max-width: 1600px
+  margin: auto
+  padding: 60px
+  > div
+    display: flex
+    justify-content: center
+    min-width: 100%
+    max-width: 1600px
+    box-sizing: border-box
+    overflow: hidden
+    > div
+      position: relative
+      max-height: 700px
+      width: 50%
+      &:first-child
+        margin-right: 10px
+      > div
+        position: absolute
+        bottom: 0
+        color: #fff
+        padding: 50px
+        button, button:focus
+          color: #444
+          background: rgba(#fff, .8)
+          &:hover
+            background: rgba(#fff, .1)
+            color: #fff
+    img
+      width: 100%
+
+@media (max-width: 959.5px)
+  .news
+    padding: 20px
+    .news-cont
+      padding: 20px
+  .brand_wrapper
+    padding: 20px
+    padding-bottom: 0
+
+@media (max-width: 600px)
+  .brand_container
+    padding-top: 50px
+    .brand
+      margin-right: 20px !important
+  .news
+    padding: 20px 0px
+    > div > div
+      margin: 0 !important
+      display: flex
+      justify-content: center
+    .news-cont
+      text-align: center
+      height: 100%
+      flex-direction: column
+      display: flex
+      justify-content: center
+      align-items: center
+      text-shadow: 0 0 5px #000
+      padding: 0 10px
+
+@media (max-width: 600px)
+  h4
+    font-size: 18px !important
+  h2
+    font-size: 24px !important

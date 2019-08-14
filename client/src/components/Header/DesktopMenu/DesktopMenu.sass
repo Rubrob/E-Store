@@ -17,8 +17,7 @@
     height: 100%
     margin: 0
     padding: 20px 27px
-    font-size: 16px
-    font-weight: 500
+    font-weight: 600
     color: $primary-black
     box-sizing: border-box
     cursor: pointer
@@ -27,7 +26,7 @@
       color: $black
     &.active::before
       @include pseudo(100%, 3px)
-      bottom: .5px
+      bottom: -1.5px
       right: 0
       background: $primary-black
       border-radius: 20px
@@ -63,14 +62,14 @@
         right: 0
         background: $light-gray
 
-      h3
+      &-title
         width: 100%
-        margin: 7.5px 0
         color: $primary-black
-        font-weight: 500
         cursor: pointer
+        transition: .4s
 
-      h3:hover, .subcategories_blocks >:hover
+      .categories_blocks-title:hover,
+      .subcategories_blocks-title:hover,
         color: $black
 
       .subcategories_blocks
@@ -78,20 +77,21 @@
         flex-direction: column
         justify-content: flex-start
 
-        & a
+        &-title
+          position: relative
           width: 100%
           box-sizing: border-box
-          padding: 2px 0
+          padding-bottom: 3px
           cursor: pointer
-          font-size: 14px
-          color: $secondary-black
-          position: relative
+          color: $secondary-black-light
+          transition: .4s
           &::before
             @include pseudo(0, .5px)
-            bottom: -2px
             right: 0
-            transition: .5s
-            background: $secondary-black
+            bottom: 1px
+            transition: .4s
+            background: $secondary-black-light
           &:hover::before
+            opacity: .5
             left: 0
             width: 100%

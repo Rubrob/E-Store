@@ -1,29 +1,29 @@
 import React, { useState } from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { useMediaQuery } from '@material-ui/core';
+import { withRouter } from 'react-router-dom'
+import { useMediaQuery, Typography } from '@material-ui/core'
 import { searchProduct } from '../../../reducers/actions/products'
 import DesktopSearchBox from './DesktopSearchBox/DesktopSearchBox'
 import MobileSearchBox from './MobileSearchBox/MobileSearchBox'
 
-function SearchField(props) {
-  const { products, currency } = props
-  const matches = useMediaQuery('(min-width:960px)');
-  const [redirect, setRedirect] = useState(false)
+function SearchBox(props) {
+  const { products, currency, history } = props
+  const matches = useMediaQuery('(min-width: 960px)');
   const [state, setState] = useState({
     text: '',
     suggestions: []
   })
 
   const search = (value) => {
-    setRedirect(true)
+    history.push('/p/')
     props.searchProduct(value)
   }
 
   const onTextChange = (evt) => {
     const { value } = evt.target
     let suggestions = []
-    if(value.length > 0){
+    if(value.length){
       const regexp = new RegExp(`${value}`, 'im')
       suggestions = [...products].sort().filter(v => regexp.test(v.title))
     }
@@ -40,7 +40,7 @@ function SearchField(props) {
     })
   }
 
-  const renderSuggestions = (suggestionsCallback = () => null) => {
+  const renderSuggestions = (callback = () => null) => {
     const { suggestions, text } = state
     if(suggestions.length === 0){
       return null
@@ -49,25 +49,26 @@ function SearchField(props) {
     const clickSuggestion = (value) => {
       suggestionSelected(value)
       search(value)
-      suggestionsCallback()
+      callback()
     }
 
     return (
       <div className='suggestions'>
-        {suggestions.map(item => {
-          const index = item.title.toLowerCase().indexOf(text)
-          return <div
-          key={item.id}
-          className='suggestions-item'
-          onClick={() => clickSuggestion(item.title)}
-          >
+        {suggestions.map((item, i) => {
+          // const index = item.title.toLowerCase().indexOf(text)
+          // const highlight = <>
+          //   {item.title.substring(0, index)}
+          //   <strong children={item.title.substring(index, index + text.length)} />
+          //   {item.title.substring(index + text.length)}
+          // </>
+
+          return <div key={i} className='suggestions-item' onClick={() => clickSuggestion(item.title)}>
             <img src={item.colors[0].preview} alt='img' />
             <div>
-              {item.title.substring(0, index)}
-              <strong children={item.title.substring(index, index + text.length)} />
-              {item.title.substring(index + text.length)}
-              <div>{`${item.gender}'s`}</div>
-              <div>{currency}{item.price}</div>
+              {/* {highlight} */}
+              <Typography variant='body1' component='div' children={item.title} />
+              <Typography variant='body2' component='div' children={`${item.gender}'s`} />
+              <Typography variant='body2' component='div' children={`${currency}${item.price}`} />
             </div>
           </div>
           })}
@@ -92,7 +93,6 @@ function SearchField(props) {
         suggestions={renderSuggestions}
         value={state.text}
         />}
-    {redirect && <Redirect to='/p/' />}
     </>
   );
 }
@@ -106,4 +106,7 @@ const mapDispatchToProps = dispatch => ({
   searchProduct: value => dispatch(searchProduct(value))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchField);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(SearchBox)

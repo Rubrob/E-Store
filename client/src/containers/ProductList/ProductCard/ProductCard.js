@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import './ProductCard.sass'
-import { Link } from 'react-router-dom'
-import { useMediaQuery } from '@material-ui/core'
-import { ampersand } from '../../../utils'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { Link } from 'react-router-dom'
+import { useMediaQuery, Typography } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
+import { ampersand } from '../../../utils'
 
 function ProductCard({ product, currency }) {
 
@@ -34,9 +34,9 @@ function ProductCard({ product, currency }) {
       case 'next':
         if(slide <= -(slidesCount - (slidesCount % slidesToShow)) * slideWidth){
           setSlide(-(slidesCount - (slidesCount % slidesToShow)) * slideWidth)
-          console.log(-(slidesCount * slideWidth) - 180)
-          console.log(-(slidesCount - slidesToShow) * slideWidth)
-          console.log(-(slidesCount + 1) * slideWidth, (slidesCount % slidesToShow), slidesCount)
+          // console.log(-(slidesCount * slideWidth) - 180)
+          // console.log(-(slidesCount - slidesToShow) * slideWidth)
+          // console.log(-(slidesCount + 1) * slideWidth, (slidesCount % slidesToShow), slidesCount)
         } else {
           setSlide(slide - 180)
         }
@@ -72,21 +72,27 @@ function ProductCard({ product, currency }) {
               <span
                 className='arrow left'
                 onClick={() => handleSlide('prev')}
-                children={<KeyboardArrowLeft />}/>
+                children={<KeyboardArrowLeft fontSize='small' />}/>
               <span
                 className='arrow right'
                 onClick={() => handleSlide('next')}
-                children={<KeyboardArrowRight />}/>
+                children={<KeyboardArrowRight fontSize='small' />}/>
             </>}
           </div>}
 
         <div className='productInfo'>
-          <div className='title'>{title}</div>
-          <div>{`${gender}'s ${ampersand(subcategory)} ${category === 'shoes' ? category : ''}`}</div>
-          <div className='price'>{currency}{price}</div>
+          <Typography variant='body1' component='div' className='title' children={title} />
+          <Typography
+            variant='body2'
+            component='div'
+            children={`${gender}'s ${ampersand(subcategory)} ${category === 'shoes' ? category : ''}`} />
+          <Typography
+            variant='body2'
+            component='div'
+            children={`${currency}${price}`} />
           <div className='colors'>
             {colors.map((color, i) => (match && i >= 4) ? null : <span key={color.color} className={`color ${color.color}`} />)}
-            <span className='colorsQuantity'>{(match && colors.length >= 4) ? '+ More' : `${colors.length} ${quantity}`}</span>
+            <Typography variant='caption' className='colorsQuantity'>{(match && colors.length >= 4) ? '+ More' : `${colors.length} ${quantity}`}</Typography>
           </div>
         </div>
     </div>

@@ -5,12 +5,12 @@ import { validate } from '../../../../validation/checkout'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { setShippingAddress } from '../../../../reducers/actions/auth'
-import { ButtonBase } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import FormsPreview from './../../../Checkout/FormsPreview/FormsPreview'
 import CheckoutForm from './../../../Checkout/CheckoutForm/CheckoutForm'
 
 function ProfileShippingAddress(props) {
-  const { handleSubmit, valid } = props
+  const { handleSubmit, invalid } = props
   const { setShipping, shipping } = props
   const { firstname, lastname, address, city, zip, country, email, phone } = shipping
 
@@ -25,8 +25,7 @@ function ProfileShippingAddress(props) {
     }
   }
 
-  const preview = isValues && <FormsPreview content={{ firstname, lastname, address, city, zip, country, email, phone }} cn='pShippingPreview' />
-
+  const preview = isValues && <FormsPreview content={{ firstname, lastname, address, city, zip, country, email, phone }} />
   const label = isValues ? 'Edit' : 'Add'
 
   const submit = async (value) => {
@@ -36,16 +35,24 @@ function ProfileShippingAddress(props) {
 
   return (
     <div className={`profileShippingAddress ${isValues ? '' : (!open &&'toAdd')}`}>
-      <div className='profileShippingAddress-header'>Shipping Address</div>
+      <Typography variant='h6' className='profileShippingAddress-header' children={'Shipping Address'} />
       <div className='profileShippingAddress-preview'>
         {open ? <form onSubmit={handleSubmit(submit)}>
           <CheckoutForm type='shipping' />
           <div className='formBtns'>
-            <ButtonBase onClick={() => setOpen(false)} children={'Cancel'} />
-            <ButtonBase type='submit' disabled={!valid} children={'Save'} />
+            <Button
+              variant='contained'
+              onClick={() => setOpen(false)}
+              children='Cancel' />
+            <Button
+              variant='contained'
+              color='secondary'
+              type='submit'
+              disabled={invalid}
+              children='Save' />
           </div>
         </form> : preview}
-        {!open && <ButtonBase className='expandForm' onClick={() => setOpen(true)} children={label} />}
+        {!open && <Button variant='contained' className='expandForm' onClick={() => setOpen(true)} children={label} />}
       </div>
     </div>
   )

@@ -1,59 +1,106 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './Cart.sass'
 import { connect } from 'react-redux'
-import { checkCartProducts } from '../../reducers/actions/cart'
+import { withWidth, Button, Typography } from '@material-ui/core'
 import { KeyboardArrowRight } from '@material-ui/icons'
-import { useMediaQuery } from '@material-ui/core'
-import Toaster, { notify } from '../../components/Toaster/Toaster'
+import { withStyles } from '@material-ui/core/styles'
+import { checkCartProducts, totalRecalculation } from '../../reducers/actions/cart'
 import CartItem from './CartItem/CartItem'
 
-function Cart(props) {
-  const match = useMediaQuery('(max-width: 959.5px)')
-  const { cartProducts, products, total } = props
-
-  const checkCart = () => {
-    if(checkCartProducts(products, cartProducts)){
-      props.history.push('/checkout')
-    }else{
-      notify('error', 'Some of the products in your cart are not available anymore!')
+const CustomButton = withStyles(() => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: 20,
+    color: '#fff',
+    '@media (max-width: 959.5px)': {
+      borderRadius: 0,
+     '&:not(:disabled)': {
+       background: '#6e6e6e'
+     }
     }
   }
+}))(Button)
 
-  const qty = cartProducts.reduce((acc, curr) => acc + (curr.qty), 0)
-  const noItems = cartProducts.length < 1 && <div className='noProducts'>There are no items in your cart</div>
-  const qtyLabel = qty < 2 ? `${qty} Product` : `${qty} Products`
+const CustomTypography = withStyles(() => ({
+  root: {
+    marginBottom: 40,
+    '@media (max-width: 959.5px)': {
+      marginBottom: 20
+    }
+  }
+}))(Typography)
 
-  return (
-    <div className='Cart'>
-      <Toaster />
-      <h1>CART</h1>
-      {match && <div className='Cart-miniInfo'>
-        <span>{qtyLabel} | </span>${total}
-      </div>}
-      <div className='Cart-main'>
-        <div className='Cart-main-products'>
-          {cartProducts.map((_, i) => <CartItem key={i} i={i} />)}
-          {noItems}
-        </div>
-        <div className={match ? '' : 'Cart-main-toCheckout'}>
-          {!match && <div className='Cart-main-toCheckout-main'>
-            <h4>ORDER SUMMARY:</h4>
-            <div>{qtyLabel}</div>
-            <div>Total: ${total}</div>
-          </div>}
-          <button className='Cart-main-toCheckout-link' disabled={cartProducts.length < 1} onClick={checkCart}>
-            CHECKOUT <KeyboardArrowRight />
-          </button>
+
+class Cart extends Component {
+  constructor(props){
+    super(props)
+  }
+
+  componentDidMount() {
+    this.props.checkCartProducts(this.props.products, this.props.cartProducts)
+    this.props.totalRecalculation(this.props.cartProducts)
+  }
+
+  componentDidUpdate() {
+    this.props.totalRecalculation(this.props.cartProducts)
+    localStorage.setItem('CART', JSON.stringify(this.props.cartProducts))
+  }
+
+  componentWillUnmount() {
+    localStorage.setItem('CART', JSON.stringify(this.props.cartProducts))
+  }
+
+  render() {
+    const { cartProducts, total, currency, history } = this.props
+    const mapCartItems = cartProducts.map((_, i) => <CartItem key={i} i={i} />)
+
+    const qty = cartProducts.reduce((acc, curr) => acc + (curr.qty), 0)
+    const qtyLabel = qty < 2 ? `${qty} Item` : `${qty} Items`
+    const match = this.props.width === 'sm' || 'xs'
+
+    return (
+      <div className='Cart'>
+        <CustomTypography variant='h4' component='h2' align='center' children='CART' />
+        {match &&
+        <Typography variant='body1' component='div' align='center' className='Cart-miniInfo'>
+          <Typography variant='body1' component='span' children={`${qtyLabel} | `} /> {currency}{total}
+        </Typography>}
+        <div className='Cart-main'>
+          <div className='Cart-main-products'>
+            {cartProducts.length < 1 ?
+            <Typography variant='subtitle1' component='div' align='center' children={`There are no items in your cart`} />
+            : mapCartItems}
+          </div>
+          <div className='Cart-main-toCheckout'>
+            <div className='Cart-main-toCheckout-main'>
+              <Typography variant='h6' component='h4' children='ORDER SUMMARY:' paragraph/>
+              <Typography variant='subtitle1' component='div' children={qtyLabel} />
+              <Typography variant='subtitle1' component='div' children={`Total: ${currency}${total}`}  display='block' />
+            </div>
+            <CustomButton
+              variant='contained'
+              color='secondary'
+              disabled={cartProducts.length < 1}
+              onClick={() => history.push('/checkout')}>
+              CHECKOUT <KeyboardArrowRight />
+            </CustomButton>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 const mapStateToProps = state => ({
   cartProducts: state.cart.cartProducts,
   products: state.products.products,
+  currency: state.products.currency,
   total: state.cart.total
 })
+const mapDispacthToProps = dispatch => ({
+  checkCartProducts: (products, cartProducts) => dispatch(checkCartProducts(products, cartProducts)),
+  totalRecalculation: (cartProducts) => dispatch(totalRecalculation(cartProducts))
+})
 
-export default connect(mapStateToProps, null)(Cart)
+export default connect(mapStateToProps, mapDispacthToProps)(withWidth()(Cart))

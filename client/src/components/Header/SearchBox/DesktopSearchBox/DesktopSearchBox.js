@@ -2,11 +2,27 @@ import React, { useState, createRef } from 'react'
 import './DesktopSearchBox.sass'
 import { withStyles } from '@material-ui/styles'
 import { Search, Close } from '@material-ui/icons'
-import { IconButton, Backdrop } from '@material-ui/core'
+import { IconButton, Backdrop, InputBase } from '@material-ui/core'
+
+const CSSField = withStyles({
+  root: {
+    color: '#444',
+    fontSize: 15,
+    '& input': {
+      padding: 0
+    }
+  },
+})(props => (
+  <InputBase
+    name='search'
+    placeholder='Search...'
+    {...props}
+  />
+));
 
 const CustomBackdrop = withStyles({
   root: {
-    top: 66
+    top: 64
   }
 })(Backdrop)
 
@@ -21,7 +37,6 @@ function DesktopSearchBox(props) {
     if(input.current.value){
       search(input.current.value)
       clear('')
-      setOpen(false)
     }
   }
 
@@ -33,16 +48,15 @@ function DesktopSearchBox(props) {
   const onKeyUp = (evt) => {
     if(evt.target.value.length){
       if(evt.keyCode === 13){
+        evt.target.blur()
         search(evt.target.value)
         clear('')
-        setOpen(false)
       }
     }
 
     if(evt.keyCode === 27) {
       evt.target.blur()
       clear('')
-      setOpen(false)
     }
   }
 
@@ -63,11 +77,17 @@ function DesktopSearchBox(props) {
   return (
     <div className={'DesktopSearchBox'}>
       <IconButton color='inherit' onClick={searchBtnClick} children={<Search />} />
-      <input type='text' name='search' placeholder='Search...' ref={input} value={value} onKeyUp={onKeyUp} onChange={onChange}/>
-      {value.length > 0 ? <IconButton color='inherit' onClick={clearSearchBox} children={<Close />} /> : null}
+      <CSSField
+        inputRef={input}
+        value={value}
+        onBlur={() => setOpen(false)}
+        onFocus={() => setOpen(true)}
+        onKeyUp={onKeyUp}
+        onChange={onChange}/>
+      {value.length > 0 && <IconButton color='inherit' onClick={clearSearchBox} children={<Close />} />}
       <CustomBackdrop open={open} onClick={backdropClick}/>
       <div className='suggestions-wrap'>
-        {suggestions(() => setOpen(false))}
+        {suggestions()}
       </div>
     </div>
   )

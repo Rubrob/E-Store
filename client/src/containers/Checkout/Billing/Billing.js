@@ -1,34 +1,28 @@
-import React, { useState, createRef } from 'react'
+import React, { useState } from 'react'
 import './Billing.sass'
-import { reduxForm } from 'redux-form'
-import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { submitCheckout, emptyCart } from '../../../reducers/actions/cart'
+import { connect } from 'react-redux'
+import { reduxForm, formValueSelector } from 'redux-form'
+import { FormControlLabel, Checkbox, Button, Typography } from '@material-ui/core'
 import { validate } from '../../../validation/checkout'
-import { FormControlLabel, Checkbox, ButtonBase } from '@material-ui/core'
+import { submitCheckout, emptyCart } from '../../../reducers/actions/cart'
 import PaymentFields from './PaymentFields/PaymentFields'
 import FormsPreview from './../FormsPreview/FormsPreview'
 import CheckoutForm from './../CheckoutForm/CheckoutForm'
-import Toaster, { notify } from '../../../components/Toaster/Toaster'
+import { notify } from '../../../components/Toaster/Toaster'
 
 
 function Billing(props) {
-  const { handleSubmit, valid } = props
+  const { handleSubmit, invalid, submitting, pristine } = props
   const { submitCheckout, emptyCart } = props
   const { shipping, step, cartProducts, delivery } = props
   const { firstname, lastname, address, city, zip, country } = shipping
-
   const previewContent = { firstname, lastname, address, city, zip, country }
-  const submitBtn = createRef()
 
   const submit = async (value) => {
-    submitBtn.current.disabled = true
-
     const onSuccess = (message) => {
-      setTimeout(() => {
-        emptyCart()
-        window.scrollTo(0, 0)
-      }, 3000)
+      window.scrollTo(0, 0)
+      emptyCart()
       notify('success', message)
     }
     const onFail = (message) => {
@@ -50,13 +44,14 @@ function Billing(props) {
 
   return (
     <div className='billing'>
-      <Toaster />
-      <header>PAYMENT</header>
+      <div className='shipping-title'>
+        <Typography variant='h6' component='h4' children='PAYMENT' />
+      </div>
       {step >= 2 && <form onSubmit={handleSubmit(submit)}>
           <PaymentFields />
 
           <FormControlLabel
-            style={{marginBottom: 20}}
+            style={{marginBottom: 20, marginTop: 40}}
             control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
             label='Billing address same as shipping'
             />
@@ -65,11 +60,12 @@ function Billing(props) {
             <FormsPreview title='Shipping Address' content={previewContent} cn='billingAddress' />
             : <CheckoutForm type='billing'/>}
 
-          <ButtonBase
-            buttonRef={submitBtn}
+          <Button
+            variant='contained'
+            color='secondary'
             type='submit'
             className='submit'
-            disabled={!valid}
+            disabled={invalid || submitting || pristine}
             children={'PLACE ORDER'}
             />
         </form>}
@@ -77,13 +73,19 @@ function Billing(props) {
   )
 }
 
-const mapStateToProps = state => ({
-  initialValues: state.auth.addresses.billing,
-  shipping: state.cart.checkout.addresses.shipping,
-  cartProducts: state.cart.cartProducts,
-  delivery: state.cart.defaultValues.delivery,
-  step: state.cart.step,
-})
+const selector = formValueSelector('billing')
+const mapStateToProps = state => {
+  const firstname = selector(state, 'firstname')
+  return {
+    initialValues: state.auth.addresses.billing,
+    shipping: state.cart.checkout.addresses.shipping,
+    cartProducts: state.cart.cartProducts,
+    delivery: state.cart.defaultValues.delivery,
+    step: state.cart.step,
+    fields: state.form.billing,
+    firstname
+  }
+}
 const mapDispatchToProps = dispatch => ({
   submitCheckout: (shipping, billing) => dispatch(submitCheckout(shipping, billing)),
   emptyCart: () => dispatch(emptyCart())

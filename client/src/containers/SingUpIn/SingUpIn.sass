@@ -5,8 +5,6 @@
   display: flex
   justify-content: center
 
-  h2
-    margin: 0
   &-container
     padding: 40px 20px
     box-shadow: 0 0 15px $light-gray, 0 0 15px $secondary-black-light-transparent
@@ -35,10 +33,9 @@
       width: 80%
       padding: 10px
       margin-top: 30px
-      background: $primary-red !important
       color: $white !important
   .input
-    margin-top: 20px
+    margin-top: 10px
 
   &-route
     color: $secondary-black-light
@@ -47,6 +44,7 @@
       flex-direction: column
       margin-left: 10px
       color: $primary-black
+      cursor: pointer
       &::after
         content: ''
         position: absolute
@@ -72,7 +70,6 @@
       height: 1px
       margin: 0 1em
       background: $secondary-black
-
 
   &-via
     display: flex

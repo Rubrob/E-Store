@@ -3,25 +3,12 @@ import { Select, MenuItem, InputBase } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const CustomInput = withStyles(() => ({
-  root: {
-    paddingRight: 0,
-    paddingLeft: 4
-  },
+  root: {  },
   input: {
     fontSize: 14,
-    padding: '0 20px 0 0px',
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+    padding: 0,
+    paddingRight: 20,
+    color: '#999'
   },
 }))(InputBase);
 
@@ -33,17 +20,18 @@ function CustomSelect({data, primary, onChangeData, onChange = () => null}) {
     setSelect(evt.target.value)
     onChange({...onChangeData, data: evt.target.value})
   }
+  const selectItems = data.map(item => <MenuItem key={item} value={item} children={item} />)
 
   return (
     <Select
       value={select}
-      name="selectname"
+      color='inherit'
+      name='selectname'
       input={<CustomInput />}
       onChange={handleSelect}
       className='CustomSelect'
-      >
-      {data.map(item => <MenuItem key={item} value={item} children={item} />)}
-    </Select>
+      children={selectItems}
+      />
   )
 }
 

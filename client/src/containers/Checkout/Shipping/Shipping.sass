@@ -1,19 +1,17 @@
 @import '../../../variables'
 
 .delChild
+  padding-top: 20px
   &-content
     color: $secondary-black-light
-    font-size: 14px
     text-transform: capitalize
-
   &-title
-    margin: 10px 0
+    font-weight: 700 !important
 
 .shipping
   margin-bottom: 20px
   border: 1px solid $light-gray
-
-  header
+  &-title
     padding: 15px
     box-sizing: border-box
     font-size: 20px
@@ -30,16 +28,7 @@
       align-self: flex-end
       margin-top: 20px
       padding: 15px 20px
-      font-weight: 700
-      background: $primary-red
-      color: $white
-      transition: .4s
-      box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.2), 0px 2px 2.5px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)
-      &:not(:disabled):hover,
-      &:not(:disabled):focus
-        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)
-      &:disabled
-        background: lighten($primary-red, 20%)
+      color: #fff
 
   &-preview
     display: flex
@@ -55,7 +44,5 @@
     display: flex
     align-items: center
     margin-top: 10px
-    font-size: 12px
     svg
-      font-size: 14px
       margin-right: 5px

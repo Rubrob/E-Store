@@ -1,78 +1,61 @@
 @import '../../../variables'
 
-@mixin h4
-  margin: 0
-  margin-bottom: 15px
-  font-size: 16px
-
 .productPage
-  padding: 60px 40px
-  box-sizing: border-box
+  position: relative
   display: flex
   flex-direction: column
-  max-width: 1400px
   width: 100%
   margin: auto
-
-  .mobileTitle
+  padding: 60px 0px
+  box-sizing: border-box
+  &-title
     display: flex
     justify-content: space-between
-    text-transform: capitalize
     width: 100%
-
-  h4, h1
-    font-weight: normal
-    margin: 0
+    box-sizing: border-box
     text-transform: capitalize
-
-
-  .desktopTitle
-    display: none
-    justify-content: space-between
-    margin-bottom: 20px
     span
       font-weight: 600
+    &.desktop
+      display: none
+      margin-bottom: 20px
 
   .productDescription
-    margin-top: 35px
-    h4
-      @include h4
-      font-weight: bold
+    position: relative
+    top: 0
+    bottom: 0
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    margin-top: 150px
 
 .productPage-content
   display: flex
-  // background: #000
+  justify-content: center
   width: 100%
+  box-sizing: border-box
 
   &-main
     display: flex
     flex-direction: column
     justify-content: space-between
+    box-sizing: border-box
     width: 100%
     max-width: 360px
-    padding: 0
+    min-width: 200px
     margin-left: 40px
+    padding: 0
+    padding-right: 20px
     color: $primary-black
 
     .addToCart
-      width: 100%
-      margin-top: 15px
       padding: 20px
-      background: $primary-black
-      border: none
-      border-radius: 30px
       color: $white
-      font-size: 15px
-      font-weight: 700
-      outline: none
-      transition: .4s
-      cursor: pointer
-      -webkit-appearance: none
-      &:disabled
-        background: lighten($primary-black, 40%)
-        cursor: default
-      &:not(:disabled):hover
-        box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 15px 0px rgba(0,0,0,0.12)
+      background: $primary-black
+      border-radius: 50px
+      &:hover
+        background: $black
 
     &-colors
       width: 100%
@@ -85,15 +68,14 @@
           width: 60px
           min-width: 60px
           height: 60px
+          min-height: 60px
           margin: 2px
           border-radius: 5px
           cursor: pointer
 
     &-sizes
       width: 100%
-      h4
-        @include h4
-        margin-top: 15px
+      margin: 20px 0
       .avSizes
         display: grid
         grid-gap: 4px
@@ -115,20 +97,107 @@
           &:not(.active):hover
             border-color: $secondary-black
 
+.scrolled
+  transform: translateY(0) !important
+  opacity: 1 !important
+.productDescription-desktop
+  position: relative
+  display: flex
+  justify-content: space-between
+  align-items: center
+  height: 400px
+  width: 900px
+  margin-top: 50px
+  padding: 50px 0
+  transition: .4s
+
+  &-title
+    position: absolute
+    top: 100px
+    right: 20px
+    z-index: 5
+    letter-spacing: 4px !important
+
+  &-body
+    max-width: 450px
+
+.productDescription-photo
+  position: relative
+  height: 400px
+  width: 400px
+  z-index: 1
+  &:hover
+    .productDescription-partical
+    .productDescription-partical.p1,
+    .productDescription-partical.p2,
+    .productDescription-partical.p3,
+    .productDescription-partical.p4
+      top: 0
+      height: 400px
+      box-shadow: none
+      &.p1
+        background-position: 0 0
+      &.p2
+        background-position: -70px 0
+      &.p3
+        background-position: -150px 0
+      &.p4
+        background-position: -200px 0
+
+.productDescription-partical
+  position: absolute
+  background-size: 400px
+  box-shadow: 0 0 15px rgba($primary-black,.2)
+  transition: .4s
+.productDescription-partical.p1
+  height: 200px
+  width: 120px
+  top: 100px
+  background-position: 0px -100px
+  z-index: 2
+  transition: .1s
+.productDescription-partical.p2
+  height: 330px
+  width: 200px
+  top: 50px
+  left: 70px
+  background-position: -70px -50px
+  transition: .3s
+.productDescription-partical.p3
+  height: 400px
+  width: 180px
+  top: 0px
+  left: 150px
+  background-position: -150px 0px
+  z-index: 3
+.productDescription-partical.p4
+  top: 50px
+  left: 200px
+  height: 300px
+  width: 200px
+  background-position: -200px -50px
+
+
 @media (max-width: 959.5px)
   .productPage
     padding: 20px 0
-    .desktopTitle
-      display: flex
-      padding: 0 24px
+    &-title
+      &.desktop
+        display: flex
+        padding: 0 24px
+      &.mobile
+        display: none
+    .productDescription
+      margin: 0
+      padding: 24px
+      &-desktop
+        display: none
 
   .productPage-content
+    flex-direction: column
     justify-content: flex-start
     align-items: center
-    flex-direction: column
 
-    .mobileTitle
-      display: none
 
     &-main
       max-width: 100%
@@ -140,15 +209,12 @@
       &-colors
         .avColors
           margin: 0
-          margin-bottom: 20px
           flex-wrap: nowrap
           overflow-x: scroll
           &::-webkit-scrollbar
             height: 0
-  .productDescription
-    padding: 24px
 
 @media (max-width: 599.5px)
   .productPage
-    .desktopTitle
+    &-title.desktop
       padding: 0 10px

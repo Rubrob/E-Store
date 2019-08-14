@@ -1,9 +1,9 @@
 import React from 'react'
 import './Filter.sass'
 import { connect } from 'react-redux'
-import { addFilter, removeFilter, resetFilter, getFilters } from '../../../reducers/actions/products'
+import { Button, Typography } from '@material-ui/core'
 import { Done } from '@material-ui/icons'
-import { Button } from '@material-ui/core'
+import { addFilter, removeFilter, resetFilter, getFilters } from '../../../reducers/actions/products'
 import FilterItem from './FilterItem/FilterItem'
 
 function Filter(props) {
@@ -18,15 +18,13 @@ function Filter(props) {
     return active
   }
 
-  const FilterBlock = (props) => {
-    const { title, children } = props
-    return (
-      <div className='FilterBlock'>
-        <div className='FilterBlock-header'>{title}</div>
-        <div className='FilterBlock-content'>{children}</div>
-      </div>
-    )
-  }
+  const FilterBlock = ({ title, children }) => (
+    <div className='FilterBlock'>
+      <Typography variant='h6' component='div' className='FilterBlock-header' children={title} />
+      <div className='FilterBlock-content'>{children}</div>
+    </div>
+  )
+
   const sizesBlock = bySize.map(size => {
     const active = setActive(filter, 'size')(size)
     return <FilterItem key={size} active={active} content={size} className='size' type='size' value={size}/>
@@ -34,14 +32,18 @@ function Filter(props) {
 
   const colorsBlock = byColor.map(color => {
     const active = setActive(filter, 'color')(color)
-    return <FilterItem key={color} active={active} className={`color ${color}`} content={<Done />} type='color' value={color}/>
+    return <FilterItem key={color} active={active} className={`color ${color}`} content={<Done fontSize='small' />} type='color' value={color}/>
   })
 
   return (
     <div className={`Filter ${hide ? 'hide' : ''}`}>
       <FilterBlock title='Color' children={colorsBlock} />
       <FilterBlock title='Size' children={sizesBlock} />
-      <Button className='Filter-reset' onClick={resetFilter} >Reset</Button>
+      <Button
+        variant='contained'
+        className='Filter-reset'
+        onClick={resetFilter}
+        children={'Reset'} />
     </div>
   )
 }
