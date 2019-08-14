@@ -26,21 +26,21 @@ const NewsButton = withStyles(() => ({
 }))(Button)
 
 const carouselData = [
-  { url: '/images/slide_1.jpg', title: 'THE BEST CHOISE' },
-  { url: '/images/slide_2.jpg', title: 'THE BEST BIKE GEAR TO BUY THiS SPRING' },
-  { url: '/images/slide_3.jpg', title: 'GET A SECOND WIND' }
+  { url: './images/slide_1.jpg', title: 'THE BEST CHOISE' },
+  { url: './images/slide_2.jpg', title: 'THE BEST BIKE GEAR TO BUY THiS SPRING' },
+  { url: './images/slide_3.jpg', title: 'GET A SECOND WIND' }
 ]
 
 const swiperData = [
-  { title: 'Pureboost Go Shoes', img: '/images/trending/t_1.jpg' },
-  { title: 'Duramo 9 Shoes', img: '/images/trending/t_2.jpg' },
-  { title: '3-Stripes Leggings', img: '/images/trending/t_3.jpg' },
-  { title: 'Badge Of Sport Classic Tee', img: '/images/trending/t_4.jpg' },
-  { title: 'SST Track Pants', img: '/images/trending/t_5.jpg' },
-  { title: 'Falcon Shoes', img: '/images/trending/t_6.jpg'}
+  { title: 'Pureboost Go Shoes', img: './images/trending/t_1.jpg' },
+  { title: 'Duramo 9 Shoes', img: './images/trending/t_2.jpg' },
+  { title: '3-Stripes Leggings', img: './images/trending/t_3.jpg' },
+  { title: 'Badge Of Sport Classic Tee', img: './images/trending/t_4.jpg' },
+  { title: 'SST Track Pants', img: './images/trending/t_5.jpg' },
+  { title: 'Falcon Shoes', img: './images/trending/t_6.jpg'}
 ]
 
-function FrontPage() {
+function FrontPage(props) {
 
   const News = ({img, text}) => (
     <div className='news-cont-item'>
@@ -59,9 +59,9 @@ function FrontPage() {
         <div className='brand_container'>
           <Typography variant='h4' component='h2' align='center' children='OUR BRANDS' />
           <div className='brand_wrapper'>
-            <img src={'/images/nike_brand.png'} alt='img' className='brand' />
-            <img src={'/images/puma_brand.png'} alt='img' className='brand' />
-            <img src={'/images/adidas_brand.png'} alt='img' className='brand' />
+            <img src={'./images/nike_brand.png'} alt='img' className='brand' />
+            <img src={'./images/puma_brand.png'} alt='img' className='brand' />
+            <img src={'./images/adidas_brand.png'} alt='img' className='brand' />
           </div>
         </div>
       </div>
@@ -71,8 +71,8 @@ function FrontPage() {
       <div className='news'>
         <CustomTypography variant='h4' component='h2' align='center' children='STORE NEWS' />
         <div className='news-cont'>
-          <News img={'/images/slide_4.jpg'} text={'Shoes made for running high'} />
-          <News img={'/images/slide_5.jpg'} text={'Waterproof features'} />
+          <News img={'./images/slide_4.jpg'} text={'Shoes made for running high'} />
+          <News img={'./images/slide_5.jpg'} text={'Waterproof features'} />
         </div>
       </div>
 
