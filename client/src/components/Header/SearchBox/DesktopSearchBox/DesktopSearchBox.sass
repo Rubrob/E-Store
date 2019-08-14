@@ -10,10 +10,14 @@
   .suggestions-wrap
     position: fixed
     top: 64px
+    right: 0
+    overflow: hidden
     overflow-y: scroll
-    max-height: 350px
-    width: 100%
-    border-radius: 0 15px 0 15px
+    max-height: 60%
+    width: 50%
+    border-radius: 0 0 0 10px
+    &::-webkit-scrollbar
+      width: 0
 
     .suggestions
       background: $white

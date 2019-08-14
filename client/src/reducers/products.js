@@ -181,7 +181,7 @@ const productCardReducer = (state = initialState, { type, payload }) => {
         ...state,
         searched: searchedProducts,
         filtered: filteredSearchedProducts,
-        searchedStr: `Result for "${payload}"`
+        searchedStr: `Result For "${payload}"`
       }
     case RESET_FILTER:
       return { ...state, filter: { color: [], size: [] }, filtered: [...state.searched] }

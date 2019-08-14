@@ -65,6 +65,8 @@ function SubHeader(props) {
     return () => { window.removeEventListener('scroll', setFixed) }
   }, [setFixed])
 
+  console.log(props.searchedStr)
+
   return (
     <div className={`${classes.subHeader} ${fixed ? classes.fixed : ''}`}>
       {!match && <Typography variant='h5' style={{ fontSize: fixed && 20}} className={classes.title} children={props.searchedStr} />}

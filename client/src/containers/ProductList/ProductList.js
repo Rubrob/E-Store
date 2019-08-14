@@ -32,12 +32,17 @@ const useStyles =makeStyles(() => ({
     paddingTop: 20,
     display: 'flex',
     flexWrap: 'wrap',
-    maxWidth: 1240,
     minWidth: 300,
     width: '100%'
   },
-  title: {
-    width: '100%'
+  empty: {
+    width: '100%',
+    padding: 20,
+    boxSizing: 'border-box',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
   },
   '@media (max-width: 959.5px)': {
     productList: {
@@ -80,8 +85,8 @@ function ProductList(props) {
               <Typography
                 variant='h5'
                 align='center'
-                className={classes.title}
-                children={`I Couldn't Find Any Products Your Requested`} /> : productCards}
+                className={classes.empty}
+                children={`I Couldn't Find Anything For Your Request`} /> : productCards}
           </div>
         </div>
       </div>
