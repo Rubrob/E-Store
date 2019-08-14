@@ -11,6 +11,20 @@ const CustomTypography = withStyles(() => ({
   }
 }))(Typography)
 
+const NewsButton = withStyles(() => ({
+  root: {
+    color: '#444',
+    background: 'rgba(255, 255, 255, .8)',
+    '&:focus': {
+      background: 'rgba(255, 255, 255, .8)',
+    },
+    '&:hover': {
+      background: 'rgba(255, 255, 255, .1)',
+      color: '#fff'
+    },
+  }
+}))(Button)
+
 const carouselData = [
   { url: '/images/slide_1.jpg', title: 'THE BEST CHOISE' },
   { url: '/images/slide_2.jpg', title: 'THE BEST BIKE GEAR TO BUY THiS SPRING' },
@@ -29,11 +43,11 @@ const swiperData = [
 function FrontPage() {
 
   const News = ({img, text}) => (
-    <div>
+    <div className='news-cont-item'>
       <img src={img} alt='img' />
-      <div className='news-cont'>
+      <div>
         <p>{text}</p>
-        <Button color='inherit' children={'Shop'} />
+        <NewsButton color='inherit' children={'Shop'} />
       </div>
     </div>
   )
@@ -56,9 +70,9 @@ function FrontPage() {
 
       <div className='news'>
         <CustomTypography variant='h4' component='h2' align='center' children='STORE NEWS' />
-        <div>
-          <News img={'images/slide_4.jpg'} text={'Shoes made for running high'} />
-          <News img={'images/slide_5.jpg'} text={'Waterproof features'} />
+        <div className='news-cont'>
+          <News img={'/images/slide_4.jpg'} text={'Shoes made for running high'} />
+          <News img={'/images/slide_5.jpg'} text={'Waterproof features'} />
         </div>
       </div>
 
