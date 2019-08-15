@@ -26,8 +26,8 @@ const NewsButton = withStyles(() => ({
 }))(Button)
 
 const carouselData = [
-  { url: '../images/slide_1.jpg', title: 'THE BEST CHOISE' },
-  { url: '../images/slide_2.jpg', title: 'THE BEST BIKE GEAR TO BUY THiS SPRING' },
+  { url: '../images/slide_1.jpg', title: 'THE BEST CHOICE' },
+  { url: '../images/slide_2.jpg', title: 'THE BEST BIKE GEAR TO BUY THIS SPRING' },
   { url: '../images/slide_3.jpg', title: 'GET A SECOND WIND' }
 ]
 
