@@ -6,12 +6,12 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core'
-import { toggleFilter } from '../../reducers/actions/trigers'
+import { toggleFilter } from '../../actions/trigers'
 import SubHeader from '../SubHeader/SubHeader'
 import Filter from './../SubHeader/Filter/Filter'
 import ProductCard from './ProductCard/ProductCard'
 
-const useStyles =makeStyles(() => ({
+const useStyles = makeStyles(() => ({
   productList: {
     display: 'flex',
     flexDirection: 'column',
@@ -65,20 +65,20 @@ function ProductList(props) {
   const match = useMediaQuery('(max-width: 959.5px)')
   const { filtered, currency, searchedStr, isfilterOpen } = props
   const { toggle } = props
-  const productCards = filtered.map(p => <ProductCard key={p.id} product={p} currency={currency} />)
+  const productCards = filtered.map(product => <ProductCard key={product.id} product={product} currency={currency} />)
 
   return (
     <div className={classes.productList}>
-      {filtered.length > 0 && <SubHeader />}
+      <SubHeader />
       {(match && filtered.length > 0) && <Typography variant='h5' children={searchedStr} />}
       <div className={classes.flexRow}>
-        {filtered.length > 0 && (match ?
+        {match ?
           <SwipeableDrawer
             open={isfilterOpen}
             onClose={toggle}
             onOpen={toggle}
             children={<Filter />} /> :
-          <Filter hide={isfilterOpen}/>)}
+          <Filter hide={isfilterOpen}/>}
         <div className={classes.content}>
           <div className={classes.main}>
             {filtered.length < 1 ?

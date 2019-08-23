@@ -2,16 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ListItem } from '@material-ui/core'
-import { closeMobileMenu } from '../../../../../reducers/actions/trigers'
+import { closeMobileMenu } from '../../../../../actions/trigers'
 
-function MenuListLink({ link, text, parentLink, closeMenu, nodash }) {
+function MenuListLink({ link, text, closeMenu }) {
   return (
     <ListItem button className='listItem' onClick={closeMenu}>
-      <Link
-        to={`${parentLink ? parentLink + `${nodash ? '' : '-'}` : ''}${link}`}
-        className='link'
-        children={text}
-        />
+      <Link to={link} className='link' children={text} />
     </ListItem>
   )
 }

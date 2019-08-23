@@ -4,17 +4,26 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { reduxForm, formValueSelector } from 'redux-form'
 import { FormControlLabel, Checkbox, Button, Typography } from '@material-ui/core'
+import { withStyles } from '@material-ui/styles'
 import { validate } from '../../../validation/checkout'
-import { submitCheckout, emptyCart } from '../../../reducers/actions/cart'
+import { submitCheckout } from '../../../actions/cart'
 import PaymentFields from './PaymentFields/PaymentFields'
 import FormsPreview from './../FormsPreview/FormsPreview'
 import CheckoutForm from './../CheckoutForm/CheckoutForm'
 import { notify } from '../../../components/Toaster/Toaster'
 
+const SubmitButton = withStyles(() => ({
+  root: {
+    alignSelf: 'flex-end',
+    marginTop: 20,
+    padding: '15px 20px',
+    color: '#fff',
+  }
+}))(Button)
 
 function Billing(props) {
   const { handleSubmit, invalid, submitting, pristine } = props
-  const { submitCheckout, emptyCart } = props
+  const { submitCheckout } = props
   const { shipping, step, cartProducts, delivery } = props
   const { firstname, lastname, address, city, zip, country } = shipping
   const previewContent = { firstname, lastname, address, city, zip, country }
@@ -22,12 +31,9 @@ function Billing(props) {
   const submit = async (value) => {
     const onSuccess = (message) => {
       window.scrollTo(0, 0)
-      emptyCart()
       notify('success', message)
     }
-    const onFail = (message) => {
-      notify('error', message)
-    }
+    const onFail = (message) => notify('error', message)
 
     const data = {
       shipping,
@@ -51,7 +57,7 @@ function Billing(props) {
           <PaymentFields />
 
           <FormControlLabel
-            style={{marginBottom: 20, marginTop: 40}}
+            className='billingAddressCheckbox'
             control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
             label='Billing address same as shipping'
             />
@@ -60,11 +66,10 @@ function Billing(props) {
             <FormsPreview title='Shipping Address' content={previewContent} cn='billingAddress' />
             : <CheckoutForm type='billing'/>}
 
-          <Button
+          <SubmitButton
             variant='contained'
             color='secondary'
             type='submit'
-            className='submit'
             disabled={invalid || submitting || pristine}
             children={'PLACE ORDER'}
             />
@@ -88,7 +93,6 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => ({
   submitCheckout: (shipping, billing) => dispatch(submitCheckout(shipping, billing)),
-  emptyCart: () => dispatch(emptyCart())
 })
 
 export default compose(

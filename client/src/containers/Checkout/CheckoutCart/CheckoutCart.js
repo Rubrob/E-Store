@@ -5,7 +5,7 @@ import { Typography } from '@material-ui/core'
 import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import CheckoutProduct from './CheckoutProduct/CheckoutProduct'
 import { freeIfZero, SetFixed } from '../../../utils'
-import { totalRecalculation } from './../../../reducers/actions/cart'
+import { totalRecalculation } from '../../../actions/cart'
 
 function CheckoutCart(props) {
 

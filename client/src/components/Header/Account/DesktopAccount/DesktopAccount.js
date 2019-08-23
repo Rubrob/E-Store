@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem, Button } from '@material-ui/core';
 import { AccountCircle} from '@material-ui/icons';
-import { logOut } from '../../../../reducers/actions/auth';
+import { logOut } from '../../../../actions/auth';
 
 const StyledMenu = withStyles({
   paper: {
@@ -35,6 +35,10 @@ function DesktopAccount(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = evt => setAnchorEl(evt.currentTarget)
   const handleClose = () => setAnchorEl(null)
+  const handleLogOut = () => {
+    logOut()
+    handleClose()
+  }
 
   const { isAuthenticated, token } = props
   const { logOut } = props
@@ -69,11 +73,7 @@ function DesktopAccount(props) {
         <Link to={`/profile/orders`}>
           <MenuItem onClick={handleClose}>Orders</MenuItem>
         </Link>
-        <MenuItem onClick={() => {
-            logOut()
-            handleClose()
-          }}>Log Out
-        </MenuItem>
+        <MenuItem onClick={handleLogOut} children={'Log Out'} />
       </StyledMenu>
     </>
   )

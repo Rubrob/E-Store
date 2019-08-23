@@ -3,14 +3,24 @@ import './Shipping.sass'
 import { reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { validate } from '../../../validation/checkout'
-import { freeIfZero } from '../../../utils'
-import { Lock } from '@material-ui/icons'
 import { Button, Typography } from '@material-ui/core'
+import { withStyles } from '@material-ui/styles'
+import { Lock } from '@material-ui/icons'
 import DeliveryBox from './DeliveryBox/DeliveryBox'
 import FormsPreview from '../FormsPreview/FormsPreview'
 import CheckoutForm from './../CheckoutForm/CheckoutForm'
-import { submitShipping, prevStep } from '../../../reducers/actions/cart'
+import { validate } from '../../../validation/checkout'
+import { freeIfZero } from '../../../utils'
+import { submitShipping, prevStep } from '../../../actions/cart'
+
+const SubmitButton = withStyles(() => ({
+  root: {
+    alignSelf: 'flex-end',
+    marginTop: 20,
+    padding: '15px 20px',
+    color: '#fff',
+  }
+}))(Button)
 
 function Shipping (props) {
 
@@ -52,11 +62,10 @@ function Shipping (props) {
 
           <DeliveryBox />
 
-          <Button
+          <SubmitButton
             color='secondary'
             variant='contained'
             type='submit'
-            className='submit'
             disabled={invalid}
             children={'SAVE & CONTINUE'}
             />

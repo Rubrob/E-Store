@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { useMediaQuery, Typography } from '@material-ui/core'
-import { searchProduct } from '../../../reducers/actions/products'
+import { searchProduct } from '../../../actions/products'
 import DesktopSearchBox from './DesktopSearchBox/DesktopSearchBox'
 import MobileSearchBox from './MobileSearchBox/MobileSearchBox'
 
@@ -41,7 +41,8 @@ function SearchBox(props) {
   }
 
   const renderSuggestions = (callback = () => null) => {
-    const { suggestions, text } = state
+    // const { suggestions, text } = state
+    const { suggestions } = state
     if(suggestions.length === 0){
       return null
     }

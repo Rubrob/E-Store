@@ -47,20 +47,19 @@
         text-align: center
         border: 1px solid #e5e5e5
         border-radius: 4px
+
         &.active, &:hover
           @include filterSize
 
       .color
         @include filterItems
         justify-self: center
-        width: 30px
-        height: 30px
+        width: 30px !important
+        height: 30px !important
         margin: 5px 0
         padding: 5px
         border-radius: 50%
         box-shadow: 0px 1px 2px rgba(0,0,0,0.2), 0px 2px 3px rgba(0,0,0,0.14), 0px 1px 5px rgba(0,0,0,0.12)
-        &:hover
-          opacity: .4
         &.active
           svg
             opacity: 1

@@ -7,19 +7,19 @@ import FacebookLogin from 'react-facebook-login'
 import GoogleLogin from 'react-google-login'
 import { Button, Typography } from '@material-ui/core'
 import { validate } from '../../validation/checkout'
-import { signUp, logIn, oauthGoogle, oauthFacebook } from '../../reducers/actions/auth'
+import { signUp, logIn, oauthGoogle, oauthFacebook } from '../../actions/auth'
 import { notify } from '../../components/Toaster/Toaster'
 import CustomTextField from './../Checkout/CustomTextField/CustomTextField'
 
 
-const LogInFields = (props) => (
+const LogInFields = () => (
   <>
     <Field className='input' name='email' label='Email' type='email' component={CustomTextField} />
     <Field className='input' name='password' autoComplete='on' label='Password' type='password' component={CustomTextField} />
   </>
 )
 
-const SingUpFields = (props) => (
+const SingUpFields = () => (
   <>
     <Field className='input' name='firstname' label='First Name' component={CustomTextField} />
     <Field className='input' name='lastname' label='Last Name' component={CustomTextField} />
@@ -35,9 +35,11 @@ class SignUp extends Component {
       toggle: true
     }
   }
+
   componentDidMount() {
     this.props.isAuthenticated && this.props.history.push('/')
   }
+
   componentDidUpdate() {
     this.props.isAuthenticated && this.props.history.push('/')
   }
@@ -83,7 +85,13 @@ class SignUp extends Component {
 
         <form onSubmit={handleSubmit(this.submit)}>
           {this.state.toggle ? <LogInFields /> : <SingUpFields />}
-          <Button type='submit' variant='contained' color='secondary' className='submit' children={linkText} />
+          <Button
+            type='submit'
+            variant='contained'
+            color='secondary'
+            className='submit'
+            fullWidth
+            children={linkText} />
         </form>
 
         <div className='SingUpIn-divider'>{linkText} Via</div>

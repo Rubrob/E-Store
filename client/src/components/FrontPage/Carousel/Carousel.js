@@ -3,7 +3,7 @@ import './Carousel.sass'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { Typography, makeStyles, Button } from '@material-ui/core'
+import { Typography, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 
 const CarouselTitle = withStyles(() => ({

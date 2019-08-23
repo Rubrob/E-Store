@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { toggleFilter} from '../../../../reducers/actions/trigers'
+import { toggleFilter} from '../../../../actions/trigers'
 import { Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

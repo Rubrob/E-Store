@@ -3,7 +3,7 @@ import './ProductPage.sass'
 import { connect } from 'react-redux'
 import { Button, withWidth, Typography } from '@material-ui/core'
 import { ampersand } from '../../../utils'
-import { addToCart } from '../../../reducers/actions/cart'
+import { addToCart } from '../../../actions/cart'
 import { notify } from './../../../components/Toaster/Toaster'
 import ProductSlider from './ProductSlider/ProductSlider'
 
@@ -113,7 +113,7 @@ class ProductPage extends Component {
       </div>
       <div className='productDescription'>
         {match ? <Typography variant='body1' component='div' children={description} /> : null}
-        <div class='productDescription-desktop'>
+        <div className='productDescription-desktop'>
           <div className='productDescription-photo'>
             {productDesctiptionImgs(4)}
           </div>

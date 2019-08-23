@@ -5,7 +5,7 @@ import { validate } from '../../../../validation/checkout'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { Button, Typography } from '@material-ui/core'
-import { setBillingAddress } from '../../../../reducers/actions/auth'
+import { setBillingAddress } from '../../../../actions/auth'
 import FormsPreview from './../../../Checkout/FormsPreview/FormsPreview'
 import CheckoutForm from './../../../Checkout/CheckoutForm/CheckoutForm'
 

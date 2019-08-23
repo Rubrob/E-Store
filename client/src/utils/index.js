@@ -28,3 +28,5 @@ export const SetFixed = (YOffset) => {
     setFixed: scrollHandler
   }
 }
+
+export const tlcWithUnderline = (str) => str.toLowerCase().split(' & ').join('__')

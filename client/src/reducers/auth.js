@@ -6,7 +6,7 @@ import {
   AUTH_LOG_OUT,
   AUTH_ERROR,
   FETCH_MEMBER_SUCCESS
-} from './actions/auth';
+} from '../actions/types';
 
 const jwtToken = localStorage.getItem('JWT_TOKEN')
 

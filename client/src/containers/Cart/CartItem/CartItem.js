@@ -10,7 +10,7 @@ import {
   changeProductQuantity,
   changeProductSize,
   deleteCartProduct,
-} from '../../../reducers/actions/cart'
+} from '../../../actions/cart'
 import CustomSelect from '../CustomSelect/CustomSelect'
 
 const CartItemTitle = withStyles(() => ({

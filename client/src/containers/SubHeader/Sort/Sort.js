@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Menu, MenuItem, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { sortHighToLow, sortLowToHigh } from '../../../reducers/actions/products'
+import { sortByPrice } from '../../../actions/products'
 
 const StyledMenu = withStyles({
   paper: {
@@ -61,16 +61,15 @@ const StyledButton = withStyles({
   ));
 
 function Sort(props) {
-  const { lowToHigh, highToLow } = props
+  const { sortByPrice } = props
   const { label } = props
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (evt) => {setAnchorEl(evt.currentTarget)}
   const handleClose = () => {setAnchorEl(null)}
 
-  const handleSort = (type) => {
-    if(type === 'low') lowToHigh()
-    if(type === 'high') highToLow()
+  const handleSort = (method) => {
+    sortByPrice(method)
     handleClose()
   }
 
@@ -96,8 +95,7 @@ function Sort(props) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  highToLow: () => dispatch(sortHighToLow()),
-  lowToHigh: () => dispatch(sortLowToHigh())
+  sortByPrice: (method) => dispatch(sortByPrice(method))
 })
 
 export default connect(null, mapDispatchToProps)(Sort)

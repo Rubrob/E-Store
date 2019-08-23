@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withWidth, Button, Typography } from '@material-ui/core'
 import { KeyboardArrowRight } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles'
-import { checkCartProducts, totalRecalculation } from '../../reducers/actions/cart'
+import { checkCartProducts, totalRecalculation } from '../../actions/cart'
 import CartItem from './CartItem/CartItem'
 
 const CustomButton = withStyles(() => ({
@@ -33,9 +33,6 @@ const CustomTypography = withStyles(() => ({
 
 
 class Cart extends Component {
-  constructor(props){
-    super(props)
-  }
 
   componentDidMount() {
     this.props.checkCartProducts(this.props.products, this.props.cartProducts)

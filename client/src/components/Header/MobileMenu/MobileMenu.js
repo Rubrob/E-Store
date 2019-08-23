@@ -4,8 +4,7 @@ import { SwipeableDrawer, IconButton } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { MoreVert } from '@material-ui/icons'
 import MobileDrawer from './MobileDrawer/MobileDrawer'
-import { openMobileMenu, closeMobileMenu } from '../../../reducers/actions/trigers'
-
+import { openMobileMenu, closeMobileMenu } from '../../../actions/trigers'
 
 const CustomSwipeableDrawer = withStyles(() => ({
   root: {

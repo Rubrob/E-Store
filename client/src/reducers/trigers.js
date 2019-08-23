@@ -1,11 +1,15 @@
-import { OPEN_MENU, CLOSE_MENU, TOGGLE_FILTER } from './actions/trigers';
+import {
+  OPEN_MENU,
+  CLOSE_MENU,
+  TOGGLE_FILTER
+} from '../actions/types';
 
 const initialState = {
   state: false,
   filter: false
 }
 
-const productCardReducer = (state = initialState, action) => {
+const trigerReducer = (state = initialState, action) => {
   switch(action.type){
     case OPEN_MENU:
       return { ...state, state: true}
@@ -17,4 +21,4 @@ const productCardReducer = (state = initialState, action) => {
       return { ...state }
   }
 }
-export default productCardReducer
+export default trigerReducer

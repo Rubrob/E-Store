@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Radio, RadioGroup, FormControlLabel, Typography } from '@material-ui/core'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
-import { changeDelivery } from '../../../../reducers/actions/cart'
+import { changeDelivery } from '../../../../actions/cart'
 import { freeIfZero } from '../../../../utils'
 
 const CustomFormControlLabel = withStyles({
@@ -37,7 +37,7 @@ const useStyles = makeStyles({
     width: '100%'
   },
   cost: {
-    marginRight: -6
+    marginRight: -10
   }
 })
 
@@ -57,17 +57,18 @@ function DeliveryBox(props) {
         className={classes.title}
         paragraph
         children={'Select your shipping speed'} />
-      {Object.keys(deliveryMethods).map(key => <div className={classes.root} key={key}>
+      {Object.keys(deliveryMethods).map(key => (
+        <div className={classes.root} key={key}>
           <CustomFormControlLabel className={classes.plan} value={key} control={<Radio />} label={
-          <Typography variant='body1' component='div' className={classes.content}>
-            {key}
-            <Typography
-              variant='body1'
-              component='span'
-              className={classes.cost}
-              children={freeIfZero(deliveryMethods[key], currency)} />
-          </Typography>} />
-        </div>)}
+            <Typography variant='body1' component='div' className={classes.content}>
+              {key}
+              <Typography
+                variant='body1'
+                component='span'
+                className={classes.cost}
+                children={freeIfZero(deliveryMethods[key], currency)} />
+            </Typography>} />
+        </div>))}
     </RadioGroup>
   )
 }

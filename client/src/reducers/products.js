@@ -1,8 +1,7 @@
-import { ampersand, capitalize } from '../utils'
+import { ampersand, capitalize, tlcWithUnderline } from '../utils'
 
 import {
-  SORT_LOW_TO_HIGH,
-  SORT_HIGH_TO_LOW,
+  SORT_BY_PRICE,
   ADD_FILTER,
   REMOVE_FILTER,
   FILTER_PRODUCTS_WITH_URL,
@@ -10,8 +9,10 @@ import {
   RESET_FILTER,
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_START,
-  FETCH_PRODUCTS_FAIL
-} from './actions/products';
+  FETCH_PRODUCTS_FAIL,
+  FETCH_PRODUCT_PAGE,
+  FETCH_CATEGORIES_SUCCESS
+} from '../actions/types';
 
 const initialState = {
   currency: '$',
@@ -25,39 +26,7 @@ const initialState = {
   },
   searched: [],
   filtered: [],
-  categories: [{
-    id: 1,
-    title: "Men",
-    categories: [{
-      id: 1,
-      title: "Shoes",
-      subcategories: ["lifestyle", "running", "workout"]
-    }, {
-      id: 2,
-      title: "Clothes",
-      subcategories: ["tops__t-shirts", "shorts", "pants", "hoodies__sweatshirts"]
-    }, {
-      id: 3,
-      title: "Accessories",
-      subcategories: ["bags__backpacks","hats__beanies","sunglasses"]
-    }]
-  }, {
-    id: 2,
-    title: "Women",
-    categories: [{
-      id: 1,
-      title: "Shoes",
-      subcategories: ["lifestyle", "running", "workout"]
-    }, {
-      id: 2,
-      title: "Clothes",
-      subcategories: ["tops__t-shirts", "shorts", "pants", "skirts__dresses", "hoodies__sweatshirts"]
-    }, {
-      id: 3,
-      title: "Accessories",
-      subcategories: ["bags__backpacks","hats__beanies","sunglasses"]
-    }]
-  }],
+  categories: [],
   searchedStr: '',
   isFetching: false,
   isFetchingError: false,
@@ -77,124 +46,178 @@ const initialState = {
   }
 }
 
-const productCardReducer = (state = initialState, { type, payload }) => {
 
-  const filter = (products, filter) => {
-    if(filter['color'].length >= 1){
-      products = products.filter((item) => {
-        let checker = false
-        item.colors.forEach(color => filter['color'].forEach(fColor => (color.color === fColor) ? checker = true : null))
-        return checker ? true : false
-      })
-    }
+// REDUCER CONTROLLERS
 
-    if(filter['size'].length >= 1){
-      products = products.filter((item) => {
-        let checker = false
-        item.colors.forEach(color => filter['size'].forEach(FSize => (color.sizes.indexOf(FSize) !== -1) ? checker = true : null))
-        return checker ? true : false
-      })
-    }
-
-    return products
+const filter = (products, filter) => {
+  if(filter['color'].length >= 1){
+    products = products.filter((item) => {
+      let isChecked = false
+      item.colors.forEach(color => filter['color'].forEach(fColor => (color.color === fColor) ? isChecked = true : null))
+      return isChecked ? true : false
+    })
   }
 
-  switch(type){
-    case SORT_LOW_TO_HIGH:
-      const LTH = (a, b) => (a.price > b.price) ? 1 : -1
-      let PLTH = filter([...state.searched], {...state.filter}).sort(LTH)
+  if(filter['size'].length >= 1){
+    products = products.filter((item) => {
+      let isChecked = false
+      item.colors.forEach(color => filter['size'].forEach(FSize => (color.sizes.indexOf(FSize) !== -1) ? isChecked = true : null))
+      return isChecked ? true : false
+    })
+  }
 
-      return { ...state, filtered: PLTH }
-    case SORT_HIGH_TO_LOW:
-      const HTL = (a, b) => (a.price < b.price) ? 1 : -1
-      let PHTL = filter([...state.searched], {...state.filter}).sort(HTL)
+  return products
+}
 
-      return { ...state, filtered: PHTL }
-    case ADD_FILTER:
-      const addFilter = {...state.filter}
-      addFilter[payload.filter].push(payload.value)
-      let FPA = filter([...state.searched], {...state.filter})
+const sortByPrice = (method) => {
+  if(method === 'high'){
+    return (a, b) => (a.price < b.price) ? 1 : -1
+  }
+  if(method === 'low'){
+    return (a, b) => (a.price > b.price) ? 1 : -1
+  }
+}
 
-      return {
-        ...state,
-        filter: { ...state.filter, ...addFilter },
-        filtered: FPA
-      }
-    case REMOVE_FILTER:
-      const removeFilter = {...state.filter}
-      removeFilter[payload.filter] = removeFilter[payload.filter].filter(item => (item !== payload.value) ? true : false)
-      let FPR = filter([...state.searched], removeFilter)
+const searchProduct = (products, filters, payload) => {
+  if(payload.length > 0){
+    const regexp = new RegExp(`^${payload}`, 'i')
 
-      return {
-        ...state,
-        filter: { ...state.filter, ...removeFilter },
-        filtered: FPR
-      }
-    case FILTER_PRODUCTS_WITH_URL:
-      let URLFILTER = {}
-      let URLProducts = [...state.products]
-      let categories = [...state.categories]
-      categories.forEach(item => {
-        if(payload[0] === item.title.toLowerCase()){
-          URLFILTER['gender'] = payload[0]
-          item.categories.forEach(category => {
-            if(payload[1] === category.title.toLowerCase()){
-              URLFILTER['category'] = payload[1]
-              category.subcategories.forEach(subcategory => payload[2] === subcategory ? URLFILTER['subcategory'] = payload[2] : null)
+    return filter(
+      products.filter(item => regexp.test(item.title)),
+      filters
+    )
+  }else{
+    return filter(products, filters)
+  }
+}
+
+const addFilter = (filter, payload) => {
+  if(filter[payload.filter].indexOf(payload.value) === -1){
+    return filter[payload.filter].push(payload.value)
+  }
+  return filter
+}
+
+const removeFilter = (filter, payload) => {
+  filter[payload.filter] = filter[payload.filter].filter(item => item !== payload.value)
+  return filter
+}
+
+const filterProductsByURL = (products, categories, payload) => {
+
+  let URLFILTER = {}
+  categories.forEach(gender => {
+    const { categories, title } = gender
+    const genderTitle = title.toLowerCase()
+    if(payload[0] === genderTitle){
+      URLFILTER['gender'] = payload[0]
+      categories.forEach(category => {
+        const { subcategories, title } = category
+        const categoryTitle = title.toLowerCase()
+        if(payload[1] === categoryTitle){
+          URLFILTER['category'] = payload[1]
+          subcategories.forEach(subcategory => {
+            if(payload[2] === tlcWithUnderline(subcategory.title)){
+              URLFILTER['subcategory'] = payload[2]
             }
           })
         }
       })
+    }
+  })
 
-      if(URLFILTER.gender){
-        URLProducts = URLProducts.filter(item => item.gender === URLFILTER.gender)
-      }
-      if(URLFILTER.category){
-        URLProducts = URLProducts.filter(item => item.category === URLFILTER.category)
-      }
-      if(URLFILTER.subcategory){
-        URLProducts = URLProducts.filter(item => item.subcategory === URLFILTER.subcategory)
-      }
+  if(URLFILTER.gender) products = products.filter(item => item.gender === URLFILTER.gender)
+  if(URLFILTER.category) products = products.filter(item => item.category === URLFILTER.category)
+  if(URLFILTER.subcategory) products = products.filter(item => item.subcategory === URLFILTER.subcategory)
 
-      const searchedStr = `${capitalize(payload[0])}'s ${ampersand(capitalize(payload[2]))} ${payload[1] === 'shoes' || !payload[2] ? capitalize(payload[1]) : ''}`
+  const searchedStr = `${capitalize(payload[0])}'s ${ampersand(capitalize(payload[2]))} ${payload[1] === 'shoes' || !payload[2] ? capitalize(payload[1]) : ''}`
+  return {products, searchedStr}
+}
 
+
+// REDUCER
+
+const productsReducer = (state = initialState, { type, payload }) => {
+  switch(type){
+    case SORT_BY_PRICE:
       return {
         ...state,
-        searched: URLProducts,
+        filtered: filter([...state.searched], {...state.filter}).sort(sortByPrice(payload))
+      }
+    case ADD_FILTER:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          ...addFilter({...state.filter}, payload)
+        },
+        filtered: filter([...state.searched], {...state.filter})
+      }
+    case REMOVE_FILTER:
+      const removedFilter = removeFilter({...state.filter}, payload)
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          ...removedFilter
+        },
+        filtered: filter([...state.searched], removedFilter)
+      }
+    case FILTER_PRODUCTS_WITH_URL:
+      const filteredByURL = filterProductsByURL([...state.products], [...state.categories], payload)
+      return {
+        ...state,
+        searched: filteredByURL.products,
         filter: { size: [], color: [] },
-        filtered: URLProducts,
-        searchedStr: searchedStr
+        filtered: filteredByURL.products,
+        searchedStr: filteredByURL.searchedStr
       }
     case SEARCH:
-      let searchedProducts = [...state.products]
-      let filteredSearchedProducts
-
-      if(payload.length > 0){
-        const regexp = new RegExp(`^${payload}`, 'i')
-        searchedProducts = searchedProducts.filter(item => regexp.test(item.title))
-        filteredSearchedProducts = filter(searchedProducts, {...state.filter})
-      }else{
-        filteredSearchedProducts = filter([...state.products], {...state.filter})
-      }
+      const searchedProducts = searchProduct([...state.products], {...state.filter}, payload)
 
       return {
         ...state,
         searched: searchedProducts,
-        filtered: filteredSearchedProducts,
+        filtered: searchedProducts,
         searchedStr: `Result For "${payload}"`
       }
     case RESET_FILTER:
-      return { ...state, filter: { color: [], size: [] }, filtered: [...state.searched] }
+      return {
+        ...state,
+        filter: { color: [], size: [] },
+        filtered: [...state.searched]
+      }
     case FETCH_PRODUCTS_SUCCESS:
-      return { ...state, products: payload, isFetching: false, isFetchingError: false }
+      return {
+        ...state,
+        products: payload,
+        isFetching: false,
+        isFetchingError: false
+      }
     case FETCH_PRODUCTS_START:
-      return { ...state, isFetching: true }
+      return {
+        ...state,
+        isFetching: true
+      }
     case FETCH_PRODUCTS_FAIL:
-      return { ...state, isFetching: false, isFetchingError: true }
-    case 'FETCH_PP':
-      return { ...state, pp: payload.PP, cp: payload.PC }
+      return {
+        ...state,
+        isFetching: false,
+        isFetchingError: true
+      }
+    case FETCH_PRODUCT_PAGE:
+      return {
+        ...state,
+        pp: payload.PP,
+        cp: payload.PC
+      }
+    case FETCH_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        categories: payload
+      }
     default:
       return { ...state }
   }
 }
-export default productCardReducer
+export default productsReducer

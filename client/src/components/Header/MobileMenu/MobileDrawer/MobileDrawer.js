@@ -1,32 +1,35 @@
 import React from 'react'
 import './MobileDrawer.sass'
 import { connect } from 'react-redux'
-import { tlc, ampersand } from '../../../../utils'
+import { tlcWithUnderline } from '../../../../utils'
 import MobileAccount from '../../Account/MobileAccount/MobileAccount'
 import MenuListItem from './MenuListItem/MenuListItem'
 import MenuListLink from './MenuListLink/MenuListLink'
 
 function MobileDrawer(props) {
+  const { categories } = props
+
+  const mapSubcategories = (subcategories, categoryTitle, gender) => (
+    subcategories.map(subcategory => {
+      const link = tlcWithUnderline([gender, categoryTitle, subcategory.title].join('-').toLowerCase())
+      return <MenuListLink key={subcategory.title} text={subcategory.title} link={`/p/${link}`} />
+    })
+  )
+
   return (
     <div role='presentation' className='MobileDrawer' >
       <MobileAccount />
 
-      {props.categories.map(gender => <MenuListItem key={gender.title} title={gender.title}>
-        {gender.categories.map(category => <MenuListItem key={category.id} title={category.title}>
-          <MenuListLink
-              key={category.id}
-              text={`All ${tlc(gender.title)}'s ${tlc(category.title)}`}
-              link={`/p/${tlc(gender.title)}-${tlc(category.title)}`}
-              />
-          {category.subcategories.map(subc =>
-            <MenuListLink
-              key={subc}
-              text={ampersand(subc)}
-              link={subc}
-              parentLink={`/p/${tlc(gender.title)}-${tlc(category.title)}`}
-              />
-          )}
-        </MenuListItem>)}
+      {categories.map(gender => <MenuListItem key={gender['_id']} title={gender.title}>
+        {gender.categories.map(category => {
+          const link = tlcWithUnderline([gender.title, category.title].join('-').toLowerCase())
+          return (
+            <MenuListItem key={category.title} title={category.title}>
+              <MenuListLink text={`All ${gender.title}'s ${category.title}`} link={`/p/${link}`} />
+              {mapSubcategories(category.subcategories, category.title, gender.title)}
+            </MenuListItem>
+          )
+        })}
       </MenuListItem>)}
     </div>
   )
