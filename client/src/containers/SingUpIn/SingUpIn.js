@@ -10,7 +10,7 @@ import { validate } from '../../validation/checkout'
 import { signUp, logIn, oauthGoogle, oauthFacebook } from '../../actions/auth'
 import { notify } from '../../components/Toaster/Toaster'
 import CustomTextField from './../Checkout/CustomTextField/CustomTextField'
-
+import { Container } from '@material-ui/core';
 
 const LogInFields = () => (
   <>
@@ -80,7 +80,7 @@ class SignUp extends Component {
 
     return (
      <div className='SingUpIn'>
-      <div className='SingUpIn-container'>
+      <Container className='SingUpIn-container' maxWidth='xs'>
         <Typography variant='h5' children={formTitle} />
 
         <form onSubmit={handleSubmit(this.submit)}>
@@ -94,7 +94,7 @@ class SignUp extends Component {
             children={linkText} />
         </form>
 
-        <div className='SingUpIn-divider'>{linkText} Via</div>
+        <Typography variant='overline' className='SingUpIn-divider'>{linkText} Via</Typography>
 
         <div className='oauth-container'>
           <FacebookLogin
@@ -119,7 +119,7 @@ class SignUp extends Component {
           {linkTitle} <span onClick={this.toggle} children={linkTextReverse} />
         </div>
 
-      </div>
+      </Container>
     </div>
     );
   }

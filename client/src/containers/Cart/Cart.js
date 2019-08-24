@@ -35,22 +35,28 @@ const CustomTypography = withStyles(() => ({
 class Cart extends Component {
 
   componentDidMount() {
-    this.props.checkCartProducts(this.props.products, this.props.cartProducts)
     this.props.totalRecalculation(this.props.cartProducts)
   }
 
   componentDidUpdate() {
     this.props.totalRecalculation(this.props.cartProducts)
-    localStorage.setItem('CART', JSON.stringify(this.props.cartProducts))
   }
 
   componentWillUnmount() {
+    this.props.checkCartProducts(this.props.products, this.props.cartProducts)
     localStorage.setItem('CART', JSON.stringify(this.props.cartProducts))
   }
 
   render() {
     const { cartProducts, total, currency, history } = this.props
-    const mapCartItems = cartProducts.map((_, i) => <CartItem key={i} i={i} />)
+    const mapCartItems = cartProducts.map((cartItem, i) => <CartItem key={i} data={cartItem} />)
+    const cartContent = cartProducts.length < 1 ?
+      <Typography
+        variant='subtitle1'
+        component='div'
+        align='center'
+        children={`There are no items in your cart`} />
+    : mapCartItems
 
     const qty = cartProducts.reduce((acc, curr) => acc + (curr.qty), 0)
     const qtyLabel = qty < 2 ? `${qty} Item` : `${qty} Items`
@@ -65,9 +71,7 @@ class Cart extends Component {
         </Typography>}
         <div className='Cart-main'>
           <div className='Cart-main-products'>
-            {cartProducts.length < 1 ?
-            <Typography variant='subtitle1' component='div' align='center' children={`There are no items in your cart`} />
-            : mapCartItems}
+            {cartContent}
           </div>
           <div className='Cart-main-toCheckout'>
             <div className='Cart-main-toCheckout-main'>

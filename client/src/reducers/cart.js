@@ -37,35 +37,60 @@ const initialState = {
 
 // REDUCER CONTROLLERS
 
-const deleteCartItem = (cart, payload) => {
-  const { productId, colorId, size } = payload
-  return cart.filter(cartItem => productId === cartItem.productId && colorId === cartItem.colorId && size === cartItem.size ? false : true)
-}
+const deleteCartItem = (cart, { productId, colorId, size }) => (
+  cart.filter(cartItem => {
+    if(cartItem.productId === productId && cartItem.colorId === colorId && cartItem.size === size){
+      return false
+    }
+    return true
+  })
+)
 
 const changeCartItemSize = (cart, payload) => {
   const { productId, colorId, size, data } = payload
-  return cart.filter(cartItem => {
-    const isID = productId === cartItem.productId && colorId === cartItem.colorId
-    if(isID && data === cartItem.size){
-      if(size !== cartItem.size){
-        return false
-      }
-    }
-    if(isID && size === cartItem.size){
+
+  cart.forEach(cartItem => {
+    if(productId === cartItem.productId && colorId === cartItem.colorId && size === cartItem.size){
       cartItem.size = data
     }
-    return cartItem
   })
+
+  const woExisting = cart.filter(cartItem => {
+    if(productId === cartItem.productId && colorId === cartItem.colorId && data === cartItem.size){
+      return false
+    }
+    return true
+  })
+  const withExisting = cart.filter(cartItem => {
+    if(productId === cartItem.productId && colorId === cartItem.colorId && data === cartItem.size){
+      return true
+    }
+    return false
+  })
+
+  console.log('withExisting', withExisting, 'woExisting', woExisting);
+  const getUniqueFromExisting = (existing) => {
+    // let qtyTotal = existing.reduce((acc, curr) => acc + (curr.qty), 0)
+    // existing[0].qty = qtyTotal
+    return existing[0]
+  }
+
+  const uniqueExisting = getUniqueFromExisting(withExisting)
+
+  if(uniqueExisting){
+    return [...woExisting, uniqueExisting]
+  } else {
+    return woExisting
+  }
 }
 
-const changeCartItemQuantity = (cart, payload) => {
-  const { productId, colorId, size, data } = payload
-  return cart.map(cartItem => {
+const changeCartItemQuantity = (cart, { productId, colorId, size, data }) => {
+  cart.forEach(cartItem => {
     if(productId === cartItem.productId && colorId === cartItem.colorId && size === cartItem.size){
       cartItem.qty = data
     }
-    return cartItem
   })
+  return cart
 }
 
 const addCartItem = (products, payload) => {
@@ -74,8 +99,8 @@ const addCartItem = (products, payload) => {
 
   products.forEach((product) => {
     if(colorId === (product.colorId || product.id) && productId === product.productId && size === product.size){
-      isInCart = true
       product.qty += payload.qty
+      isInCart = true
     }
   })
 

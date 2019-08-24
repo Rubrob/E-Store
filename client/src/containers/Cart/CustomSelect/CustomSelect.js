@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Select, MenuItem, InputBase } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -16,20 +16,21 @@ const CustomInput = withStyles(() => ({
 function CustomSelect({data, primary, onChangeData, onChange = () => null}) {
 
   const [select, setSelect] = useState(primary)
-  const handleSelect = (evt) => {
-    setSelect(evt.target.value)
-    onChange({...onChangeData, data: evt.target.value})
+  useEffect(() => {
+    setSelect(primary)
+  }, [primary])
+
+  const handleSelect = ({ target: { value } }) => {
+    setSelect(value)
+    onChange({...onChangeData, data: value})
   }
   const selectItems = data.map(item => <MenuItem key={item} value={item} children={item} />)
 
   return (
     <Select
       value={select}
-      color='inherit'
-      name='selectname'
       input={<CustomInput />}
       onChange={handleSelect}
-      className='CustomSelect'
       children={selectItems}
       />
   )

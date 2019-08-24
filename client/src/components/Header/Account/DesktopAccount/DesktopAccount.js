@@ -1,19 +1,25 @@
 import React, { useState } from 'react'
-import './DesktopAccount.sass'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { withStyles } from '@material-ui/core/styles';
-import { Menu, MenuItem, Button } from '@material-ui/core';
-import { AccountCircle} from '@material-ui/icons';
-import { logOut } from '../../../../actions/auth';
+import {
+  Menu,
+  MenuItem,
+  Button,
+  Typography
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import { AccountCircle } from '@material-ui/icons'
+import { logOut } from '../../../../actions/auth'
 
 const StyledMenu = withStyles({
   paper: {
-    top: '67px !important',
+    top: '64px !important',
     width: 150,
     border: '1px solid #e5e5e5',
-    borderTop: 'none',
-    borderRadius: '0 0 10px 10px'
+    borderRadius: '0 0 10px 10px',
+    '@media (max-width: 959.5px)': {
+      display: 'none'
+    },
   },
 })(props => (
   <Menu
@@ -31,6 +37,24 @@ const StyledMenu = withStyles({
   />
 ));
 
+const AccountButton = withStyles(() =>({
+  root: {
+    borderRadius: 25,
+    padding: '0 10px',
+    margin: '0 5px',
+    '@media (max-width: 959.5px)': {
+      display: 'none'
+    },
+  }
+}))(Button)
+
+const AccountText = withStyles(() => ({
+  root: {
+    marginLeft: 8,
+    marginRight: 6,
+  }
+}))(Typography)
+
 function DesktopAccount(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = evt => setAnchorEl(evt.currentTarget)
@@ -45,23 +69,22 @@ function DesktopAccount(props) {
   const button = (isAuthenticated && token.length > 0 ?
     <>
       <AccountCircle />
-      <span className='accountText myAccount' children='My Account' />
+      <AccountText variant='overline' children='My Account' />
     </> :
-    <Link to='/register' className='accountText' children='Join / Log In' />
+    <AccountText variant='overline'>
+      <Link to='/register' children='Join / Log In' />
+    </AccountText>
   );
 
   return (
     <>
-      <Button
+      <AccountButton
         color='inherit'
         aria-controls='accountMenu'
-        aria-haspopup='true'
-        className='Account'
         onClick={isAuthenticated ? handleClick : null}
         children={button} />
       <StyledMenu
         id='accountMenu'
-        className='accountMenu'
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}

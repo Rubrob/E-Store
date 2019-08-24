@@ -3,6 +3,7 @@
 .checkoutCartMain
   width: 100%
   min-height: 320px
+  max-height: 765px !important
   box-sizing: border-box
   border: 1px solid $light-gray
 
@@ -27,7 +28,8 @@
     cursor: pointer
 
   &.fixed
-    position: fixed
+    // position: fixed
+    z-index: 90
     top: 80px
     bottom: 80px
     max-width: inherit
@@ -75,15 +77,17 @@
       top: 0
 
     .checkoutCartMainContent
-      display: none
       padding: 12px
       flex-direction: column
 
-      &.expand
-        display: flex
+      .expand
+        display: block
+      .hidden
+        display: none
 
     .checkoutSummary
       position: relative
       padding: 8px
-      &::after
-        @include bottomBorder
+      &.pseudo
+        &::after
+          @include bottomBorder

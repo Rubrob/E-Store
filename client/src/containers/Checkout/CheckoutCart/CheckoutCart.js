@@ -10,7 +10,14 @@ import { totalRecalculation } from '../../../actions/cart'
 function CheckoutCart(props) {
 
   const { fixed, setFixed } = SetFixed(140)
-  const { currency, deliveryMethods, delivery, cartProducts, total, totalRecalculation } = props
+  const {
+    currency,
+    deliveryMethods,
+    delivery,
+    cartProducts,
+    total,
+    totalRecalculation
+  } = props
   const [expand, setExpand] = useState(false)
 
   useEffect(() => {
@@ -29,8 +36,8 @@ function CheckoutCart(props) {
           children={expand ? <ExpandLess /> : <ExpandMore />} />
       </div>
 
-      <div className={`checkoutCartMainContent ${expand ? 'expand' : ''}`}>
-        <div className='checkoutSummary'>
+      <div className={`checkoutCartMainContent`}>
+        <div className={`checkoutSummary ${expand ? 'pseudo' : ''}`}>
           <Typography variant='body2' component='div'>
             Subtotal <span children={`${currency}${total}`} />
           </Typography>
@@ -41,7 +48,7 @@ function CheckoutCart(props) {
             Total <span children={`${currency}${total + deliveryMethods[delivery]}`} />
           </Typography>
         </div>
-        <div>
+        <div className={expand ? 'expand' : 'hidden'}>
           {cartProducts.map((item, i) => <CheckoutProduct key={i} info={{...item, currency}}/>)}
         </div>
       </div>

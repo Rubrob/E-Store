@@ -30,7 +30,8 @@ function App(props) {
     fetchCategories,
     products,
     isFetching,
-    fetchPP
+    fetchPP,
+    filterProductsWithURL
   } = props
 
   useEffect(() => {
@@ -40,15 +41,13 @@ function App(props) {
     fetchCategories()
   },[fetchCategories, fetchMember, fetchProducts])
 
-  const { filterProductsWithURL } = props
-
   return (
-    <>{isFetching ? <Loader /> :
+    isFetching ? <Loader /> :
     <div className='App'>
       <Toaster />
       <Header />
-        <main className='App-container'>
-          <Route exact path='/' render={() => <FrontPage />}/>
+        <main>
+          <Route exact path='/' component={FrontPage} />
           <Route path='/profile' component={Profile} />
           <Route exact path='/cart' component={Cart} />
           <Route exact path='/checkout' render={(props) => <Checkout {...props} />}/>
@@ -68,7 +67,7 @@ function App(props) {
           <Route exact path='/register' component={SingUpIn} />
         </main>
       <Footer />
-    </div>}</>
+    </div>
   );
 }
 

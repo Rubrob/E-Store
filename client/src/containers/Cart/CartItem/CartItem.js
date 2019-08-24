@@ -23,8 +23,7 @@ const CartItemTitle = withStyles(() => ({
 }))((props) => <Typography variant='body1' component='div' {...props} />)
 
 function CartItem(props) {
-  const data = props.cartProducts[props.i]
-  const { currency } = props
+  const { data, currency } = props
   const {
     url,
     img,
@@ -42,6 +41,7 @@ function CartItem(props) {
 
   const changeQuantity = (data) => changeProductQuantity(data)
   const changeSize = (data) => changeProductSize(data)
+  const deleteItem = () => deleteCartProduct(data)
 
   return (
     <div className='ProductToBuy'>
@@ -61,11 +61,8 @@ function CartItem(props) {
         </div>
 
         <div className='ProductToBuy-controls'>
-          <IconButton
-            size='small'
-            onClick={() => deleteCartProduct(data)}
-            children={<Clear />} />
-          <Typography variant='body1' component='div'>{currency}{data.qty * price}</Typography>
+          <IconButton size='small' onClick={deleteItem}  children={<Clear />} />
+          <Typography variant='button'>{currency}{data.qty * price}</Typography>
         </div>
       </div>
 
@@ -74,7 +71,6 @@ function CartItem(props) {
 }
 
 const mapStateToProps = state => ({
-  cartProducts: state.cart.cartProducts,
   currency: state.products.currency
 })
 const mapDispatchToProps = dispatch => ({
