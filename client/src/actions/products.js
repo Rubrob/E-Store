@@ -11,10 +11,20 @@ import {
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_FAIL,
   FETCH_CATEGORIES_SUCCESS,
-  FETCH_PRODUCT_PAGE
 } from './types';
 
-export const getProductPage = (id, products) => products.filter(product => id === product.id)[0]
+export const GPP = (productID, colorID, products = []) => {
+  let productCID = []
+  const productPID =  products.filter(product => productID === product.id)[0]
+  if(productPID){
+    productCID = productPID.colors.filter(color => colorID === color.id)[0]
+  }
+  return {
+    pp: productPID,
+    cp: productCID
+  }
+}
+
 export const sortByPrice = (method) => ({ type: SORT_BY_PRICE, payload: method })
 export const addFilter = value => ({ type: ADD_FILTER, payload: value })
 export const removeFilter = value => ({ type: REMOVE_FILTER, payload: value })
@@ -59,23 +69,5 @@ export const fetchProducts = () => async dispatch => {
     dispatch({ type: FETCH_PRODUCTS_SUCCESS, payload: res.data.products })
   } catch (err) {
     dispatch({ type: FETCH_PRODUCTS_FAIL })
-  }
-}
-
-export const fetchProductPage = (id, cid, products, redirect) => async dispatch => {
-  let data = []
-  if(products.length === 0){
-    const res = await axios.get('/products')
-    data = res.data.products
-  }else{
-    data = products
-  }
-  let PP = getProductPage(id, data)
-  let PC = getProductPage(cid, PP.colors)
-
-  if(!PP || !PC){
-    redirect()
-  }else{
-    dispatch({ type: FETCH_PRODUCT_PAGE, payload: { PP, PC } })
   }
 }

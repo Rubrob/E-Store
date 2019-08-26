@@ -17,7 +17,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas, faSort, faSlidersH } from '@fortawesome/free-solid-svg-icons'
 import { filterURL, filterProductsWithURL } from './actions/products'
 import { fetchMember } from './actions/auth'
-import { fetchProducts, fetchProductPage, fetchCategories } from './actions/products'
+import { fetchProducts, fetchCategories } from './actions/products'
 import Loader from './components/Loader/Loader'
 import Toaster from './components/Toaster/Toaster'
 
@@ -28,9 +28,7 @@ function App(props) {
     fetchMember,
     fetchProducts,
     fetchCategories,
-    products,
     isFetching,
-    fetchPP,
     filterProductsWithURL
   } = props
 
@@ -54,15 +52,9 @@ function App(props) {
           <Route exact path='/p/:filter' render={({match}) => {
             const URL = filterURL(match.params.filter, '-', 2)
             filterProductsWithURL(URL)
-            return <ProductList title={URL}/>
+            return <ProductList title={URL} />
           }}/>
-          <Route exact path='/pp/:productId/:colorId' render={(props) => {
-            const { productId, colorId } = props.match.params
-            const redirect = () => props.history.push('/')
-            fetchPP(productId, colorId, products, redirect)
-            return <ProductPage {...props} ids={{productId, colorId}}/>
-          }} />
-
+          <Route exact path='/pp/:productId/:colorId' component={ProductPage} />
           <Route exact path='/p' component={ProductList} />
           <Route exact path='/register' component={SingUpIn} />
         </main>
@@ -80,7 +72,6 @@ const mapDispatchToProps = dispatch => ({
   fetchMember: () => dispatch(fetchMember()),
   fetchProducts: () => dispatch(fetchProducts()),
   fetchCategories: () => dispatch(fetchCategories()),
-  fetchPP: (id, cid, products, redirect) => dispatch(fetchProductPage(id, cid, products, redirect))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

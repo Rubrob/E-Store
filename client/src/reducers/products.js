@@ -10,7 +10,6 @@ import {
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_START,
   FETCH_PRODUCTS_FAIL,
-  FETCH_PRODUCT_PAGE,
   FETCH_CATEGORIES_SUCCESS
 } from '../actions/types';
 
@@ -30,22 +29,7 @@ const initialState = {
   searchedStr: '',
   isFetching: false,
   isFetchingError: false,
-  pp: {
-    title: '',
-    gender: '',
-    category: '',
-    subcategory: '',
-    description: '',
-    price: '',
-    colors: []
-  },
-  cp: {
-    images: [],
-    color: '',
-    sizes: ['One Size']
-  }
 }
-
 
 // REDUCER CONTROLLERS
 
@@ -134,7 +118,6 @@ const filterProductsByURL = (products, categories, payload) => {
   return {products, searchedStr}
 }
 
-
 // REDUCER
 
 const productsReducer = (state = initialState, { type, payload }) => {
@@ -204,12 +187,6 @@ const productsReducer = (state = initialState, { type, payload }) => {
         ...state,
         isFetching: false,
         isFetchingError: true
-      }
-    case FETCH_PRODUCT_PAGE:
-      return {
-        ...state,
-        pp: payload.PP,
-        cp: payload.PC
       }
     case FETCH_CATEGORIES_SUCCESS:
       return {
