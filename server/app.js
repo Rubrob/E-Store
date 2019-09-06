@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express    = require('express')
 const bodyParser = require('body-parser')
 const morgan     = require('morgan')
 const mongoose   = require('mongoose')
 const path = require('path');
-require('dotenv').config();
+const compression = require('compression');
 
 // DB initialization
 const { db } = require('./config')
@@ -28,6 +29,7 @@ if(!process.env.NODE_ENV === 'test'){
     app.use(morgan('dev'))
 }
 
+app.use(compression())
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'build')));
 
