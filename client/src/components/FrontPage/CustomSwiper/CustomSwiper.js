@@ -50,7 +50,7 @@ function Trending({ data, title }) {
     }
   }
 
-  const images = data.map((item, i) => <img key={i} src={item.img} alt='img' />)
+  const images = data.map(({colors}, i) => <img key={i} src={colors[0].preview} alt='img' />)
 
   return (
     <div className='customSwiper'>

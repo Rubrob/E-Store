@@ -58,10 +58,8 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function ProductList(props) {
-
+const ProductList = (props) => {
   const classes = useStyles()
-
   const match = useMediaQuery('(max-width: 959.5px)')
   const { filtered, currency, searchedStr, isfilterOpen } = props
   const { toggle } = props

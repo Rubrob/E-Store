@@ -54,7 +54,7 @@ const CheckoutProductTitle = withStyles(() => ({
   }
 }))((props) => <Typography variant='body1' component='div' {...props} />)
 
-function CheckoutProduct({ info, withUrl, currency }) {
+const CheckoutProduct = ({ info, withUrl, currency }) => {
   const classes = useStyles()
   const { img, title, url, gender, color, size, qty, price } = info
   return (
@@ -74,7 +74,9 @@ function CheckoutProduct({ info, withUrl, currency }) {
     </div>
   )
 }
+
 const mapStateToProps = state => ({
   currency: state.products.currency
 })
+
 export default connect(mapStateToProps, null)(CheckoutProduct)

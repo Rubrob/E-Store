@@ -30,3 +30,15 @@ export const SetFixed = (YOffset) => {
 }
 
 export const tlcWithUnderline = (str) => str.toLowerCase().split(' & ').join('__')
+
+export const isObjectValues = (obj) => {
+  let isValues = false
+  for(let key in obj){
+    if(!obj[key].length){
+      isValues = false
+    }else{
+      isValues = true
+    }
+  }
+  return isValues
+}

@@ -65,10 +65,8 @@ const CustomButton = withStyles({
   }
 })(Button)
 
-function ProfilePage(props) {
+const ProfilePage = ({ fullname }) => {
   const classes = useStyles()
-
-  const { fullname } = props
   const [open, setOpen] = useState(true)
 
   return (

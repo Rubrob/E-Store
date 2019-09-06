@@ -4,6 +4,7 @@ import { Typography } from '@material-ui/core'
 import { Button, withStyles } from '@material-ui/core'
 import Carousel from './Carousel/Carousel'
 import CustomSwiper from './CustomSwiper/CustomSwiper'
+import { connect } from 'react-redux';
 
 const CustomTypography = withStyles(() => ({
   root: {
@@ -31,16 +32,8 @@ const carouselData = [
   { url: '../images/slide_3.jpg', title: 'GET A SECOND WIND' }
 ]
 
-const swiperData = [
-  { title: 'Pureboost Go Shoes', img: '../images/trending/t_1.jpg' },
-  { title: 'Duramo 9 Shoes', img: '../images/trending/t_2.jpg' },
-  { title: '3-Stripes Leggings', img: '../images/trending/t_3.jpg' },
-  { title: 'Badge Of Sport Classic Tee', img: './images/trending/t_4.jpg' },
-  { title: 'SST Track Pants', img: '../images/trending/t_5.jpg' },
-  { title: 'Falcon Shoes', img: '../images/trending/t_6.jpg'}
-]
-
 function FrontPage(props) {
+  const swiperData = props.products.filter((item, index) => (index <= 6))
 
   const News = ({img, text}) => (
     <div className='news-cont-item'>
@@ -81,4 +74,4 @@ function FrontPage(props) {
   )
 }
 
-export default FrontPage
+export default connect(state => ({products: state.products.products}), null)(FrontPage)

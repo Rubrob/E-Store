@@ -8,22 +8,14 @@ import { Button, Typography } from '@material-ui/core'
 import { setBillingAddress } from '../../../../actions/auth'
 import FormsPreview from './../../../Checkout/FormsPreview/FormsPreview'
 import CheckoutForm from './../../../Checkout/CheckoutForm/CheckoutForm'
+import { isObjectValues } from '../../../../utils'
 
 function ProfileBillingAddress(props) {
   const { handleSubmit, invalid } = props
   const { setBilling, billing } = props
   const { firstname, lastname, address, city, zip, country } = billing
-
   const [expand, setExpand] = useState(false)
-
-  let isValues = false
-  for(let key in billing){
-    if(!billing[key].length){
-      isValues = false
-    }else{
-      isValues = true
-    }
-  }
+  let isValues = isObjectValues(billing)
 
   const preview = isValues && <FormsPreview content={{ firstname, lastname, address, city, zip, country }} />
   const label = isValues ? 'Edit' : 'Add'

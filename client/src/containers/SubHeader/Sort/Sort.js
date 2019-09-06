@@ -60,9 +60,8 @@ const StyledButton = withStyles({
     </Button>
   ));
 
-function Sort(props) {
-  const { sortByPrice } = props
-  const { label } = props
+const Sort = (props) => {
+  const { sortByPrice, label } = props
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (evt) => {setAnchorEl(evt.currentTarget)}

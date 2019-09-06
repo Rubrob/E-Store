@@ -13,35 +13,33 @@ import logo from '../../logo.png'
 
 const CustomAppBar = withStyles({
   root: {
-    background: '#fff',
-    boxShadow: 'none',
     borderBottom: '1px solid #e5e5e5',
     boxSizing: 'border-box',
-    flexGrow: 1
   }
 })(AppBar)
 
-function Header(props) {
-  const { categories } = props
+const Header = ({ categories }) => {
   const desktopMenuData = categories.map((item, i) => <DesktopMenu key={i} title={item.title} menu={item.categories} />)
   return (
-    <CustomAppBar position='fixed' className='Header'>
-      <Toolbar className='toolbar'>
-        <div className='leftSide'>
-          <Link to='/' className='logoButton' children={<img src={logo} className='logo' alt='logo' />} />
-          <div className='desktopMenu' children={desktopMenuData} />
-        </div>
-        <div className='rightSide'>
-          <SearchBox />
-          <DesktopAccount />
-          <ShoppingBasket />
-          <MobileMenu />
-        </div>
-      </Toolbar>
-    </CustomAppBar>
+    <>
+      <CustomAppBar position='fixed' className='Header' color='inherit' elevation={0}>
+        <Toolbar className='toolbar'>
+          <div className='leftSide'>
+            <Link to='/' className='logoButton' children={<img src={logo} className='logo' alt='logo' />} />
+            <div className='desktopMenu' children={desktopMenuData} />
+          </div>
+          <div className='rightSide'>
+            <SearchBox />
+            <DesktopAccount />
+            <ShoppingBasket />
+            <MobileMenu />
+          </div>
+        </Toolbar>
+      </CustomAppBar>
+      <Toolbar />
+    </>
   );
 }
-
 
 const mapStateToProps = state => ({
   categories: state.products.categories

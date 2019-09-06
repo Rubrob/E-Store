@@ -30,24 +30,22 @@ const StyledButton = withStyles({
   },
   })(({icon, text, ...rest}) => (
     <Button
-      aria-haspopup="true"
-      color="inherit"
+      aria-haspopup='true'
+      color='inherit'
       {...rest}>
       {text}
       {icon}
     </Button>
   ));
 
-function FilterTriger(props)  {
-  return (
-    <StyledButton
-      className='FilterTriger'
-      onClick={props.toggle}
-      text={props.label}
-      icon={<FontAwesomeIcon icon='sliders-h' />}
-      />
-  )
-}
+const FilterTriger = (props) => (
+  <StyledButton
+    className='FilterTriger'
+    onClick={props.toggle}
+    text={props.label}
+    icon={<FontAwesomeIcon icon='sliders-h' />}
+    />
+)
 
 const mapDispatchToProps = dispatch => ({
   toggle: () => dispatch(toggleFilter())

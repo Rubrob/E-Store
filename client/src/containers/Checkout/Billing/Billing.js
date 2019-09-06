@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Billing.sass'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { reduxForm, formValueSelector } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import { FormControlLabel, Checkbox, Button, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import { validate } from '../../../validation/checkout'
@@ -78,19 +78,14 @@ function Billing(props) {
   )
 }
 
-const selector = formValueSelector('billing')
-const mapStateToProps = state => {
-  const firstname = selector(state, 'firstname')
-  return {
-    initialValues: state.auth.addresses.billing,
-    shipping: state.cart.checkout.addresses.shipping,
-    cartProducts: state.cart.cartProducts,
-    delivery: state.cart.defaultValues.delivery,
-    step: state.cart.step,
-    fields: state.form.billing,
-    firstname
-  }
-}
+const mapStateToProps = state => ({
+  initialValues: state.auth.addresses.billing,
+  shipping: state.cart.checkout.addresses.shipping,
+  cartProducts: state.cart.cartProducts,
+  delivery: state.cart.defaultValues.delivery,
+  step: state.cart.step,
+  fields: state.form.billing,
+})
 const mapDispatchToProps = dispatch => ({
   submitCheckout: (shipping, billing) => dispatch(submitCheckout(shipping, billing)),
 })

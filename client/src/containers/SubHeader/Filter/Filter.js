@@ -6,7 +6,7 @@ import { Done } from '@material-ui/icons'
 import { resetFilter, getFilters } from '../../../actions/products'
 import FilterBlock from './FilterBlock/FilterBlock';
 
-function Filter(props) {
+const Filter = (props) => {
   const { resetFilter } = props
   const { searched, hide } = props
 

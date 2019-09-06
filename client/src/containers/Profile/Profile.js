@@ -21,18 +21,6 @@ const AntTab = withStyles(() => ({
     width: '50%',
     transition: '.4s',
     fontSize: 16,
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      'Segoe UI',
-      'Roboto',
-      'Helvetica Neue',
-      'Arial',
-      'sans-serif',
-      'Apple Color Emoji',
-      'Segoe UI Emoji',
-      'Segoe UI Symbol',
-    ].join(','),
     '&:hover': {
       color: '#444',
       opacity: 1
