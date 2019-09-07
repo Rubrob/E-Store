@@ -10,32 +10,18 @@ const StyledMenu = withStyles({
     borderRadius: 0,
     boxShadow: '0 0 4px #e5e5e5'
   },
-})(props => (
-  <Menu
-    id='sort-menu'
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
-    }}
-    transformOrigin={{
-      horizontal: 'right',
-    }}
-    {...props}
-    />
-));
+})(Menu);
 
 const StyledButton = withStyles({
   root: {
-    minWidth: 40,
-    width: 90,
+    minWidth: 50,
+    width: 100,
     height: 50,
     borderRadius: 0,
     '@media (max-width: 959.5px)': {
       width: 50
     },
-    '&.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-colorInherit': {
+    '&.MuiButtonBase-root.MuiButton-root.MuiButton-text': {
       padding: 0
     },
     '& .MuiButton-label': {
@@ -51,7 +37,6 @@ const StyledButton = withStyles({
     <Button
       aria-controls='sort-menu'
       aria-haspopup='true'
-      color='inherit'
       {...rest}>
       {text}
       {icon}
@@ -79,10 +64,21 @@ const Sort = (props) => {
         icon={<FontAwesomeIcon icon='sort' />}
       />
       <StyledMenu
-        className='Sort-menu'
+        id='sort-menu'
+        elevation={0}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        className='Sort-menu'
         >
         <MenuItem onClick={() => handleSort('low')}>Price: Low - High</MenuItem>
         <MenuItem onClick={() => handleSort('high')}>Price: High - Low</MenuItem>

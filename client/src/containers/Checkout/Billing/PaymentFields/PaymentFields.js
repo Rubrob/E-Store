@@ -1,24 +1,18 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { Typography, Grid } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { Grid, Box } from '@material-ui/core'
 import { createTextMask } from 'redux-form-input-masks'
 import CustomTextField from './../../CustomTextField/CustomTextField'
 
 const cardMask = createTextMask({ pattern: '9999 9999 9999 9999' })
 const expMask = createTextMask({ pattern: '99/99' })
 
-const useStyles = makeStyles(() => ({
-  title: {
-    fontWeight: 600
-  }
-}))
-
 const PaymentFields = (props) => {
-  const classes = useStyles()
   return (
     <>
-      <Typography variant='subtitle1' className={classes.title} paragraph children={'Add Card'} />
+      <Box fontWeight={600} mb={2}>
+        Add Card
+      </Box>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={4}>
           <Field

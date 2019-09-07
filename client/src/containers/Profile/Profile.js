@@ -18,31 +18,24 @@ const AntTab = withStyles(() => ({
   root: {
     textTransform: 'none',
     color: '#999',
-    width: '50%',
     fontSize: 16,
     '&:hover': {
-      color: '#444',
-      opacity: 1
+      color: '#000',
     },
-    '&$selected': {
-      color: '#444',
-    },
-    '&:focus': {
-      color: '#444',
-    }
   },
-  selected: {},
+  selected: {
+    color: '#000',
+  },
 }))(Tab);
 
 const AntTabs = withStyles({
   root: {
-    width: '100%',
     maxWidth: 320,
     margin: '0 auto',
     borderBottom: '1px solid #e5e5e5'
   },
   indicator: {
-    backgroundColor: '#444',
+    backgroundColor: '#000',
   },
 })(Tabs);
 
@@ -59,9 +52,20 @@ const Profile = (props) => {
 
   return (
     <div className={classes.profile}>
-      <AntTabs value={history.location.pathname} onChange={(evt, value) => history.push(value)}>
-        <AntTab disableRipple value={url} label='Profile' />
-        <AntTab disableRipple value={`${url}/orders`} label='Orders' />
+      <AntTabs
+        variant='fullWidth'
+        value={history.location.pathname}
+        onChange={(evt, value) => history.push(value)}>
+        <AntTab
+          disableRipple
+          fullWidth
+          value={url}
+          label='Profile' />
+        <AntTab
+          disableRipple
+          fullWidth
+          value={`${url}/orders`}
+          label='Orders' />
       </AntTabs>
       <Route exact path={url} component={ProfilePage} />
       <Route exact path={`${url}/orders`} component={OrdersPage} />

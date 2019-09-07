@@ -66,7 +66,6 @@ export const fetchProducts = () => async dispatch => {
   dispatch({ type: FETCH_PRODUCTS_START })
   try {
     const res = await axios.get('/products')
-    console.log(res)
     dispatch({ type: FETCH_PRODUCTS_SUCCESS, payload: res.data.products })
   } catch (err) {
     dispatch({ type: FETCH_PRODUCTS_FAIL })

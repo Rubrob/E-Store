@@ -1,33 +1,14 @@
 import React from 'react'
-import { Typography,  makeStyles } from '@material-ui/core'
+import './FormsPreview.sass'
+import { Typography } from '@material-ui/core'
 
-const useStyles = makeStyles({
-  root: {
-    padding: 20,
-  },
-  title: {
-    fontWeight: 600,
-    color: '#444'
-  },
-  content: {
-    color: '#999'
-  }
-})
-
-function FormsPreview(props) {
-  const classes = useStyles()
-  const { title, children, content = {}, cn = '' } = props
-
-  const fullname = (firstname = '', lastname = '') => <Typography variant='body2' children={`${firstname} ${lastname}`} />
-  const arr = Object.entries(content)
-  const previewContent = arr.map(([key, value]) =>
-  (key === 'firstname' || key === 'lastname') ? null : <Typography variant='body2' key={key} children={value} />)
+const FormsPreview = ({ title, children, content = {}, cn = '' }) => {
+  const previewContent = Object.entries(content).map(([key, value]) => <Typography variant='body2' key={key} children={value} />)
 
   return (
-    <div className={`${classes.root} ${cn}`}>
-      {title && <Typography gutterBottom className={classes.title} children={title} />}
-      <div className={classes.content}>
-        {fullname(content.firstname, content.lastname)}
+    <div className={`formPreview ${cn}`}>
+      {title && <Typography gutterBottom className='formPreview-title' children={title} />}
+      <div className='formPreview-content'>
         {previewContent}
       </div>
       {children}

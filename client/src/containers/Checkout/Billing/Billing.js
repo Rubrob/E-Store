@@ -17,16 +17,23 @@ const SubmitButton = withStyles(() => ({
     alignSelf: 'flex-end',
     marginTop: 20,
     padding: '15px 20px',
-    color: '#fff',
   }
 }))(Button)
 
-function Billing(props) {
-  const { handleSubmit, invalid, submitting, pristine } = props
-  const { submitCheckout } = props
-  const { shipping, step, cartProducts, delivery } = props
+const Billing = (props) => {
+  const {
+    handleSubmit,
+    invalid,
+    submitting,
+    pristine,
+    submitCheckout,
+    shipping,
+    step,
+    cartProducts,
+    delivery,
+   } = props
   const { firstname, lastname, address, city, zip, country } = shipping
-  const previewContent = { firstname, lastname, address, city, zip, country }
+  const previewContent = { fullname: `${firstname} ${lastname}`, address, city, zip, country }
 
   const submit = async (value) => {
     const onSuccess = (message) => {

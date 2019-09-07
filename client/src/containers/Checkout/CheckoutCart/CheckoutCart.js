@@ -4,11 +4,10 @@ import { connect } from 'react-redux'
 import { Typography } from '@material-ui/core'
 import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import CheckoutProduct from './CheckoutProduct/CheckoutProduct'
-import { freeIfZero, SetFixed } from '../../../utils'
+import { freeIfZero } from '../../../utils'
 import { totalRecalculation } from '../../../actions/cart'
 
 const CheckoutCart = (props) => {
-  const { fixed, setFixed } = SetFixed(140)
   const {
     currency,
     deliveryMethods,
@@ -21,12 +20,10 @@ const CheckoutCart = (props) => {
 
   useEffect(() => {
     totalRecalculation(cartProducts)
-    window.addEventListener('scroll', setFixed)
-    return () => { window.removeEventListener('scroll', setFixed) }
-  }, [cartProducts, setFixed, totalRecalculation])
+  }, [cartProducts, totalRecalculation])
 
   return (
-    <div className={`checkoutCartMain ${fixed ? 'fixed' : ''}`}>
+    <div className='checkoutCartMain'>
       <div className='checkoutCartHeader'>
         <Typography variant='h6' component='h4' children='ORDER SUMMARY' />
         <div
@@ -35,7 +32,7 @@ const CheckoutCart = (props) => {
           children={expand ? <ExpandLess /> : <ExpandMore />} />
       </div>
 
-      <div className={`checkoutCartMainContent`}>
+      <div className='checkoutCartMainContent'>
         <div className={`checkoutSummary ${expand ? 'pseudo' : ''}`}>
           <Typography variant='body2' component='div'>
             Subtotal <span children={`${currency}${total}`} />

@@ -1,9 +1,5 @@
 @import '../../../../variables'
 
-@mixin button($bg, $color)
-  background: $bg
-  color: $color
-
 .profileShippingAddress
   &.toAdd
     display: flex
@@ -12,17 +8,16 @@
     padding: 15px
     margin-bottom: 20px
     box-sizing: border-box
-    color: $primary-black
 
   &-preview
     display: flex
     justify-content: space-between
     align-items: flex-end
     *
-      font-size: 1rem !important
+      // font-size: 1rem !important
 
-    .expandForm
-      @include button($white, $primary-black)
+    .openForm
+      background: $white
       margin-right: 20px
 
     form
@@ -31,7 +26,7 @@
         display: flex
         justify-content: flex-end
         button:first-child
-          @include button($white, $primary-black)
+          background: $white
           margin-right: 8px
 
 
@@ -42,5 +37,5 @@
       justify-content: center
       align-items: flex-start
 
-    .expandForm
+    .openForm
       margin-left: 20px

@@ -9,7 +9,7 @@ const SocialIconButton = withStyles(() =>({
   root: {
     padding: 10,
     marginRight: 5,
-    color: '#444',
+    color: '#000',
     background: 'rgba(255, 255, 255, .45)',
     '&:hover': {
       background: '#fff'

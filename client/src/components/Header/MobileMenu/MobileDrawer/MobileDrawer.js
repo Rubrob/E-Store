@@ -17,8 +17,8 @@ const MobileDrawer = ({ categories, open, onClose, onOpen }) => {
   )
 
   return (
-    <SwipeableDrawer anchor='right' open={open} onClose={onClose} onOpen={onOpen}>
-      <div className='MobileDrawer' >
+    <SwipeableDrawer anchor='right' open={open} onClose={onClose} onOpen={onOpen} className='mobileDrawer'>
+      <div className='mobileDrawer-content' >
         <MobileAccount />
 
         {categories.map(gender => <MenuListItem key={gender['_id']} title={gender.title}>

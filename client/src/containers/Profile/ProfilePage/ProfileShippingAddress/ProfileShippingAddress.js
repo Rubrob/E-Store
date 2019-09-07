@@ -11,19 +11,24 @@ import CheckoutForm from './../../../Checkout/CheckoutForm/CheckoutForm'
 import { isObjectValues } from '../../../../utils'
 
 function ProfileShippingAddress(props) {
-  const { handleSubmit, invalid } = props
-  const { setShipping, shipping } = props
+  const {
+    handleSubmit,
+    invalid,
+    setShipping,
+    shipping,
+  } = props
   const { firstname, lastname, address, city, zip, country, email, phone } = shipping
-
   const [open, setOpen] = useState(false)
-  let isValues = isObjectValues(shipping)
-
+  const isValues = isObjectValues(shipping)
   const preview = isValues && <FormsPreview content={{ firstname, lastname, address, city, zip, country, email, phone }} />
   const label = isValues ? 'Edit' : 'Add'
 
+  const openForm = () => setOpen(true)
+  const closeFrom = () => setOpen(false)
+
   const submit = async (value) => {
     await setShipping(value)
-    setOpen(false)
+    closeFrom()
   }
 
   return (
@@ -35,7 +40,7 @@ function ProfileShippingAddress(props) {
           <div className='formBtns'>
             <Button
               variant='contained'
-              onClick={() => setOpen(false)}
+              onClick={closeFrom}
               children='Cancel' />
             <Button
               variant='contained'
@@ -45,7 +50,7 @@ function ProfileShippingAddress(props) {
               children='Save' />
           </div>
         </form> : preview}
-        {!open && <Button variant='contained' className='expandForm' onClick={() => setOpen(true)} children={label} />}
+        {!open && <Button variant='contained' className='openForm' onClick={openForm} children={label} />}
       </div>
     </div>
   )

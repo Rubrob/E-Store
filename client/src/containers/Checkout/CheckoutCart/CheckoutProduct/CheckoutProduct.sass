@@ -1,0 +1,33 @@
+.checkoutProduct
+  position: relative
+  display: flex
+  align-items: center
+  padding: 8px
+  &:not(:last-child):before
+    content: ''
+    position: absolute
+    left: 50%
+    bottom: 0
+    transform: translateX(-50%)
+    width: 90%
+    height: 1px
+    background: #e5e5e5
+  &-info
+    margin-left: 8px
+    color: #999
+    text-transform: capitalize
+    > :last-child
+      color: #000
+      font-weight: 600
+    &-title
+      color: #000
+      font-weight: 600 !important
+  a
+    text-decoration: underline
+  &-img
+    height: 100px
+    a
+      height: inherit
+    img
+      height: inherit
+      display: block

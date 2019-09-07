@@ -1,22 +1,25 @@
 @import '../../../../variables'
-.MobileDrawer
+.mobileDrawer
   width: 250px
-  height: 100vh
-  overflow-y: visible
-  color: $primary-black
-  background: $mobile-menu-bg
+  & .MuiPaper-root
+    width: inherit !important
+    overflow: hidden
+    background: $mobile-menu-bg
+  &-content
+    height: 100vh
+    background: $mobile-menu-bg
 
-  .listItem
-    width: 100%
-    height: 49px
-    line-height: 49px
-    border-bottom: 1px solid $mobile-menu-border
-    box-sizing: border-box
-    &:first-child
-      background: $white !important
-    &:first-child:not(.listHeader) span
-      margin-left: 8px
-    & .link
+    .listItem
       width: 100%
-      text-transform: capitalize
-      text-decoration: none
+      height: 49px
+      line-height: 49px
+      border-bottom: 1px solid $mobile-menu-border
+      box-sizing: border-box
+      &:first-child
+        background: $white !important
+      &:first-child:not(.listHeader) span
+        margin-left: 8px
+      & .link
+        width: 100%
+        text-transform: capitalize
+        text-decoration: none

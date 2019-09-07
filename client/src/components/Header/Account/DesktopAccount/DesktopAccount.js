@@ -35,7 +35,6 @@ const DesktopAccount = (props) => {
   return (
     <>
       <Button
-        color='inherit'
         aria-controls='accountMenu'
         className='DesktopAccount'
         onClick={isAuthenticated ? handleClick : null}

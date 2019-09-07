@@ -3,7 +3,7 @@
 .checkoutCartMain
   width: 100%
   min-height: 320px
-  max-height: 765px !important
+  max-height: 765px
   box-sizing: border-box
   border: 1px solid $light-gray
 
@@ -27,63 +27,38 @@
     box-sizing: border-box
     cursor: pointer
 
-  &.fixed
-    // position: fixed
-    z-index: 90
-    top: 80px
-    bottom: 80px
-    max-width: inherit
-    overflow-x: hidden
-    overflow-y: scroll
-    background: $white
-
-    &::-webkit-scrollbar
-      width: 0
-
   .checkoutSummary
     position: relative
     padding: 8px
-    font-size: 14px
 
     > div
       display: flex
       justify-content: space-between
       padding: 2px 0
       color: $secondary-black
-
       &:last-child
         color: $primary-black
         padding-top: 10px
-
         > span
           color: $primary-red
 
 @media (max-width: 959.5px)
-
   .checkoutCartMain
     min-height: 0
     margin-bottom: 20px
-
+    .expand
+      display: block
+    .hidden
+      display: none
     .checkoutCartHeader
       position: relative
-
     .expandCheckoutCart
       display: flex
       align-items: center
       justify-content: flex-end
-
-    &.fixed
-      position: relative
-      top: 0
-
     .checkoutCartMainContent
       padding: 12px
       flex-direction: column
-
-      .expand
-        display: block
-      .hidden
-        display: none
 
     .checkoutSummary
       position: relative

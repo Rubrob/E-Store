@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { arrayFromNumber} from '../../../utils'
 import { Typography, IconButton } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
 import { Clear } from '@material-ui/icons'
 import {
   changeProductQuantity,
@@ -13,17 +12,15 @@ import {
 } from '../../../actions/cart'
 import CustomSelect from '../CustomSelect/CustomSelect'
 
-const CartItemTitle = withStyles(() => ({
-  root: {
-    '& a': {
-      fontWeight: 600,
-      color: '#444',
-    }
-  }
-}))((props) => <Typography variant='body1' component='div' {...props} />)
+const CartItem = (props) => {
+  const {
+    data,
+    currency,
+    changeProductQuantity,
+    changeProductSize,
+    deleteCartProduct,
+  } = props
 
-function CartItem(props) {
-  const { data, currency } = props
   const {
     url,
     img,
@@ -37,8 +34,6 @@ function CartItem(props) {
     price
   } = data
 
-  const { changeProductQuantity, changeProductSize, deleteCartProduct } = props
-
   const changeQuantity = (data) => changeProductQuantity(data)
   const changeSize = (data) => changeProductSize(data)
   const deleteItem = () => deleteCartProduct(data)
@@ -49,7 +44,10 @@ function CartItem(props) {
         <Link to={url} className='ProductToBuy-content-img' children={<img src={img} alt='img' />} />
 
         <div className='ProductToBuy-content-data'>
-          <CartItemTitle children={<Link to={url} children={title} />}/>
+          <Typography
+            component='div'
+            className='ProductToBuy-content-data-title'
+            children={<Link to={url} children={title} />}/>
           <Typography variant='body2' component='div' children={`Gender: ${gender}'s`} />
           <Typography variant='body2' component='div' children={`Color: ${color}`} />
           <Typography variant='body2' component='div'>

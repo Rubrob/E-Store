@@ -3,7 +3,7 @@ import './ProductCard.sass'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { Link } from 'react-router-dom'
-import { useMediaQuery, Typography } from '@material-ui/core'
+import { useMediaQuery, Typography, Hidden } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
 import { ampersand } from '../../../utils'
 
@@ -64,6 +64,7 @@ function ProductCard({ product, currency }) {
         <Link to={`/pp/${id}/${colorID}`} className='frontImg' children={<img src={front} alt='img'/>} />
 
         {colors.length > 1 &&
+        <Hidden xsDown>
           <div className='previewBox'>
             <div className='previewImgs'>
               <div className='previewSlider' style={{left: slide}} children={previews} />
@@ -78,7 +79,9 @@ function ProductCard({ product, currency }) {
                 onClick={() => handleSlide('next')}
                 children={<KeyboardArrowRight fontSize='small' />}/>
             </>}
-          </div>}
+          </div>
+        </Hidden>
+        }
 
         <div className='productInfo'>
           <Typography component='div' className='title' children={title} />

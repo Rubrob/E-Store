@@ -42,3 +42,5 @@ export const isObjectValues = (obj) => {
   }
   return isValues
 }
+
+export const totalCalculation = (arr) => arr.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)

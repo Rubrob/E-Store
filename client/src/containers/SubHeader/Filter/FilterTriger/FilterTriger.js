@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const StyledButton = withStyles({
   root: {
-    minWidth: 40,
-    width: 90,
+    minWidth: 50,
+    width: 100,
     height: 50,
     borderRadius: 0,
     marginRight: 20,
@@ -16,7 +16,7 @@ const StyledButton = withStyles({
       width: 50,
       marginRight: 0
     },
-    '&.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-colorInherit': {
+    '&.MuiButtonBase-root.MuiButton-root.MuiButton-text': {
       padding: 0
     },
     '& .MuiButton-label': {
@@ -31,7 +31,6 @@ const StyledButton = withStyles({
   })(({icon, text, ...rest}) => (
     <Button
       aria-haspopup='true'
-      color='inherit'
       {...rest}>
       {text}
       {icon}

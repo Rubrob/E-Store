@@ -18,24 +18,22 @@ const SubmitButton = withStyles(() => ({
     alignSelf: 'flex-end',
     marginTop: 20,
     padding: '15px 20px',
-    color: '#fff',
   }
 }))(Button)
 
-function Shipping (props) {
+const Shipping = (props) => {
 
   const { handleSubmit, invalid } = props
   const { step, prevStep, submitShipping, delivery, currency, shipping, deliveryMethods } = props
   const { firstname, lastname, address, city, zip, country, email, phone } = shipping
-
-  const previewContent = { firstname, lastname, address, city, zip, country, email, phone }
+  const previewContent = { fullname: `${firstname} ${lastname}`, address, city, zip, country, email, phone }
 
   const submit = (data) => {
     submitShipping(data)
   }
 
   const delChild = <div className='delChild'>
-    <Typography gutterBottom className='delChild-title' children={'Shipping Speed'} />
+    <Typography gutterBottom className='delChild-title' children='Shipping Speed' />
     <Typography variant='body2' className='delChild-content'>
       {delivery}: {freeIfZero(deliveryMethods[delivery], currency)}
     </Typography>
@@ -67,7 +65,7 @@ function Shipping (props) {
             variant='contained'
             type='submit'
             disabled={invalid}
-            children={'SAVE & CONTINUE'}
+            children='SAVE & CONTINUE'
             />
         </form>}
     </div>

@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     marginTop: 20
   },
   title: {
-    fontWeight: 700,
+    fontWeight: 600,
   },
   content: {
     width: '100%',
@@ -43,8 +43,13 @@ const useStyles = makeStyles({
 
 function DeliveryBox(props) {
   const classes = useStyles()
-  const { input } = props
-  const { currency, deliveryMethods, changeDelivery, delivery } = props
+  const {
+    input,
+    currency,
+    deliveryMethods,
+    changeDelivery,
+    delivery
+  } = props
 
   return (
     <RadioGroup

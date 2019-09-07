@@ -1,7 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import defaultTheme from '@material-ui/core/styles/defaultTheme';
-
-console.log(defaultTheme)
+// import defaultTheme from '@material-ui/core/styles/defaultTheme';
 
 const fields = {
   static: {

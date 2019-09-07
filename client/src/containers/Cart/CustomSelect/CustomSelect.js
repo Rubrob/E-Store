@@ -12,9 +12,7 @@ const CustomInput = withStyles(() => ({
   },
 }))(InputBase);
 
-
 const CustomSelect = ({data, primary, onChangeData, onChange = () => null}) => {
-
   const [select, setSelect] = useState(primary)
   useEffect(() => {
     setSelect(primary)

@@ -11,33 +11,38 @@
 
   &-content
     display: flex
+    align-items: center
     width: 100%
-
     &-img
-      align-self: center
+      height: 120px
       img
+        height: inherit
         display: block
-        height: 120px
 
     &-data
       width: 100%
-      align-self: center
       color: $secondary-black-light
       margin-left: 8px
       text-transform: capitalize
+      &-title
+        color: $primary-black
+        font-weight: 600 !important
 
   &-controls
     display: flex
     flex-direction: column
     justify-content: space-between
+    align-items: flex-end
+    align-self: stretch
     color: $primary-black
     font-weight: 500
 
 @media (max-width: 599.5px)
   .ProductToBuy
     padding: 10px 20px
-    img
-      height: 100px
+    &-content
+      &-img
+        height: 100px
 
 .MuiPaper-root.MuiMenu-paper.MuiPaper-elevation8.MuiPopover-paper.MuiPaper-rounded
   &::-webkit-scrollbar

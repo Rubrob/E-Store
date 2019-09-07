@@ -78,10 +78,9 @@ function DesktopSearchBox(props) {
         onChange={onChange}/>
       {value.length > 0 && <IconButton color='inherit' onClick={clearSearchBox} children={<Close />} />}
       <CustomBackdrop open={open} onClick={backdropClick}/>
-      {suggestions.length !== 0 &&
-        <div className='suggestions-wrap'>
-          {suggestions()}
-        </div>}
+      <div className='suggestions-wrap'>
+        {suggestions()}
+      </div>
     </div>
   )
 }

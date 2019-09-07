@@ -31,7 +31,7 @@
       transform: scale(1.08)
       background: inherit
     .previewBox
-      transform: translateY(-100%)
+      transform: translateY(-60px)
       transition-delay: .2s
       transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .6s
       opacity: 1
@@ -45,6 +45,8 @@
     width: 100%
 
   .previewBox
+    width: 100%
+    background: $img-bg
     position: relative
     display: flex
     justify-content: center
@@ -62,6 +64,7 @@
       overflow: hidden
       max-width: 180px
       img
+        display: block
         height: 60px
 
       .previewSlider
@@ -93,7 +96,6 @@
   opacity: 0
   cursor: pointer
   transition: .4s
-  color: $primary-black
   svg
     font-size: 1.75rem
   &:hover
@@ -166,15 +168,8 @@
     &::before
       display: none
 
-@media (max-width: 739.5px)
-  .productCard
-    width: calc(50% - 4px)
-
 @media (max-width: 599.5px)
   .productCard
-    .previewBox
-      display: none
-      margin-bottom: 0
     .colors
       .color
         display: inline-block

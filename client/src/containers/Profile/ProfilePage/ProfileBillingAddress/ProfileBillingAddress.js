@@ -10,31 +10,37 @@ import FormsPreview from './../../../Checkout/FormsPreview/FormsPreview'
 import CheckoutForm from './../../../Checkout/CheckoutForm/CheckoutForm'
 import { isObjectValues } from '../../../../utils'
 
-function ProfileBillingAddress(props) {
-  const { handleSubmit, invalid } = props
-  const { setBilling, billing } = props
+const ProfileBillingAddress = (props) => {
+  const {
+    handleSubmit,
+    invalid,
+    setBilling,
+    billing,
+  } = props
   const { firstname, lastname, address, city, zip, country } = billing
-  const [expand, setExpand] = useState(false)
-  let isValues = isObjectValues(billing)
-
+  const [open, setOpen] = useState(false)
+  const isValues = isObjectValues(billing)
   const preview = isValues && <FormsPreview content={{ firstname, lastname, address, city, zip, country }} />
   const label = isValues ? 'Edit' : 'Add'
 
+  const openForm = () => setOpen(true)
+  const closeForm = () => setOpen(false)
+
   const submit = async (value) => {
     await setBilling(value)
-    setExpand(false)
+    closeForm()
   }
 
   return (
-    <div className={`profileBillingAddress ${isValues ? '' : (!expand && 'toAdd')}`}>
-      <Typography variant='h6' className='profileBillingAddress-header' children={'Billing Address'} />
+    <div className={`profileBillingAddress ${isValues ? '' : (!open && 'toAdd')}`}>
+      <Typography variant='h6' className='profileBillingAddress-header' children='Billing Address' />
       <div className='profileBillingAddress-preview'>
-        {expand ? <form onSubmit={handleSubmit(submit)}>
+        {open ? <form onSubmit={handleSubmit(submit)}>
           <CheckoutForm type='billing' />
           <div className='formBtns'>
             <Button
               variant='contained'
-              onClick={() => setExpand(false)}
+              onClick={closeForm}
               children='Cancel' />
             <Button
               variant='contained'
@@ -44,7 +50,7 @@ function ProfileBillingAddress(props) {
               children='Save' />
           </div>
         </form> : preview}
-        {!expand && <Button variant='contained' className='expandForm' onClick={() => setExpand(true)} children={label} />}
+        {!open && <Button variant='contained' className='openForm' onClick={openForm} children={label} />}
       </div>
     </div>
   )

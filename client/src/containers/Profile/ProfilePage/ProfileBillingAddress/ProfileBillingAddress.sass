@@ -8,12 +8,11 @@
   &.toAdd
     display: flex
   &-header
+    width: 100%
     position: relative
     margin-bottom: 20px
     padding: 15px
     box-sizing: border-box
-    color: $primary-black
-    width: 100%
 
   &-preview
     display: flex
@@ -22,8 +21,8 @@
     *
       font-size: 1rem !important
 
-    .expandForm
-      @include button($white, $primary-black)
+    .openForm
+      background: $white
       margin-right: 20px
 
   form
@@ -32,7 +31,7 @@
         display: flex
         justify-content: flex-end
         button:first-child
-          @include button($white, $primary-black)
+          background: $white
           margin-right: 5px
 
 
@@ -43,5 +42,5 @@
       justify-content: center
       align-items: flex-start
 
-    .expandForm
+    .openForm
       margin-left: 20px
