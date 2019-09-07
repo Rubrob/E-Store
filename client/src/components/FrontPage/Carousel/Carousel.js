@@ -39,8 +39,8 @@ export default (props) => (
         <div>
           <img src={img.url} alt='img' />
           <div className='Carousel-block-text'>
-            <Typography variant='h4' component='h2' className='Carousel-block-title' children={img.title} />
-            <Button children={'Shop'} size='large' color='inherit' />
+            <Typography variant='h4' className='Carousel-block-title' children={img.title} />
+            <Button size='large' variant='contained' color='secondary' children='Shop' />
           </div>
         </div>
       </div>

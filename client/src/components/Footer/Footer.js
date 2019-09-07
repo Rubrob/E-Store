@@ -2,24 +2,10 @@ import React from 'react'
 import './Footer.sass'
 import { withRouter } from 'react-router-dom'
 import { Typography, IconButton } from '@material-ui/core'
-import {withStyles} from '@material-ui/styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-const SocialIconButton = withStyles(() =>({
-  root: {
-    padding: 10,
-    marginRight: 5,
-    color: '#000',
-    background: 'rgba(255, 255, 255, .45)',
-    '&:hover': {
-      background: '#fff'
-    }
-  }
-}))(IconButton)
 
 const Footer = (props) => {
   const isCartLocation = props.location.pathname.indexOf('cart') !== -1
-
   return (
     <footer className='Footer'>
       <div className='Footer-main'>
@@ -32,10 +18,10 @@ const Footer = (props) => {
 
         <div className='Footer-main-social'>
           <Typography variant='h6' component='h4' paragraph children={'Follow Us:'} />
-          <SocialIconButton className='Footer-main-social-icon' children={<FontAwesomeIcon icon={['fab', 'facebook']} size='xs' />} />
-          <SocialIconButton className='Footer-main-social-icon' children={<FontAwesomeIcon icon={['fab', 'twitter']} size='xs' />} />
-          <SocialIconButton className='Footer-main-social-icon' children={<FontAwesomeIcon icon={['fab', 'youtube']} size='xs' />} />
-          <SocialIconButton className='Footer-main-social-icon' children={<FontAwesomeIcon icon={['fab', 'instagram']} size='xs' />} />
+          <IconButton size='small' className='Footer-main-social-icon' children={<FontAwesomeIcon icon={['fab', 'facebook']} />} />
+          <IconButton size='small' className='Footer-main-social-icon' children={<FontAwesomeIcon icon={['fab', 'twitter']} />} />
+          <IconButton size='small' className='Footer-main-social-icon' children={<FontAwesomeIcon icon={['fab', 'youtube']} />} />
+          <IconButton size='small' className='Footer-main-social-icon' children={<FontAwesomeIcon icon={['fab', 'instagram']} />} />
         </div>
 
       </div>

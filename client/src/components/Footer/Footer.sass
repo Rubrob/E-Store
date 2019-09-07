@@ -8,17 +8,31 @@
     display: flex
     justify-content: space-between
     padding: 40px
-    color: rgba($white, .45)
+    color: $footer-text
 
     &-contacts, &-social
       h4
         color: $white
-
+    &-social
+      &-icon
+        padding: 10px !important
+        margin-right: 5px !important
+        color: #000 !important
+        background: #aaaa !important
+        &:hover
+          background: #fff !important
+  //         root: {
+  //   padding: 10,
+  //   marginRight: 5,
+  //   color: '#000',
+  //   background: '#aaaa',
+  //   '&:hover': {
+  //     background: '#fff'
     &-rights
       display: block
       padding: 20px 0
-      color: rgba($white, .45)
-      border-top: 1px solid rgba($light-gray, .2)
+      color: $footer-text
+      border-top: 1px solid rgba($white, .2)
 
 @media (max-width: 959.5px)
   .cart-mode
