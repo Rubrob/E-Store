@@ -48,6 +48,11 @@ const DesktopAccount = (props) => {
         getContentAnchorEl={null}
         anchorOrigin={{
           vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
         }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
