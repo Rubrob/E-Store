@@ -17,7 +17,7 @@ const SocialIconButton = withStyles(() =>({
   }
 }))(IconButton)
 
-function Footer(props) {
+const Footer = (props) => {
   const isCartLocation = props.location.pathname.indexOf('cart') !== -1
 
   return (
@@ -40,7 +40,7 @@ function Footer(props) {
 
       </div>
         <Typography
-          variant='body2'
+          variant='caption'
           align='center'
           children={`© ${new Date().getFullYear()} E-Store, Inc. All Rights Reserved`}
           className={`Footer-main-rights ${isCartLocation ? 'cart-mode' : ''}`} />

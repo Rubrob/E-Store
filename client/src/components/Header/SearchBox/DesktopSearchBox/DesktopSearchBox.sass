@@ -10,35 +10,12 @@
   .suggestions-wrap
     position: fixed
     top: 64px
+    box-sizing: border-box
     right: 0
-    overflow: hidden
     overflow-y: scroll
     max-height: 60%
     width: 50%
     border-radius: 0 0 0 10px
+    border-top: 1px solid $light-gray
     &::-webkit-scrollbar
       width: 0
-
-    .suggestions
-      background: $white
-      border-top: 1px solid $light-gray
-      padding: 10px 20px
-
-      &-item
-        display: flex
-        align-items: flex-start
-        padding: 10px
-        cursor: pointer
-        color: $secondary-black
-        text-transform: capitalize
-        border-bottom: 1px solid $light-gray
-        transition: .2s
-        &:hover
-          opacity: .4
-        &:last-child
-          border: none !important
-        img
-          margin-right: 20px
-          height: 80px
-        > div > div:first-child
-          color: $primary-black

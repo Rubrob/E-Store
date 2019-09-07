@@ -16,7 +16,7 @@ const JoinLogInButton = withStyles(() => ({
   },
 }))(ListItem)
 
-function MobileAccount(props) {
+const MobileAccount = (props) => {
   const { isAuthenticated, token } = props
   const { closeMenu, logOut } = props
   const onLogOut = () => {

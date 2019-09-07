@@ -82,10 +82,9 @@ class ProductPage extends Component {
 
     const availableColors = colors.map((color) => <img key={color.id} alt='img' src={color.preview} onClick={() => changeColor(productId, color.id)} />)
 
-    const availableSizes = sizes.map((item) => {
-      const { size } = this.state
-      return <div key={item} onClick={() => setSize(item)} className={`avSizes-size ${size === item ? 'active' : ''}`} children={item} />
-    })
+    const availableSizes = sizes.map((item) => (
+      <div key={item} onClick={() => setSize(item)} className={`avSizes-size ${this.state.size === item ? 'active' : ''}`} children={item} />
+    ))
 
     const ProductPageTitle = ({classes}) => (
       <div className={`productPage-title ${classes || ''}`}>
@@ -93,7 +92,7 @@ class ProductPage extends Component {
           <Typography variant='subtitle1' component='h4' children={subTitle} />
           <Typography variant='h4' component='h1' children={title} />
         </div>
-        <Typography variant='body1' component='span' children={`${currency}${price}`} />
+        <Typography component='span' children={`${currency}${price}`} />
       </div>
     )
 
@@ -103,11 +102,12 @@ class ProductPage extends Component {
       )
     }
 
-    const showColors = colors.length >= 2 && <div className='productPage-content-main-colors'>
+    const showColors = colors.length >= 2 &&
+      <div className='productPage-content-main-colors'>
         <div className='avColors' children={availableColors} />
       </div>
 
-    const mobileDescription = match ? <Typography variant='body1' component='div' children={description} /> : null
+    const mobileDescription = match ? <Typography component='div' children={description} /> : null
 
     return (
       <div className='productPage'>
@@ -145,7 +145,6 @@ class ProductPage extends Component {
                 children={title} />
               <Typography
                 className='productDescription-desktop-body'
-                variant='body1'
                 component='div'
                 children={description} />
           </div>

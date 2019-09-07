@@ -61,7 +61,7 @@ function CartItem(props) {
         </div>
 
         <div className='ProductToBuy-controls'>
-          <IconButton size='small' onClick={deleteItem}  children={<Clear />} />
+          <IconButton size='small' onClick={deleteItem} children={<Clear />} />
           <Typography variant='button'>{currency}{data.qty * price}</Typography>
         </div>
       </div>

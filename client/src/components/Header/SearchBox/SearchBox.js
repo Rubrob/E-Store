@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { useMediaQuery, Typography } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
 import { searchProduct } from '../../../actions/products'
 import DesktopSearchBox from './DesktopSearchBox/DesktopSearchBox'
 import MobileSearchBox from './MobileSearchBox/MobileSearchBox'
+import SearchItem from './SearchItem/SearchItem'
 
-function SearchBox(props) {
+const SearchBox = (props) => {
   const { products, currency, history } = props
   const matches = useMediaQuery('(min-width: 960px)');
   const [state, setState] = useState({
@@ -25,7 +26,7 @@ function SearchBox(props) {
     let suggestions = []
     if(value.length){
       const regexp = new RegExp(`${value}`, 'im')
-      suggestions = [...products].sort().filter(v => regexp.test(v.title))
+      suggestions = [...products].sort().filter(item => regexp.test(item.title))
     }
     setState({
       suggestions,
@@ -40,6 +41,7 @@ function SearchBox(props) {
     })
   }
 
+
   const renderSuggestions = (callback = () => null) => {
     // const { suggestions, text } = state
     const { suggestions } = state
@@ -53,28 +55,7 @@ function SearchBox(props) {
       callback()
     }
 
-    return (
-      <div className='suggestions'>
-        {suggestions.map((item, i) => {
-          // const index = item.title.toLowerCase().indexOf(text)
-          // const highlight = <>
-          //   {item.title.substring(0, index)}
-          //   <strong children={item.title.substring(index, index + text.length)} />
-          //   {item.title.substring(index + text.length)}
-          // </>
-
-          return <div key={i} className='suggestions-item' onClick={() => clickSuggestion(item.title)}>
-            <img src={item.colors[0].preview} alt='img' />
-            <div>
-              {/* {highlight} */}
-              <Typography variant='body1' component='div' children={item.title} />
-              <Typography variant='body2' component='div' children={`${item.gender}'s`} />
-              <Typography variant='body2' component='div' children={`${currency}${item.price}`} />
-            </div>
-          </div>
-          })}
-      </div>
-    )
+    return <SearchItem currency={currency} onClick={clickSuggestion} suggestions={suggestions} />
   }
 
   return(

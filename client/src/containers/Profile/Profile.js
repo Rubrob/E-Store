@@ -19,7 +19,6 @@ const AntTab = withStyles(() => ({
     textTransform: 'none',
     color: '#999',
     width: '50%',
-    transition: '.4s',
     fontSize: 16,
     '&:hover': {
       color: '#444',
@@ -33,7 +32,7 @@ const AntTab = withStyles(() => ({
     }
   },
   selected: {},
-}))(props => <Tab disableRipple {...props} />);
+}))(Tab);
 
 const AntTabs = withStyles({
   root: {
@@ -47,22 +46,22 @@ const AntTabs = withStyles({
   },
 })(Tabs);
 
-function Profile(props) {
+const Profile = (props) => {
   const classes = useStyles()
 
   useEffect(() => {
     if(!props.isAuthenticated && !props.token){
       props.history.push('/register')
     }
-  },[props])
+  }, [props])
 
   const { match: { url }, history } = props
 
   return (
     <div className={classes.profile}>
       <AntTabs value={history.location.pathname} onChange={(evt, value) => history.push(value)}>
-        <AntTab value={url} label='Profile' />
-        <AntTab value={`${url}/orders`} label='Orders' />
+        <AntTab disableRipple value={url} label='Profile' />
+        <AntTab disableRipple value={`${url}/orders`} label='Orders' />
       </AntTabs>
       <Route exact path={url} component={ProfilePage} />
       <Route exact path={`${url}/orders`} component={OrdersPage} />

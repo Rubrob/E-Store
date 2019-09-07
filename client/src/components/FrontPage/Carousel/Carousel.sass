@@ -6,6 +6,10 @@
     display: flex !important
     justify-content: center
     padding: 10px
+    &-title
+      font-size: 60px !important
+      margin-bottom: 30px !important
+      text-shadow: 0px 0px 10px #000
     > div
       position: relative
       display: flex
@@ -28,10 +32,6 @@
       width: 100%
       box-sizing: border-box
       color: $white
-      h2
-        font-size: 60px
-        margin-bottom: 30px
-        text-shadow: 0px 0px 10px #000
       button
         background: #f05
         max-width: 100px
@@ -42,12 +42,13 @@
   .Carousel
     &-block
       padding: 0
+      &-title
+        font-size: 34px !important
+        margin-bottom: 12px !important
       &-text
         justify-content: flex-end
         padding: 50px
         bottom: 0
-        h2
-          font-size: 40px
 
 @media (max-width: 600px)
   .Carousel
@@ -63,7 +64,3 @@
       &-text
         left: 0
         padding: 20px
-        h2
-          font-size: 40px
-          margin-bottom: 10px
-          text-shadow: 0px 0px 10px #000

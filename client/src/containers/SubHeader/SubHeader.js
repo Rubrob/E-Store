@@ -52,9 +52,8 @@ const useStyles = makeStyles(() => ({
   },
 }))
 
-function SubHeader(props) {
+const SubHeader = (props) => {
   const classes = useStyles()
-
   const match = useMediaQuery('(max-width: 959.5px)')
   const { filtered } = props
   const { fixed, setFixed } = SetFixed(40)
@@ -70,7 +69,7 @@ function SubHeader(props) {
       {!match && <Typography variant='h5' style={{ fontSize: fixed && 20 }} className={classes.title} children={props.searchedStr} />}
       <div className={classes.main}>
         {match ? <FilterTriger /> : <FilterTriger label='Filter'/>}
-        {match && <Typography variant='body1' children={searchedQuantity} />}
+        {match && <Typography children={searchedQuantity} />}
         {match ? <Sort /> : <Sort label='Sort By' />}
       </div>
     </div>

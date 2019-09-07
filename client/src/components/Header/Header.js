@@ -2,7 +2,7 @@ import React from 'react'
 import './Header.sass'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { AppBar, Toolbar } from '@material-ui/core'
+import { AppBar, Toolbar, Hidden } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import SearchBox from './SearchBox/SearchBox'
 import DesktopAccount from './Account/DesktopAccount/DesktopAccount'
@@ -26,7 +26,9 @@ const Header = ({ categories }) => {
         <Toolbar className='toolbar'>
           <div className='leftSide'>
             <Link to='/' className='logoButton' children={<img src={logo} className='logo' alt='logo' />} />
-            <div className='desktopMenu' children={desktopMenuData} />
+            <Hidden smDown>
+              <div className='desktopMenu' children={desktopMenuData} />
+            </Hidden>
           </div>
           <div className='rightSide'>
             <SearchBox />

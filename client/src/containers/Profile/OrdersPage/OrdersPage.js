@@ -50,14 +50,14 @@ function OrderPage({ orders, currency }) {
             align='center'
             children={`You don't have any orders yet`} />
           :
-          orders.map((item, itemI) =>
-          <Card className={classes.block} key={itemI}>
-            {item.map((p, i) => <CheckoutProduct key={i} withUrl info={{...p, currency}}/>)}
-            <Typography variant='h6' component='div' className={classes.total}>
-              Total <span children={`${currency}${totalRecalculation(item)}`} />
-            </Typography>
-          </Card>
-        )}
+          orders.map((item, itemI) => (
+            <Card className={classes.block} key={itemI}>
+              {item.map((p, i) => <CheckoutProduct key={i} withUrl info={{...p, currency}}/>)}
+              <Typography variant='h6' component='div' className={classes.total}>
+                Total <span children={`${currency}${totalRecalculation(item)}`} />
+              </Typography>
+            </Card>
+          ))}
       </div>
     </div>
   )

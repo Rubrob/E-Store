@@ -19,7 +19,7 @@ const PaymentFields = (props) => {
   return (
     <>
       <Typography variant='subtitle1' className={classes.title} paragraph children={'Add Card'} />
-      <Grid container spacing={1} className={classes.paymentFields}>
+      <Grid container spacing={1}>
         <Grid item xs={12} sm={4}>
           <Field
             name='cardnumber'

@@ -81,7 +81,7 @@ function ProductCard({ product, currency }) {
           </div>}
 
         <div className='productInfo'>
-          <Typography variant='body1' component='div' className='title' children={title} />
+          <Typography component='div' className='title' children={title} />
           <Typography
             variant='body2'
             component='div'

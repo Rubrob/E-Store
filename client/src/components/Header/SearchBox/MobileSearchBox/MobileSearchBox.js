@@ -7,19 +7,9 @@ import { Search, Close } from '@material-ui/icons'
 const CSSField = withStyles({
   root: {
     color: '#444',
-    padding: '12px 5px',
-    fontSize: 15,
-    width: '100%',
-    border: 'none !important',
+    padding: '12px 4px',
   },
-})(props => (
-  <InputBase
-    autoFocus
-    name='search'
-    placeholder='Search...'
-    {...props}
-  />
-));
+})(InputBase);
 
 function MobileSearchBox(props) {
 
@@ -61,7 +51,10 @@ function MobileSearchBox(props) {
           <div className='MobileSearchBox-main'>
             <IconButton color='inherit' onClick={searchAndClose} children={<Search />} />
             <CSSField
+              autoFocus
               fullWidth
+              name='search'
+              placeholder='Search...'
               inputRef={input}
               value={value}
               onKeyUp={onKeyUp}

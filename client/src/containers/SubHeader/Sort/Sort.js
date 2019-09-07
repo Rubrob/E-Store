@@ -8,20 +8,18 @@ import { sortByPrice } from '../../../actions/products'
 const StyledMenu = withStyles({
   paper: {
     borderRadius: 0,
-    boxShadow: '0 0 5px #e5e5e5'
+    boxShadow: '0 0 4px #e5e5e5'
   },
 })(props => (
   <Menu
     id='sort-menu'
     elevation={0}
     getContentAnchorEl={null}
-    keepMounted
     anchorOrigin={{
       vertical: 'bottom',
       horizontal: 'right',
     }}
     transformOrigin={{
-      vertical: 'top',
       horizontal: 'right',
     }}
     {...props}

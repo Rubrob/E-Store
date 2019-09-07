@@ -4,12 +4,10 @@ import { connect } from 'react-redux'
 import { Button } from '@material-ui/core'
 import { Done } from '@material-ui/icons'
 import { resetFilter, getFilters } from '../../../actions/products'
-import FilterBlock from './FilterBlock/FilterBlock';
+import FilterBlock from './FilterBlock/FilterBlock'
 
 const Filter = (props) => {
-  const { resetFilter } = props
-  const { searched, hide } = props
-
+  const { searched, hide, resetFilter } = props
   const [byColor, bySize] = getFilters(searched, ['color', 'size'])
 
   return (

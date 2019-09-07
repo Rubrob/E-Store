@@ -7,8 +7,7 @@ import CheckoutProduct from './CheckoutProduct/CheckoutProduct'
 import { freeIfZero, SetFixed } from '../../../utils'
 import { totalRecalculation } from '../../../actions/cart'
 
-function CheckoutCart(props) {
-
+const CheckoutCart = (props) => {
   const { fixed, setFixed } = SetFixed(140)
   const {
     currency,

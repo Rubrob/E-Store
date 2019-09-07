@@ -1,0 +1,25 @@
+@import '../../../../variables'
+
+.suggestions
+  width: 100%
+  padding: 12px 24px
+  background: $white
+  box-sizing: border-box
+  &-item
+    display: flex
+    align-items: flex-start
+    padding: 10px
+    color: $secondary-black
+    border-bottom: 1px solid $light-gray
+    text-transform: capitalize
+    transition: .2s
+    cursor: pointer
+    &:hover
+      opacity: .4
+    &:last-child
+      border-bottom: none
+    img
+      height: 70px
+      margin-right: 20px
+    > div > div:first-child
+      color: $primary-black

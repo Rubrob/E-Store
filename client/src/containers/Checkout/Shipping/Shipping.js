@@ -35,7 +35,7 @@ function Shipping (props) {
   }
 
   const delChild = <div className='delChild'>
-    <Typography variant='body1' gutterBottom className='delChild-title' children={'Shipping Speed'} />
+    <Typography gutterBottom className='delChild-title' children={'Shipping Speed'} />
     <Typography variant='body2' className='delChild-content'>
       {delivery}: {freeIfZero(deliveryMethods[delivery], currency)}
     </Typography>

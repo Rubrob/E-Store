@@ -44,24 +44,9 @@ const CustomButton = withStyles({
     fontWeight: 700,
     alignItems: 'center',
     color: '#444',
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
     '&:hover': {
       background: 'none'
     },
-    '& svg': {
-      paddingTop: 5,
-    }
   }
 })(Button)
 

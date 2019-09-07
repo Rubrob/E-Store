@@ -41,10 +41,6 @@ export const notify = (type, message) => {
   }
 }
 
-function Toaster(props) {
-  return (
-    <ToastContainer />
-  )
-}
+const Toaster = (props) => <ToastContainer />
 
 export default Toaster

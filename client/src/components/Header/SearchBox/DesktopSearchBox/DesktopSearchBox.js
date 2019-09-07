@@ -7,18 +7,8 @@ import { IconButton, Backdrop, InputBase } from '@material-ui/core'
 const CSSField = withStyles({
   root: {
     color: '#444',
-    fontSize: 15,
-    '& input': {
-      padding: 0
-    }
   },
-})(props => (
-  <InputBase
-    name='search'
-    placeholder='Search...'
-    {...props}
-  />
-));
+})(InputBase);
 
 const CustomBackdrop = withStyles({
   root: {
@@ -78,6 +68,8 @@ function DesktopSearchBox(props) {
     <div className={'DesktopSearchBox'}>
       <IconButton color='inherit' onClick={searchBtnClick} children={<Search />} />
       <CSSField
+        name='search'
+        placeholder='Search...'
         inputRef={input}
         value={value}
         onBlur={() => setOpen(false)}
@@ -86,9 +78,10 @@ function DesktopSearchBox(props) {
         onChange={onChange}/>
       {value.length > 0 && <IconButton color='inherit' onClick={clearSearchBox} children={<Close />} />}
       <CustomBackdrop open={open} onClick={backdropClick}/>
-      <div className='suggestions-wrap'>
-        {suggestions()}
-      </div>
+      {suggestions.length !== 0 &&
+        <div className='suggestions-wrap'>
+          {suggestions()}
+        </div>}
     </div>
   )
 }

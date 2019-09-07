@@ -25,16 +25,21 @@ const useStyles = makeStyles({
   }
 })
 
-function MenuListItem({children, title, icon}) {
+const MenuListItem = ({children, title, icon}) => {
   const classes = useStyles()
-  const [open, setOpen] = useState(false);
-  const [header, setHeader] = useState('')
+  const [drawer, setDrawer] = useState({
+    open: false,
+    header: ''
+  })
 
-  const handleDrawerOpen = evt => {
-    setOpen(true)
-    setHeader(evt.currentTarget.title)
+  const handleDrawerOpen = (evt) => {
+    setDrawer({
+      open: true,
+      header: evt.currentTarget.title
+    })
   }
-  const handleDrawerClose = () => setOpen(false)
+
+  const handleDrawerClose = () => setDrawer({open: false})
 
   return (
     <>
@@ -44,10 +49,10 @@ function MenuListItem({children, title, icon}) {
         <KeyboardArrowRight />
       </ListItem>
 
-      <CustomDrawer variant='persistent' anchor='right' className='Drawer' open={open}>
+      <CustomDrawer variant='persistent' anchor='right' open={drawer.open}>
         <ListItem button className='listItem listHeader' onClick={handleDrawerClose}>
           <KeyboardArrowLeft />
-          <span className={classes.listHeader} children={header} />
+          <span className={classes.listHeader} children={drawer.header} />
         </ListItem>
         {children}
       </CustomDrawer>

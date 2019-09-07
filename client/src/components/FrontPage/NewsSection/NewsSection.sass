@@ -1,0 +1,49 @@
+@import '../../../variables'
+
+.news
+  max-width: 1600px
+  margin: auto
+  padding: 60px
+  &-cont
+    display: flex
+    justify-content: center
+    &-item
+      position: relative
+      width: 100%
+      &:first-child
+        margin-right: 10px
+      > div
+        position: absolute
+        bottom: 0
+        color: $white
+        padding: 50px
+      img
+        width: 100%
+        height: 100%
+
+
+@media (max-width: 959.5px)
+  .news
+    padding: 0
+    &-cont
+      &-item:first-child
+        margin: 0
+
+@media (max-width: 600px)
+  .news
+    padding: 20px 0px
+    &-title
+      margin-bottom: 40px !important
+    &-cont
+      &-item
+        display: flex
+        justify-content: center
+        > div
+          display: flex
+          flex-direction: column
+          justify-content: center
+          align-items: center
+          height: 100%
+          text-align: center
+          text-shadow: 0 0 5px #000
+          padding: 0 10px

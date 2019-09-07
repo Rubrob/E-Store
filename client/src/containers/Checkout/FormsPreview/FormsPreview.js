@@ -6,7 +6,7 @@ const useStyles = makeStyles({
     padding: 20,
   },
   title: {
-    fontWeight: 700,
+    fontWeight: 600,
     color: '#444'
   },
   content: {
@@ -25,7 +25,7 @@ function FormsPreview(props) {
 
   return (
     <div className={`${classes.root} ${cn}`}>
-      {title && <Typography variant='body1' gutterBottom className={classes.title} children={title} />}
+      {title && <Typography gutterBottom className={classes.title} children={title} />}
       <div className={classes.content}>
         {fullname(content.firstname, content.lastname)}
         {previewContent}

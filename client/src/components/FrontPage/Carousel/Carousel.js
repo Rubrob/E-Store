@@ -4,52 +4,46 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { Typography, Button } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles';
 
-const CarouselTitle = withStyles(() => ({
-  root: {
-    marginBottom: 10,
-    '@media (max-width: 959.5px)': {
-       fontSize: 34,
-       marginBottom: 5
-    }
-  }
-}))(Typography)
+const settings = {
+  className: 'Carousel',
+  swipe: false,
+  pauseOnHover: true,
+  arrows: false,
+  autoplay: true,
+  speed: 2000,
+  dots: false,
+  slidesToShow: 1,
+  adaptiveHeight: true,
+  infinite: true,
+  centerMode: true,
+  centerPadding: '60px',
+  responsive: [{
+    breakpoint: 959.5,
+      settings: {
+        centerPadding: '0px'
+      }
+  }]
+}
 
-export default function({data}) {
+const carouselData = [
+  { url: '../images/slide_1.jpg', title: 'THE BEST CHOICE' },
+  { url: '../images/slide_2.jpg', title: 'THE BEST BIKE GEAR TO BUY THIS SPRING' },
+  { url: '../images/slide_3.jpg', title: 'GET A SECOND WIND' }
+]
 
-  const settings = {
-    className: 'Carousel',
-    swipe: false,
-    pauseOnHover: true,
-    arrows: false,
-    autoplay: true,
-    speed: 2000,
-    dots: false,
-    slidesToShow: 1,
-    adaptiveHeight: true,
-    infinite: true,
-    centerMode: true,
-    centerPadding: '60px',
-    responsive: [{
-      breakpoint: 959.5,
-        settings: {
-          centerPadding: '0px'
-        }
-    }]
-  }
-
-  return (
-    <Slider {...settings}>
-      {data.map((img, i) => <div key={i} className='Carousel-block'>
+export default (props) => (
+  <Slider {...settings}>
+    {carouselData.map((img, i) => (
+      <div key={i} className='Carousel-block'>
         <div>
           <img src={img.url} alt='img' />
           <div className='Carousel-block-text'>
-            <CarouselTitle variant='h4' component='h2' children={img.title} />
-            <Button children={'Shop'} size="large" color="inherit" fullWidth={false}/>
+            <Typography variant='h4' component='h2' className='Carousel-block-title' children={img.title} />
+            <Button children={'Shop'} size='large' color='inherit' />
           </div>
         </div>
-      </div>)}
-    </Slider>
-  )
-}
+      </div>
+    ))}
+  </Slider>
+)

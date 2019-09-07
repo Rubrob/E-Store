@@ -60,10 +60,9 @@ function DeliveryBox(props) {
       {Object.keys(deliveryMethods).map(key => (
         <div className={classes.root} key={key}>
           <CustomFormControlLabel className={classes.plan} value={key} control={<Radio />} label={
-            <Typography variant='body1' component='div' className={classes.content}>
+            <Typography component='div' className={classes.content}>
               {key}
               <Typography
-                variant='body1'
                 component='span'
                 className={classes.cost}
                 children={freeIfZero(deliveryMethods[key], currency)} />

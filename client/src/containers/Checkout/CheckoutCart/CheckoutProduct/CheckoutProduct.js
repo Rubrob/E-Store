@@ -52,7 +52,7 @@ const CheckoutProductTitle = withStyles(() => ({
       fontWeight: 600,
     }
   }
-}))((props) => <Typography variant='body1' component='div' {...props} />)
+}))((props) => <Typography component='div' {...props} />)
 
 const CheckoutProduct = ({ info, withUrl, currency }) => {
   const classes = useStyles()
