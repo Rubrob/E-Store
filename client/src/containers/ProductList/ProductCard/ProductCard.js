@@ -9,7 +9,7 @@ import { ampersand } from '../../../utils'
 
 function ProductCard({ product, currency }) {
 
-  const match = useMediaQuery('(max-width: 480px)')
+  const match = useMediaQuery('(max-width: 599.5px)')
   const { title, price, colors, subcategory, id, gender, category } = product
   const preview = colors[0].preview
   const quantity = colors.length > 1 ? 'Colors' : 'Color'
@@ -59,6 +59,9 @@ function ProductCard({ product, currency }) {
     setFront(img)
   }
 
+  const colorRounds = colors.map((color, i) => (match && i >= 4) ? null : <span key={color.color} className={`color ${color.color}`} />)
+  const colorQty = (match && colors.length >= 4) ? '+ More' : `${colors.length} ${quantity}`
+
   return (
     <div className='productCard'>
         <Link to={`/pp/${id}/${colorID}`} className='frontImg' children={<img src={front} alt='img'/>} />
@@ -69,16 +72,17 @@ function ProductCard({ product, currency }) {
             <div className='previewImgs'>
               <div className='previewSlider' style={{left: slide}} children={previews} />
             </div>
-            {colors.length > 3 && <>
-              <span
-                className='arrow left'
-                onClick={() => handleSlide('prev')}
-                children={<KeyboardArrowLeft fontSize='small' />}/>
-              <span
-                className='arrow right'
-                onClick={() => handleSlide('next')}
-                children={<KeyboardArrowRight fontSize='small' />}/>
-            </>}
+            {colors.length > 3 &&
+              <>
+                <span
+                  className='arrow left'
+                  onClick={() => handleSlide('prev')}
+                  children={<KeyboardArrowLeft fontSize='small' />}/>
+                <span
+                  className='arrow right'
+                  onClick={() => handleSlide('next')}
+                  children={<KeyboardArrowRight fontSize='small' />}/>
+              </>}
           </div>
         </Hidden>
         }
@@ -94,8 +98,8 @@ function ProductCard({ product, currency }) {
             component='div'
             children={`${currency}${price}`} />
           <div className='colors'>
-            {colors.map((color, i) => (match && i >= 4) ? null : <span key={color.color} className={`color ${color.color}`} />)}
-            <Typography variant='caption' className='colorsQuantity'>{(match && colors.length >= 4) ? '+ More' : `${colors.length} ${quantity}`}</Typography>
+            {colorRounds}
+            <Typography variant='caption' className='colorsQuantity'>{colorQty}</Typography>
           </div>
         </div>
     </div>

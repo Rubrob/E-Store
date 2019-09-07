@@ -1,14 +1,11 @@
 
 export const required = value => value ? undefined : null
-
-const maxLength = max => value =>
-  value && value.length > max ? `Must be ${max} characters or less` : undefined
+const maxLength = max => value => value && value.length > max ? `Must be ${max} characters or less` : undefined
 export const maxLength2 = maxLength(2)
 
 export const validate = (inputs) => {
   const errors = {};
   const emailReg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
-  console.log(inputs)
 
   const { firstname, lastname, country, city, zip, address, email, phone, password } = inputs
   const { cardnumber, exp, cvv } = inputs
@@ -78,7 +75,6 @@ export const validate = (inputs) => {
 export const profileData = (inputs) => {
   const errors = {};
   const emailReg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
-
   const { firstname, lastname, country, city, zip, address, email, phone } = inputs
 
   if (!firstname || firstname.length < 2) {

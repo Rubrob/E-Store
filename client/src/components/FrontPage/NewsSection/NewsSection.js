@@ -21,7 +21,7 @@ const News = ({img, text}) => (
   <div className='news-cont-item'>
     <img src={img} alt='img' />
     <div>
-      <Typography>{text}</Typography>
+      <Typography gutterBottom>{text}</Typography>
       <NewsButton color='inherit' children={'Shop'} />
     </div>
   </div>

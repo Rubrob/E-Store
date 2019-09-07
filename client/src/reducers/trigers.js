@@ -12,9 +12,9 @@ const initialState = {
 const trigerReducer = (state = initialState, action) => {
   switch(action.type){
     case OPEN_MENU:
-      return { ...state, state: true}
+      return { ...state, state: true }
     case CLOSE_MENU:
-      return { ...state, state: false}
+      return { ...state, state: false }
     case TOGGLE_FILTER:
       return { ...state, filter: !state.filter }
     default:

@@ -32,17 +32,13 @@ export const resetFilter = () => ({ type: RESET_FILTER })
 export const filterProductsWithURL = value => ({ type: FILTER_PRODUCTS_WITH_URL, payload: value })
 export const searchProduct = value => ({ type: SEARCH, payload: value })
 
-export const filterURL = (url, split, count) => {
-  const splitWithTail = (str, split, count) => {
-    let parts = str.split(split)
-    let tail = parts.slice(count).join(split)
-    let result = parts.slice(0, count)
-    result.push(tail)
-    return result
-  }
-  return splitWithTail(url, split, count)
+export const filterURL = (str, split, count) => {  // splitWithTail
+  let parts = str.split(split)
+  let tail = parts.slice(count).join(split)
+  let result = parts.slice(0, count)
+  result.push(tail)
+  return result
 }
-
 
 export const getFilters = (products) => {
   const byColor = [], bySize = []

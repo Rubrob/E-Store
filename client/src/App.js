@@ -43,7 +43,7 @@ function App(props) {
     <>
       <Toaster />
       <Header />
-      <main>
+      <>
         <Route exact path='/' component={FrontPage} />
         <Route path='/profile' component={Profile} />
         <Route exact path='/cart' component={Cart} />
@@ -56,7 +56,7 @@ function App(props) {
         <Route exact path='/pp/:productId/:colorId' component={ProductPage} />
         <Route exact path='/p' component={ProductList} />
         <Route exact path='/register' component={SingUpIn} />
-      </main>
+      </>
       <Footer />
     </>
   );

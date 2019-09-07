@@ -1,5 +1,4 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-// import defaultTheme from '@material-ui/core/styles/defaultTheme';
 
 const fields = {
   static: {
@@ -17,17 +16,6 @@ const fields = {
 }
 
 export const theme = createMuiTheme({
-  // palette: {
-  //   primary: {
-  //     main: orange[800],
-  //   },
-  //   secondary: {
-  //     main: indigo[800],
-  //   },
-  //   error: {
-  //     main: '#f44336'
-  //   }
-  // },
   overrides:{
     MuiFormControl: {
       root: {
