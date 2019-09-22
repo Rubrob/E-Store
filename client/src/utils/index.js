@@ -44,3 +44,12 @@ export const isObjectValues = (obj) => {
 }
 
 export const totalCalculation = (arr) => arr.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
+
+export const backdropFilterSupport = () => {
+  const webkit = window.CSS.supports('-webkit-backdrop-filter', 'blur(20px)')
+  const regular = window.CSS.supports('backdrop-filter', 'blur(20px)')
+  if(!regular && !webkit) {
+    return false
+  }
+  return true
+}

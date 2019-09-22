@@ -8,13 +8,18 @@ import DesktopAccount from './Account/DesktopAccount/DesktopAccount'
 import DesktopMenu from './DesktopMenu/DesktopMenu'
 import MobileMenu from './MobileMenu/MobileMenu'
 import ShoppingBasket from './ShoppingBasket/ShoppingBasket'
+import { backdropFilterSupport } from './../../utils/index'
 import logo from '../../logo.png'
 
 const Header = ({ categories }) => {
   const desktopMenuData = categories.map((item, i) => <DesktopMenu key={i} title={item.title} menu={item.categories} />)
   return (
     <>
-      <AppBar position='fixed' className='Header' color='inherit' elevation={0}>
+      <AppBar
+        position='fixed'
+        className={`Header ${backdropFilterSupport ? 'blur' : ''}`}
+        color='inherit'
+        elevation={0}>
         <Toolbar className='toolbar'>
           <div className='leftSide'>
             <Link to='/' className='logoButton' children={<img src={logo} className='logo' alt='logo' />} />
