@@ -17,9 +17,11 @@ const SubHeader = ({ filtered, searchedStr }) => {
   }, [setFixed])
 
   return (
-    <Box className={`${'subHeader'} ${fixed ? 'fixed' : ''}`} boxShadow={fixed ? 4 : 0}>
-      {!match && <Box fontSize={fixed ? 20 : 24} className={'subHeader-title'} children={searchedStr} />}
-      <Box display='flex' justifyContent='space-between' alignItems='center' className={'subHeader-main'}>
+    <Box
+      className={`subHeader ${fixed ? 'fixed' : ''}`}
+      boxShadow={fixed ? 4 : 0}>
+      {!match && <Box fontSize={fixed ? 20 : 24} className='subHeader-title' children={searchedStr} />}
+      <Box display='flex' justifyContent='space-between' alignItems='center' className='subHeader-main'>
         {match ? <FilterTriger /> : <FilterTriger label='Filter'/>}
         {match && <Typography children={searchedQuantity} />}
         {match ? <Sort /> : <Sort label='Sort By' />}

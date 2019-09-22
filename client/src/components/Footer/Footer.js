@@ -28,6 +28,7 @@ const Footer = (props) => {
         <Typography
           variant='caption'
           align='center'
+          component='div'
           children={`© ${new Date().getFullYear()} E-Store, Inc. All Rights Reserved`}
           className={`Footer-main-rights ${isCartLocation ? 'cart-mode' : ''}`} />
     </footer>
