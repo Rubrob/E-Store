@@ -1,29 +1,17 @@
 @import '../../../variables'
 
-@mixin pseudo($width, $height)
-  content: ''
-  position: absolute
-  width: $width
-  height: $height
-
 .DesktopMenu
-  // display: flex
-  // align-items: stretch
-  // flex-direction: column
+  display: flex
 
   .triger
     position: relative
-    z-index: 100
-    height: 100%
-    margin: 0
-    padding: 20px 27px
-    font-weight: 600
+    width: 96px
     color: $primary-black
-    box-sizing: border-box
+    text-align: center
+    line-height: 4rem
+    font-weight: 600
+    z-index: 100
     cursor: pointer
-    transition: .4s cubic-bezier(0.075, 0.82, 0.165, 1)
-    &.active, &:hover
-      color: $black
     &.active::before
       @include pseudo(100%, 3px)
       bottom: -1.5px
@@ -31,67 +19,72 @@
       background: $primary-black
       border-radius: 20px
 
-.menu
-  position: fixed
-  top: 64px
-  z-index: 0
-  left: -2000vw
-  display: none
-  flex-direction: row
-  justify-content: center
-  width: 100%
-  box-sizing: border-box
-  color: $primary-black
-  background: $white
-  border-top: 1px solid $light-gray
-  box-shadow: 0px 2px 4px -2px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14)
-  text-transform: capitalize
-  &.open
+  &-menu
+    position: fixed
+    top: 65px
     left: 0
     display: flex
+    justify-content: center
+    width: 100%
+    padding: 40px 0
+    box-sizing: border-box
+    color: $primary-black
+    background: rgba($white, 1)
+    box-shadow: 0px 2px 4px -2px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14)
 
-  .categories_blocks
-    position: relative
-    margin: 50px 0
-    padding: 20px 50px
-    transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1)
+    .category__block
+      position: relative
+      padding: 20px 50px
+      transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1)
 
-    &:not(:last-child)::before
-      @include pseudo(1px, 100%)
-      top: 0
-      right: 0
-      background: $light-gray
-
-    &-title
-      width: 100%
-      color: $primary-black
-      cursor: pointer
-      transition: .4s
-
-    .categories_blocks-title:hover,
-    .subcategories_blocks-title:hover,
-      color: $black
-
-    .subcategories_blocks
-      display: flex
-      flex-direction: column
-      justify-content: flex-start
+      &:not(:last-child)::before
+        @include pseudo(1px, 100%)
+        top: 0
+        right: 0
+        background: $light-gray
 
       &-title
-        position: relative
         width: 100%
-        box-sizing: border-box
-        padding-bottom: 3px
+        color: $primary-black
         cursor: pointer
-        color: $secondary-black-light
         transition: .4s
-        &::before
-          @include pseudo(0, .5px)
-          right: 0
-          bottom: 1px
-          transition: .4s
-          background: $secondary-black-light
-        &:hover::before
-          opacity: .5
-          left: 0
+        a
+          display: block
           width: 100%
+
+      .category__block-title:hover,
+      .subcategory__block-title:hover,
+        color: $black
+
+      .subcategory__block
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        &-title
+          position: relative
+          width: 100%
+          margin-bottom: 3px
+          cursor: pointer
+          color: $secondary-black-light
+          transition: .3s
+          a
+            margin-bottom: 2px
+            display: block
+            width: 100%
+            &::after
+              content: ''
+              position: absolute
+              width: 0
+              height: 1px
+              line-height: 16px
+              right: 0
+              bottom: 0px
+              z-index: 1
+              transition: .3s
+              background: rgba($secondary-black-light, .5)
+            &:hover::after
+              left: 0
+              z-index: 1000
+              width: 100%
+            &:hover
+              z-index: 10000
