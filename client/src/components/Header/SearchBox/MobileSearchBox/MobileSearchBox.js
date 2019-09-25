@@ -1,34 +1,29 @@
-import React, { useState, createRef, } from 'react'
+import React, { createRef, } from 'react'
 import './MobileSearchBox.sass'
-import { withStyles } from '@material-ui/core/styles'
-import { IconButton, InputBase } from '@material-ui/core'
+import { IconButton, InputBase, Box } from '@material-ui/core'
 import { Search, Close } from '@material-ui/icons'
+import { backdropFilterSupport } from './../../../../utils/index'
 
-const CSSField = withStyles({
-  root: {
-    color: '#444',
-    padding: '12px 4px',
-  },
-})(InputBase);
-
-function MobileSearchBox(props) {
-
+const MobileSearchBox = (props) => {
+  const {
+    value,
+    clear,
+    search,
+    suggestions,
+    onTextChange,
+    active,
+    setActive
+  } = props
   const input = createRef()
-  const [active, setActive] = useState(false)
 
-  const { value } = props
-  const { clear, search, suggestions, onTextChange } = props
+  document.body.style.overflow = active ? 'hidden' : null
 
-  document.body.style = `overflow: ${active ? 'hidden' : 'auto'}`
-
-  const close = () => setActive(false)
-  const open = () => setActive(true)
+  const openSearchBox = () => setActive(true)
 
   const searchAndClose = () => {
     if(input.current.value){
       search(input.current.value)
-      clear('')
-      close()
+      clear()
     }
   }
 
@@ -38,34 +33,34 @@ function MobileSearchBox(props) {
         searchAndClose()
       }
     }
-    if(evt.keyCode === 27) {
-      clear('')
-      close()
-    }
   }
 
   return (
-    <div className={`MobileSearchBox ${active ? 'fixed' : ''}`}>
+    <Box className={`MobileSearchBox ${active ? 'fixed' : ''}`}>
       {active ?
         <>
-          <div className='MobileSearchBox-main'>
+          <Box className={`MobileSearchBox-main ${backdropFilterSupport ? 'blur' : ''}`}>
             <IconButton color='inherit' onClick={searchAndClose} children={<Search />} />
-            <CSSField
-              autoFocus
-              fullWidth
-              name='search'
-              placeholder='Search...'
-              inputRef={input}
-              value={value}
-              onKeyUp={onKeyUp}
-              onChange={onTextChange}
-              />
-            <IconButton color='inherit' onClick={close} children={<Close />} />
-          </div>
-          {suggestions(close)}
+            <Box className='MobileSearchBox-main-input'>
+              <InputBase
+                autoFocus
+                fullWidth
+                name='search'
+                placeholder='Search...'
+                inputRef={input}
+                value={value}
+                onKeyUp={onKeyUp}
+                onChange={onTextChange}
+                />
+            </Box>
+            <IconButton color='inherit' onClick={clear} children={<Close />} />
+          </Box>
+          <Box>
+            {suggestions}
+          </Box>
         </> :
-        <IconButton color='inherit' onClick={open} children={<Search />} />}
-    </div>
+        <IconButton color='inherit' onClick={openSearchBox} children={<Search />} />}
+    </Box>
   )
 }
 

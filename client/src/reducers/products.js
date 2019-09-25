@@ -64,7 +64,7 @@ const sortByPrice = (method) => {
 
 const searchProduct = (products, filters, payload) => {
   if(payload.length > 0){
-    const regexp = new RegExp(`^${payload}`, 'i')
+    const regexp = new RegExp(`${payload}`, 'i') // or new RegExp(`^${payload}`, 'i')
 
     return filter(
       products.filter(item => regexp.test(item.title)),

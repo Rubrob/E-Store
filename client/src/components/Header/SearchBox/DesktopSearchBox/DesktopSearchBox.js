@@ -1,14 +1,13 @@
-import React, { useState, createRef } from 'react'
+import React, { createRef } from 'react'
 import './DesktopSearchBox.sass'
 import { withStyles } from '@material-ui/styles'
 import { Search, Close } from '@material-ui/icons'
-import { IconButton, Backdrop, InputBase } from '@material-ui/core'
-
-const CSSField = withStyles({
-  root: {
-    color: '#444',
-  },
-})(InputBase);
+import {
+  IconButton,
+  Backdrop,
+  InputBase,
+  Box
+} from '@material-ui/core'
 
 const CustomBackdrop = withStyles({
   root: {
@@ -16,72 +15,77 @@ const CustomBackdrop = withStyles({
   }
 })(Backdrop)
 
-function DesktopSearchBox(props) {
-  const { value } = props
-  const { clear, onTextChange, suggestions, search } = props
+const DesktopSearchBox = (props) => {
+  const {
+    value,
+    clear,
+    onTextChange,
+    suggestions,
+    search,
+    active,
+    setActive,
+  } = props
 
   const input = createRef()
-  const [open, setOpen] = useState(false)
+
+  const exitInput = (input) => {
+    input.blur()
+    clear()
+  }
 
   const searchBtnClick = () => {
     if(input.current.value){
       search(input.current.value)
-      clear('')
+      clear()
     }
   }
 
   const clearSearchBox = () => {
-    clear('')
-    setOpen(false)
+    clear()
+    input.current.focus()
   }
 
   const onKeyUp = (evt) => {
     if(evt.target.value.length){
       if(evt.keyCode === 13){
-        evt.target.blur()
         search(evt.target.value)
-        clear('')
+        exitInput(evt.target)
       }
     }
 
     if(evt.keyCode === 27) {
-      evt.target.blur()
-      clear('')
+      exitInput(evt.target)
     }
   }
 
   const backdropClick = () => {
-    clear('')
-    setOpen(false)
+    clear()
+    setActive(false)
   }
 
   const onChange = (evt) => {
-    if(evt.target.value.length){
-      setOpen(true)
-    }else{
-      setOpen(false)
-    }
+    setActive(!!evt.target.value)
     onTextChange(evt)
   }
 
   return (
-    <div className={'DesktopSearchBox'}>
+    <Box className='DesktopSearchBox'>
       <IconButton color='inherit' onClick={searchBtnClick} children={<Search />} />
-      <CSSField
+      <InputBase
         name='search'
         placeholder='Search...'
         inputRef={input}
         value={value}
-        onBlur={() => setOpen(false)}
-        onFocus={() => setOpen(true)}
+        onBlur={() => setActive(false)}
+        onFocus={() => setActive(true)}
         onKeyUp={onKeyUp}
         onChange={onChange}/>
-      {value.length > 0 && <IconButton color='inherit' onClick={clearSearchBox} children={<Close />} />}
-      <CustomBackdrop open={open} onClick={backdropClick}/>
-      <div className='suggestions-wrap'>
-        {suggestions()}
-      </div>
-    </div>
+      {!!value.length && <IconButton color='inherit' onClick={clearSearchBox} children={<Close />} />}
+      <CustomBackdrop open={active} onClick={backdropClick}/>
+      <Box className='suggestions-wrap'>
+        {suggestions}
+      </Box>
+    </Box>
   )
 }
 

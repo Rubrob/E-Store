@@ -3,6 +3,7 @@ import cart from './cart'
 import products from './products'
 import trigers from './trigers'
 import auth from './auth'
+import searchbox from './searchbox'
 import { reducer as formReducer } from 'redux-form'
 
 const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   products,
   trigers,
   auth,
+  searchbox,
   form: formReducer
 })
 
