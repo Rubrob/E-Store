@@ -1,5 +1,7 @@
-export const SET_SUGGESTIONS = 'SET_SUGGESTIONS'
-export const EMPTY_SUGGESTIONS = 'EMPTY_SUGGESTIONS'
+import {
+  SET_SUGGESTIONS,
+  EMPTY_SUGGESTIONS
+} from './types'
 
 export const setSuggestions = (value, items) => dispatch => {
   const regexp = new RegExp(`${value}`, 'im')

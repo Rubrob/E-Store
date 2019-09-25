@@ -48,7 +48,6 @@ export const totalCalculation = (arr) => arr.reduce((acc, curr) => acc + (curr.p
 export const backdropFilterSupport = () => {
   const webkit = window.CSS.supports('-webkit-backdrop-filter', 'blur(20px)')
   const regular = window.CSS.supports('backdrop-filter', 'blur(20px)')
-  console.log(webkit);
   if(regular || (regular && webkit)) {
     return true
   } else {

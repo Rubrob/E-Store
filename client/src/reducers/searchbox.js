@@ -1,7 +1,7 @@
 import {
   SET_SUGGESTIONS,
   EMPTY_SUGGESTIONS
-} from '../actions/searchbox'
+} from '../actions/types'
 
 const initialState = {
   suggestions: [],
