@@ -70,5 +70,28 @@ export const theme = createMuiTheme({
         }
       }
     },
+    MuiTabs: {
+      root: {
+        '&': {
+          color: '#999',
+          maxWidth: 320,
+          margin: '0 auto',
+          borderBottom: '1px solid #e5e5e5',
+          '& .MuiTab-root': {
+            fontSize: 16,
+            textTransform: 'none',
+            '&:hover': {
+              color: '#000',
+            },
+          },
+          '& .Mui-selected': {
+            color: '#000'
+          }
+        },
+        '& .MuiTabs-indicator': {
+          backgroundColor: '#000'
+        }
+      },
+    }
   },
 });

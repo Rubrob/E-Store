@@ -1,11 +1,10 @@
 import React from 'react'
 import './Footer.sass'
-import { withRouter } from 'react-router-dom'
 import { Typography, IconButton } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const Footer = (props) => {
-  const isCartLocation = props.location.pathname.indexOf('cart') !== -1
+
+const Footer = ({isCartLocation}) => {
   return (
     <footer className='Footer'>
       <div className='Footer-main'>
@@ -35,4 +34,4 @@ const Footer = (props) => {
   )
 }
 
-export default withRouter(Footer)
+export default Footer

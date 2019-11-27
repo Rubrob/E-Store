@@ -1,8 +1,18 @@
+const {
+    DB_NAME,
+    DB_NAME_TEST,
+    DB_PW,
+    NODE_ENV,
+} = process.env;
+
 module.exports = {
     db: {
         DB_NAME: process.env.DB_NAME,
         DB_NAME_TEST: process.env.DB_NAME_TEST,
-        DB_PW: process.env.DB_PW
+        DB_PW: process.env.DB_PW,
+        DB_URI: NODE_ENV === 'test' ?
+            `mongodb+srv://AtlasAdmin:${DB_PW}@cluster0-3qsgw.mongodb.net/${DB_NAME_TEST}?retryWrites=true` :
+            `mongodb+srv://AtlasAdmin:${DB_PW}@cluster0-3qsgw.mongodb.net/${DB_NAME}?retryWrites=true`
     },
     JWT_SECRET: process.env.JWT_SECRET,
     oauth: {

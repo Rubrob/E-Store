@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import FrontPage from './components/FrontPage/FrontPage'
@@ -23,12 +23,15 @@ import Toaster from './components/Toaster/Toaster'
 library.add(fab, fas, faSort, faSlidersH)
 
 function App(props) {
+  console.log(props)
   const {
     fetchMember,
     fetchProducts,
     fetchCategories,
     isFetching,
-    filterProductsWithURL
+    filterProductsWithURL,
+    isAuthenticated,
+    token,
   } = props
 
   useEffect(() => {
@@ -44,7 +47,7 @@ function App(props) {
       <Header />
       <>
         <Route exact path='/' component={FrontPage} />
-        <Route path='/profile' component={Profile} />
+        <Route path='/profile' render={(props) => isAuthenticated && token ? <Profile {...props} /> : <Redirect to='/register' />} />
         <Route exact path='/cart' component={Cart} />
         <Route exact path='/checkout' component={Checkout} />
         <Route exact path='/p/:filter' render={({match}) => {
@@ -55,15 +58,17 @@ function App(props) {
         <Route exact path='/pp/:productId/:colorId' component={ProductPage} />
         <Route exact path='/p' component={ProductList} />
         <Route exact path='/register' component={SingUpIn} />
+        <Route path='/' component={({location}) => <Footer isCartLocation={location.pathname === '/cart'} />} />
       </>
-      <Footer />
     </>
   );
 }
 
 const mapStateToProps = state => ({
   products: state.products.products,
-  isFetching: state.products.isFetching
+  isFetching: state.products.isFetching,
+  isAuthenticated: state.auth.isAuthenticated,
+  token: state.auth.token
 })
 const mapDispatchToProps = dispatch => ({
   filterProductsWithURL: value => dispatch(filterProductsWithURL(value)),

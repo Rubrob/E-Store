@@ -1,6 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const bcrypt   = require('bcryptjs');
 const Schema   = mongoose.Schema;
+
 
 const userSchema = new Schema({
     method: {
@@ -13,27 +14,27 @@ const userSchema = new Schema({
             type: String,
             lowercase: true
         },
-        password: { type: String },
-        firstname: { type: String },
-        lastname: { type: String }
+        password: {type: String},
+        firstname: {type: String},
+        lastname: {type: String}
     },
     google: {
-        id: { type: String  },
+        id: {type: String},
         email: {
             type: String,
             lowercase: true
         },
-        firstname: { type: String },
-        lastname: { type: String }
+        firstname: {type: String},
+        lastname: {type: String}
     },
     facebook: {
-        id: { type: String },
+        id: {type: String},
         email: {
             type: String,
             lowercase: true
         },
-        firstname: { type: String },
-        lastname: { type: String }
+        firstname: {type: String},
+        lastname: {type: String}
     },
     addresses: {
         shipping: {

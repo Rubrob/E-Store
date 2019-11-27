@@ -1,27 +1,18 @@
 require('dotenv').config();
-const express    = require('express')
+const express = require('express')
 const bodyParser = require('body-parser')
-const morgan     = require('morgan')
-const mongoose   = require('mongoose')
+const morgan = require('morgan')
+const mongoose = require('mongoose')
 const path = require('path');
 const compression = require('compression');
+const {db} = require('./config')
+const app = express()
 
 // DB initialization
-const { db } = require('./config')
-let mongoURI;
-
-if(process.env.NODE_ENV === 'test'){
-    mongoURI = `mongodb+srv://AtlasAdmin:${db.DB_PW}@cluster0-3qsgw.mongodb.net/${db.DB_NAME_TEST}?retryWrites=true`;
-}else{
-    mongoURI = `mongodb+srv://AtlasAdmin:${db.DB_PW}@cluster0-3qsgw.mongodb.net/${db.DB_NAME}?retryWrites=true`;
-}
-
-mongoose.connect(mongoURI, {
-    useCreateIndex: true, // collection.ensureIndex is deprecated. Use createIndexes instead
+mongoose.connect(db.DB_URI, {
+    useCreateIndex: true,
     useNewUrlParser: true
 })
-
-const app = express()
 
 
 // Middlewares

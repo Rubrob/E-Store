@@ -16,6 +16,7 @@
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.0.4",
+    "react-id-swiper": "^2.3.2",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
@@ -25,9 +26,9 @@
     "redux-form": "^8.2.4",
     "redux-form-input-masks": "^2.0.1",
     "redux-thunk": "^2.3.0",
-    "swiper": "^4.5.0",
+    "reduxsauce": "^1.1.1",
     "slick-carousel": "^1.8.1",
-    "react-id-swiper": "^2.3.2"
+    "swiper": "^4.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
