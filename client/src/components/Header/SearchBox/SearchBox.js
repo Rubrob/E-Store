@@ -9,16 +9,15 @@ import MobileSearchBox from './MobileSearchBox/MobileSearchBox'
 import SearchItem from './SearchItem/SearchItem'
 import { setSuggestions, emptySuggestions } from '../../../actions/searchbox'
 
-const SearchBox = (props) => {
-  const {
-    products,
-    currency,
-    history,
-    suggestions,
-    setSuggestions,
-    searchProduct,
-    emptySuggestions
-  } = props
+const SearchBox = ({
+  products,
+  currency,
+  history,
+  suggestions,
+  setSuggestions,
+  searchProduct,
+  emptySuggestions
+}) => {
   const matches = useMediaQuery('(min-width: 960px)')
   const [state, setState] = useState({
     text: '',
@@ -60,12 +59,12 @@ const SearchBox = (props) => {
     <SearchItem
       currency={currency}
       onClick={(value) => search(value)}
-      suggestions={suggestions} />
+      suggestions={suggestions}
+    />
   )
 
   return(
-    <>
-    {matches ?
+    matches ?
       <DesktopSearchBox
         clear={suggestionSelected}
         search={search}
@@ -74,7 +73,7 @@ const SearchBox = (props) => {
         value={state.text}
         active={state.active}
         setActive={(bool) => setState({ ...state, active: bool })}
-        /> :
+      /> :
       <MobileSearchBox
         clear={suggestionSelected}
         search={search}
@@ -83,8 +82,7 @@ const SearchBox = (props) => {
         value={state.text}
         active={state.active}
         setActive={(bool) => setState({ ...state, active: bool })}
-        />}
-    </>
+      />
   );
 }
 

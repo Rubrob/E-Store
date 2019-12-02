@@ -2,18 +2,17 @@
 
 .toaster
   cursor: default !important
-  &.error
-    background: $white
-    color: $primary-red
+  background: $white !important
 
-  &.success
-    background: $white
-    color: $primary-green
-    text-align: center
 
   &-content
+    text-align: center
     display: flex
     align-items: center
+    &.success
+      color: $primary-green
+    &.error
+      color: $primary-red
     > div
       width: 100%
       padding: 8px

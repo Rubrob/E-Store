@@ -1,6 +1,6 @@
 import React from 'react'
 import './NewsSection.sass'
-import { Typography, Button } from '@material-ui/core'
+import { Typography, Button, Box } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const NewsButton = withStyles(() => ({
@@ -29,7 +29,9 @@ const News = ({img, text}) => (
 
 const NewsSection = () => (
   <div className='news'>
-    <Typography variant='h4' component='h2' align='center' className='news-title' children='STORE NEWS' />
+    <Box mb={5}>
+      <Typography variant='h4' align='center' children='STORE NEWS' />
+    </Box>
     <div className='news-cont'>
       <News img={'../images/slide_4.jpg'} text={'Shoes made for running high'} />
       <News img={'../images/slide_5.jpg'} text={'Waterproof features'} />

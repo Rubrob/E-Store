@@ -2,19 +2,16 @@
 
 .checkoutCartMain
   width: 100%
-  min-height: 320px
   max-height: 765px
   box-sizing: border-box
   border: 1px solid $light-gray
 
   .checkoutCartHeader
-    width: 100%
     padding: 15px
-    box-sizing: border-box
-    font-size: 20px
-    font-weight: 600
-    background: $light-gray
-    color: $primary-black
+    border-bottom: 1px solid $light-gray
+
+  .checkoutCartMainContent
+    padding: 12px
 
   .expandCheckoutCart
     position: absolute
@@ -29,18 +26,13 @@
 
   .checkoutSummary
     position: relative
-    padding: 8px
 
     > div
       display: flex
       justify-content: space-between
-      padding: 2px 0
-      color: $secondary-black
+      // padding: 2px 0
       &:last-child
-        color: $primary-black
-        padding-top: 10px
-        > span
-          color: $primary-red
+        margin-top: 12px
 
 @media (max-width: 959.5px)
   .checkoutCartMain

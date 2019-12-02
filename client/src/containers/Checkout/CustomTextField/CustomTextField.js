@@ -1,7 +1,8 @@
 import React from 'react'
-import { TextField } from '@material-ui/core'
+import {TextField} from '@material-ui/core'
 
-const CustomTextField = ({ input, label, helperText, meta: { touched, invalid, error }, ...custom }) => (
+
+const CustomField = ({ input, label, helperText, meta: { touched, invalid, error }, ...custom }) => (
   <TextField
     fullWidth
     variant='outlined'
@@ -12,4 +13,4 @@ const CustomTextField = ({ input, label, helperText, meta: { touched, invalid, e
     error={touched && invalid} />
 )
 
-export default CustomTextField
+export default CustomField

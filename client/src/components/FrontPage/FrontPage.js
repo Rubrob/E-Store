@@ -7,14 +7,14 @@ import BrandSection from './BrandSection/BrandSection'
 import NewsSection from './NewsSection/NewsSection'
 
 const FrontPage = ({products}) => {
-  const swiperData = products.filter((item, index) => (index <= 6))
+  const slides = products.filter((_, index) => (index <= 6))
   return (
     <>
       <Carousel />
       <BrandSection />
-      <CustomSwiper data={swiperData} title='NEW ARRIVALS' />
+      <CustomSwiper data={slides} title='NEW ARRIVALS' />
       <NewsSection />
-      <CustomSwiper data={swiperData} title='TRENDING' />
+      <CustomSwiper data={slides} title='TRENDING' />
     </>
   )
 }

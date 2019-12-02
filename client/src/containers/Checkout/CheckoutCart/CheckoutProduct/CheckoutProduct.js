@@ -17,13 +17,17 @@ const CheckoutProduct = ({ info, withUrl, currency }) => {
       <div className='checkoutProduct-info'>
         <Typography
           component='div'
+          color='textPrimary'
           className='checkoutProduct-info-title'
-          children={withUrl ? <Link to={url} children={title} /> : title} />
-        <Typography variant='body2' component='div' children={`Gender: ${gender}'s`} />
-        <Typography variant='body2' component='div' children={`Color: ${color}`} />
-        <Typography variant='body2' component='div' children={`Size: ${size}`} />
-        <Typography variant='body2' component='div' children={`Qty: ${qty} / ${currency}${price}`} />
-        <Typography variant='body2' component='div' children={`${currency}${qty * price}`} />
+          children={withUrl ? <Link to={url} children={title} /> : title}
+        />
+        <Typography variant='body2' color='textSecondary' component='div' children={`Gender: ${gender}'s`} />
+        <Typography variant='body2' color='textSecondary' component='div' children={`Color: ${color}`} />
+        <Typography variant='body2' color='textSecondary' component='div' children={`Size: ${size}`} />
+        <Typography variant='body2' color='textSecondary' component='div' children={`Qty: ${qty} / ${currency}${price}`} />
+        <Typography variant='body2' color='textPrimary' component='div'>
+          {currency}{qty * price}
+        </Typography>
       </div>
     </div>
   )

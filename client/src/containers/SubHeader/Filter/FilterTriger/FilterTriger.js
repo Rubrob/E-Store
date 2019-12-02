@@ -3,20 +3,20 @@ import { connect } from 'react-redux'
 import { toggleFilter} from '../../../../actions/trigers'
 import { Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import TuneIcon from '@material-ui/icons/Tune';
+
 
 const StyledButton = withStyles({
   root: {
     minWidth: 50,
     width: 100,
     height: 50,
-    borderRadius: 0,
     marginRight: 20,
     '@media (max-width: 959.5px)': {
       width: 50,
       marginRight: 0
     },
-    '&.MuiButtonBase-root.MuiButton-root.MuiButton-text': {
+    '&.MuiButton-text': {
       padding: 0
     },
     '& .MuiButton-label': {
@@ -28,22 +28,25 @@ const StyledButton = withStyles({
       }
     }
   },
-  })(({icon, text, ...rest}) => (
+  })(({icon, label, ...rest}) => (
     <Button
       aria-haspopup='true'
       {...rest}>
-      {text}
+      {label}
       {icon}
     </Button>
   ));
 
-const FilterTriger = (props) => (
+const FilterTriger = ({
+  toggle,
+  label
+}) => (
   <StyledButton
     className='FilterTriger'
-    onClick={props.toggle}
-    text={props.label}
-    icon={<FontAwesomeIcon icon='sliders-h' />}
-    />
+    onClick={toggle}
+    label={label}
+    icon={<TuneIcon fontSize='small' />}
+  />
 )
 
 const mapDispatchToProps = dispatch => ({

@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import './ProductPage.sass'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Button, withWidth, Typography } from '@material-ui/core'
-import { ampersand } from '../../../utils'
+import { withWidth, Typography, Avatar, Fab } from '@material-ui/core'
+import { renderTitle } from '../../../utils'
 import { addToCart } from '../../../actions/cart'
-import { GPP } from '../../../actions/products'
+import { getCurrentProduct } from '../../../actions/products'
 import { notify } from './../../../components/Toaster/Toaster'
 import ProductSlider from './ProductSlider/ProductSlider'
-import scrollToTop from './ProductPageHOC';
+import cx from 'classnames'
+
 
 class ProductPage extends Component {
   constructor(props){
@@ -19,20 +20,21 @@ class ProductPage extends Component {
   }
 
   componentDidMount() {
+    this.props.getCurrentProduct(this.props.match.params)
     this.setState({
-      size: this.props.ppage.cp.sizes[0] === 'One Size' ? 'One Size' : 0,
+      size: this.props.currentPage.sizes[0] === 'One Size' ? 'One Size' : 0,
     });
   }
 
   render() {
     const {
       match: {
-        params: { colorId, productId },
+        params: {colorId, productId},
       },
       currency,
       history,
       addToCart,
-      ppage: { pp, cp }
+      currentPage
     } = this.props
     const {
       title,
@@ -41,31 +43,29 @@ class ProductPage extends Component {
       category,
       gender,
       subcategory,
-      colors
-    } = pp
-    const {
+      colors,
       images,
       sizes,
       availability,
       color
-    } = cp
+    } = currentPage
 
-    const subTitle = `${gender}'s ${ampersand(subcategory || '')} ${category === 'shoes' ? category : ''}`
+    const subTitle = renderTitle({gender, subcategory, category})
     const match = this.props.width === 'sm' || this.props.width === 'xs'
 
     const add = () => {
       const data = {
         title,
-        productId,
-        colorId,
         color,
         gender,
         price,
-        size: this.state.size,
         sizes,
+        availability,
+        productId,
+        colorId,
+        size: this.state.size,
         qty: 1,
         img: images[0],
-        availability,
         url: history.location.pathname
       }
 
@@ -73,17 +73,35 @@ class ProductPage extends Component {
       notify('success', 'Succesfully added to your cart')
     }
 
-    const setSize = (newSize) => this.setState({ size: newSize })
+    const setSize = (newSize) => this.setState({size: newSize})
 
-    const changeColor = (productID, colorID) => {
-      history.push(`/pp/${productID}/${colorID}`)
+    const changeColor = (productId, colorId) => {
+      history.push(`/pp/${productId}/${colorId}`)
+      this.props.getCurrentProduct({productId, colorId})
       setSize(sizes[0] === 'One Size' ? 'One Size' : 0)
     }
 
-    const availableColors = colors.map((color) => <img key={color.id} alt='img' src={color.preview} onClick={() => changeColor(productId, color.id)} />)
+    const availableColors = colors.map((color) => (
+      <Avatar
+        key={color.id}
+        src={color.preview}
+        variant="square"
+        component='div'
+        onClick={() => changeColor(productId, color.id)}
+      />
+    ))
 
     const availableSizes = sizes.map((item) => (
-      <div key={item} onClick={() => setSize(item)} className={`avSizes-size ${this.state.size === item ? 'active' : ''}`} children={item} />
+      <div
+        key={item}
+        onClick={() => setSize(item)}
+        className={cx(
+          'avSizes-size', {
+            active: this.state.size === item
+          }
+        )}
+        children={item}
+      />
     ))
 
     const ProductPageTitle = ({classes}) => (
@@ -92,22 +110,27 @@ class ProductPage extends Component {
           <Typography variant='subtitle1' component='h4' children={subTitle} />
           <Typography variant='h4' component='h1' children={title} />
         </div>
-        <Typography component='span' children={`${currency}${price}`} />
+        <Typography component='span'>
+          {currency}{price}
+        </Typography>
       </div>
     )
 
-    const productDesctiptionImgs = (count) => {
-      return Array.from(Array(count), (_, i) =>
-        <div key={i} className={`productDescription-partical p${i + 1}`} style={{ backgroundImage: `url(${images[0]})` }} />
-      )
-    }
+    const productDesctiptionImgs = (count) => (
+      Array.from(Array(count), (_, i) => (
+        <div
+          key={i}
+          className={`productDescription-partical p${++i}`}
+          style={{ backgroundImage: `url(${images[0]})` }}
+        />
+      ))
+    )
 
-    const showColors = colors.length >= 2 &&
+    const showColors = colors.length >= 2 && (
       <div className='productPage-content-main-colors'>
         <div className='avColors' children={availableColors} />
       </div>
-
-    const mobileDescription = match ? <Typography component='div' children={description} /> : null
+    )
 
     return (
       <div className='productPage'>
@@ -118,20 +141,24 @@ class ProductPage extends Component {
             <ProductPageTitle classes='mobile' />
             {showColors}
             <div className='productPage-content-main-sizes'>
-              <Typography variant='subtitle1' component='h4' paragraph children={'Select Size'} />
-              <div className={`avSizes ${sizes.length < 2 ? 'onesize' : ''}`} children={availableSizes} />
+              <Typography variant='subtitle1' component='h4' paragraph>
+                Select Size
+              </Typography>
+              <div className={cx('avSizes', {onesize: sizes.length < 2})} children={availableSizes} />
             </div>
-            <Button
-              variant='contained'
-              fullWidth
+            <Fab
+              variant="extended"
               disabled={!this.state.size}
               className='addToCart'
               onClick={add}
-              children='Add To Cart' />
+              children='Add To Cart'
+            />
           </div>
         </div>
         <div className='productDescription'>
-          {mobileDescription}
+          <div>
+            {match ? <Typography children={description} /> : null}
+          </div>
           <div className='productDescription-desktop'>
             <div className='productDescription-photo'>
               {productDesctiptionImgs(4)}
@@ -142,11 +169,13 @@ class ProductPage extends Component {
                 align='right'
                 paragraph
                 component='div'
-                children={title} />
+                children={title}
+              />
               <Typography
                 className='productDescription-desktop-body'
                 component='div'
-                children={description} />
+                children={description}
+              />
           </div>
         </div>
       </div>
@@ -154,17 +183,17 @@ class ProductPage extends Component {
   }
 }
 
-const mapStateToProps = (state, { match: { params } }) => ({
-  ppage: GPP(params.productId, params.colorId, state.products.products),
+const mapStateToProps = (state) => ({
+  currentPage: state.products.currentPage,
   currency: state.products.currency,
   products: state.products.products
 })
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   addToCart: value => dispatch(addToCart(value)),
+  getCurrentProduct: (value) => dispatch(getCurrentProduct(value))
 })
 
 export default compose(
-  scrollToTop,
   withWidth(),
   connect(mapStateToProps, mapDispatchToProps)
 )(ProductPage)

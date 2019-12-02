@@ -1,25 +1,17 @@
-import React from 'react'
-import './Shipping.sass'
-import { reduxForm } from 'redux-form'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { Button, Typography } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
-import { Lock } from '@material-ui/icons'
-import DeliveryBox from './DeliveryBox/DeliveryBox'
-import FormsPreview from '../FormsPreview/FormsPreview'
-import CheckoutForm from './../CheckoutForm/CheckoutForm'
-import { validate } from '../../../validation/checkout'
-import { freeIfZero } from '../../../utils'
-import { submitShipping, prevStep } from '../../../actions/cart'
+import React from "react"
+import "./Shipping.sass"
+import { reduxForm } from "redux-form"
+import { connect } from "react-redux"
+import { compose } from "redux"
+import {Button, Typography, Box, Card} from "@material-ui/core"
+import { Lock } from "@material-ui/icons"
+import DeliveryBox from "./DeliveryBox/DeliveryBox"
+import FormsPreview from "../FormsPreview/FormsPreview"
+import CheckoutForm from "./../CheckoutForm/CheckoutForm"
+import { validate } from "../../../validation/checkout"
+import { freeIfZero } from "../../../utils"
+import { submitShipping, prevStep } from "../../../actions/cart"
 
-const SubmitButton = withStyles(() => ({
-  root: {
-    alignSelf: 'flex-end',
-    marginTop: 20,
-    padding: '15px 20px',
-  }
-}))(Button)
 
 const Shipping = (props) => {
 
@@ -32,27 +24,29 @@ const Shipping = (props) => {
     submitShipping(data)
   }
 
-  const delChild = <div className='delChild'>
-    <Typography gutterBottom className='delChild-title' children='Shipping Speed' />
-    <Typography variant='body2' className='delChild-content'>
-      {delivery}: {freeIfZero(deliveryMethods[delivery], currency)}
-    </Typography>
-  </div>
+  const delChild = (
+    <div className="delChild">
+      <Typography gutterBottom className="delChild-title" children="Shipping Speed" />
+      <Typography variant="body2" color='textSecondary' className="delChild-content">
+        {delivery}: {freeIfZero(deliveryMethods[delivery], currency)}
+      </Typography>
+    </div>
+  )
 
   return (
-    <div className='shipping'>
-      <div className='shipping-title'>
-        <Typography variant='h6' component='h4' children='SHIPPING' />
+    <Card className="shipping">
+      <div className="shipping-title">
+        <Typography variant="h5" component="h4" children="SHIPPING" />
       </div>
-      {step >= 2 ? <div className='shipping-preview'>
-          <FormsPreview title='Shipping Address' content={previewContent} children={delChild} />
-          <div className='prev' onClick={prevStep}>Edit</div>
+      {step >= 2 ? <div className="shipping-preview">
+          <FormsPreview title="Shipping Address" content={previewContent} children={delChild} />
+          <div className="prev" onClick={prevStep}>Edit</div>
         </div> :
         <form onSubmit={handleSubmit(submit)}>
-          <CheckoutForm type='shipping' />
+          <CheckoutForm type="shipping" />
 
-          <Typography variant='caption' className='shippingNote'>
-            <Lock fontSize='inherit' />
+          <Typography variant="caption" className="shippingNote">
+            <Lock fontSize="inherit" />
             <span>
               Your privacy is important to us. We will only contact you if there is an issue with your order.
             </span>
@@ -60,15 +54,18 @@ const Shipping = (props) => {
 
           <DeliveryBox />
 
-          <SubmitButton
-            color='secondary'
-            variant='contained'
-            type='submit'
-            disabled={invalid}
-            children='SAVE & CONTINUE'
+          <Box alignSelf="flex-end" mt={3}>
+            <Button
+              size="large"
+              color="secondary"
+              variant="contained"
+              type="submit"
+              disabled={invalid}
+              children="SAVE & CONTINUE"
             />
+          </Box>
         </form>}
-    </div>
+    </Card>
   )
 }
 
@@ -88,7 +85,7 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
-    form: 'shipping',
+    form: "shipping",
     validate,
     enableReinitialize: true
   })

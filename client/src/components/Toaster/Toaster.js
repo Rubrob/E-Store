@@ -3,6 +3,8 @@ import './Toaster.sass'
 import { Error, CheckCircle } from '@material-ui/icons'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import cx from 'classnames'
+
 
 const settings = {
   closeButton: false,
@@ -14,42 +16,24 @@ const settings = {
   draggable: true
 }
 
-const setIcon = (type) => {
-  if(type === 'error') {
-    return <Error />
-  } else if (type === 'success') {
-    return <CheckCircle />
-  }
-}
+const setIcon = (type) => (
+  type === 'error' ? <Error /> :
+  type === 'success' ? <CheckCircle /> :
+  null
+)
 
-const template = (type, msg) => {
-  return <div className='toaster-content'>
+const template = (type, msg) => (
+  <div className={cx('toaster-content', {[type]: type})}>
     {setIcon(type)}
     <div>{msg}</div>
   </div>
-}
+)
 
 export const notify = (type, msg) => {
-  switch(type) {
-    case 'error':
-      return toast.error(
-        template('error', msg),
-        {
-          ...settings,
-          className: 'toaster error',
-        }
-      );
-    case 'success':
-      return toast.success(
-        template('success', msg),
-        {
-          ...settings,
-          className: 'toaster success',
-        }
-      )
-    default:
-      return null
-  }
+  return toast[type](
+    template(type, msg),
+    {...settings, className: 'toaster'}
+  )
 }
 
 export default () => <ToastContainer />

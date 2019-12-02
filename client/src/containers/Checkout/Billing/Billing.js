@@ -1,95 +1,87 @@
-import React, { useState } from 'react'
-import './Billing.sass'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
-import { FormControlLabel, Checkbox, Button, Typography } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles'
-import { validate } from '../../../validation/checkout'
-import { submitCheckout } from '../../../actions/cart'
-import PaymentFields from './PaymentFields/PaymentFields'
-import FormsPreview from './../FormsPreview/FormsPreview'
-import CheckoutForm from './../CheckoutForm/CheckoutForm'
-import { notify } from '../../../components/Toaster/Toaster'
+import React, { useState } from "react"
+import "./Billing.sass"
+import { compose } from "redux"
+import { connect } from "react-redux"
+import { reduxForm } from "redux-form"
+import { FormControlLabel, Checkbox, Button, Typography, Box, Card } from "@material-ui/core"
+import { validate } from "../../../validation/checkout"
+import { submitCheckout } from "../../../actions/cart"
+import PaymentFields from "./PaymentFields/PaymentFields"
+import FormsPreview from "./../FormsPreview/FormsPreview"
+import CheckoutForm from "./../CheckoutForm/CheckoutForm"
+import { notify } from "../../../components/Toaster/Toaster"
 
-const SubmitButton = withStyles(() => ({
-  root: {
-    alignSelf: 'flex-end',
-    marginTop: 20,
-    padding: '15px 20px',
-  }
-}))(Button)
 
-const Billing = (props) => {
-  const {
-    handleSubmit,
-    invalid,
-    submitting,
-    pristine,
-    submitCheckout,
-    shipping,
-    step,
-    cartProducts,
-    delivery,
-   } = props
+const Billing = ({
+  handleSubmit,
+  invalid,
+  submitting,
+  pristine,
+  submitCheckout,
+  shipping,
+  step,
+ }) => {
   const { firstname, lastname, address, city, zip, country } = shipping
   const previewContent = { fullname: `${firstname} ${lastname}`, address, city, zip, country }
 
-  const submit = async (value) => {
-    const onSuccess = (message) => {
-      window.scrollTo(0, 0)
-      notify('success', message)
-    }
-    const onFail = (message) => notify('error', message)
-
+  const submit = async ({cardnumber, exp, cvv, ...rest}) => {
     const data = {
-      shipping,
-      billing: value,
-      products: cartProducts,
-      delivery,
+      addresses: {
+        shipping,
+        billing: {
+          card: {
+            cardnumber,
+            exp,
+            cvv,
+          },
+          address: {...rest}
+        },
+      },
       bas: checked
     }
 
-    await submitCheckout(data, { onSuccess, onFail })
+    await submitCheckout(data, (type, msg) => notify(type, msg))
   }
 
   const [checked, setChecked] = useState(true)
 
   return (
-    <div className='billing'>
-      <div className='shipping-title'>
-        <Typography variant='h6' component='h4' children='PAYMENT' />
+    <Card className="billing">
+      <div className="billing-title">
+        <Typography variant="h5" component="h4" children="PAYMENT" />
       </div>
       {step >= 2 && <form onSubmit={handleSubmit(submit)}>
           <PaymentFields />
 
           <FormControlLabel
-            className='billingAddressCheckbox'
+            className="billingAddressCheckbox"
             control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
-            label='Billing address same as shipping'
-            />
+            label="Billing address same as shipping"
+          />
 
           {checked ?
-            <FormsPreview title='Shipping Address' content={previewContent} cn='billingAddress' />
-            : <CheckoutForm type='billing'/>}
+            <FormsPreview title="Shipping Address" content={previewContent} cn="billingAddress" /> :
+            <CheckoutForm type="billing"/>
+          }
 
-          <SubmitButton
-            variant='contained'
-            color='secondary'
-            type='submit'
-            disabled={invalid || submitting || pristine}
-            children={'PLACE ORDER'}
+          <Box alignSelf="flex-end" mt={3}>
+            <Button
+              size="large"
+              variant="contained"
+              color="secondary"
+              type="submit"
+              disabled={invalid || submitting || pristine}
+              children={"PLACE ORDER"}
             />
+          </Box>
         </form>}
-    </div>
+    </Card>
   )
 }
 
 const mapStateToProps = state => ({
   initialValues: state.auth.addresses.billing,
   shipping: state.cart.checkout.addresses.shipping,
-  cartProducts: state.cart.cartProducts,
-  delivery: state.cart.defaultValues.delivery,
   step: state.cart.step,
   fields: state.form.billing,
 })
@@ -100,7 +92,7 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
-    form: 'billing',
+    form: "billing",
     validate,
     enableReinitialize: true
   })

@@ -10,19 +10,17 @@ const FilterButton = withStyles(() => ({
   }
 }))(Button)
 
-const FilterBlock = (props) => {
-
-  const {
-    globalFilter,
-    globalFilterType,
-    currentFilter,
-    label,
-    itemsContent,
-    classNameAsValue,
-    className
-  } = props
-
-  const { addFilter, removeFilter } = props
+const FilterBlock = ({
+  globalFilter,
+  globalFilterType,
+  currentFilter,
+  label,
+  itemsContent,
+  classNameAsValue,
+  className,
+  addFilter,
+  removeFilter
+}) => {
 
   const setActive = (filter, value) => filter.indexOf(value) > -1
 
@@ -47,7 +45,8 @@ const FilterBlock = (props) => {
         key={filterItem}
         className={classes}
         onClick={handleFilter}
-        children={itemsContent ? itemsContent : filterItem} />
+        children={itemsContent ? itemsContent : filterItem}
+      />
     )
   })
   return (

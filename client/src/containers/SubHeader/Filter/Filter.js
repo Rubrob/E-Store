@@ -6,8 +6,7 @@ import { Done } from '@material-ui/icons'
 import { resetFilter, getFilters } from '../../../actions/products'
 import FilterBlock from './FilterBlock/FilterBlock'
 
-const Filter = (props) => {
-  const { searched, hide, resetFilter } = props
+const Filter = ({ searched, hide, resetFilter }) => {
   const [byColor, bySize] = getFilters(searched, ['color', 'size'])
 
   return (
@@ -16,19 +15,22 @@ const Filter = (props) => {
         label='Color'
         globalFilterType='color'
         currentFilter={byColor}
-        itemsContent={<Done fontSize='small' />}
+        itemsContent={<Done fontSize='small' color='primary' />}
         classNameAsValue
-        className='color' />
+        className='color'
+      />
       <FilterBlock
         label='Size'
         globalFilterType='size'
         currentFilter={bySize}
-        className='size' />
+        className='size'
+      />
       <Button
         variant='contained'
         className='Filter-reset'
         onClick={resetFilter}
-        children={'Reset'} />
+        children={'Reset'}
+      />
     </div>
   )
 }

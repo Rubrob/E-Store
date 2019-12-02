@@ -17,9 +17,9 @@ const SearchItem = ({ suggestions, currency, onClick }) => (
           <img src={item.colors[0].preview} alt='img' />
           <div>
             {/* {highlight} */}
-            <Typography variant='body1' component='div' children={item.title} />
-            <Typography variant='body2' component='div' children={`${item.gender}'s`} />
-            <Typography variant='body2' component='div' children={`${currency}${item.price}`} />
+            <Typography variant='body1' color='textPrimary' children={item.title} />
+            <Typography variant='body2' color='textSecondary' children={`${item.gender}'s`} />
+            <Typography variant='body2' color='textSecondary' children={`${currency}${item.price}`} />
           </div>
         </div>
       )

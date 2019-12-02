@@ -10,30 +10,22 @@ import Cart from './containers/Cart/Cart'
 import Checkout from './containers/Checkout/Checkout'
 import SingUpIn from './containers/SingUpIn/SingUpIn'
 import Profile from './containers/Profile/Profile'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
-import { fas, faSort, faSlidersH } from '@fortawesome/free-solid-svg-icons'
 import { filterURL, filterProductsWithURL } from './actions/products'
 import { fetchMember } from './actions/auth'
 import { fetchProducts, fetchCategories } from './actions/products'
 import Loader from './components/Loader/Loader'
 import Toaster from './components/Toaster/Toaster'
+import ScrollToTop from './components/ScrollToTop'
 
-library.add(fab, fas, faSort, faSlidersH)
 
-function App(props) {
-  console.log(props)
-  const {
-    fetchMember,
-    fetchProducts,
-    fetchCategories,
-    isFetching,
-    filterProductsWithURL,
-    isAuthenticated,
-    token,
-  } = props
-
+const App = ({
+  fetchMember,
+  fetchProducts,
+  fetchCategories,
+  isFetching,
+  filterProductsWithURL,
+  isAuthenticated,
+}) => {
   useEffect(() => {
     fetchMember()
     fetchProducts()
@@ -44,10 +36,11 @@ function App(props) {
     isFetching ? <Loader /> :
     <>
       <Toaster />
+      <ScrollToTop />
       <Header />
       <>
         <Route exact path='/' component={FrontPage} />
-        <Route path='/profile' render={(props) => isAuthenticated && token ? <Profile {...props} /> : <Redirect to='/register' />} />
+        <Route path='/profile' render={(props) => isAuthenticated ? <Profile {...props} /> : <Redirect to='/register' />} />
         <Route exact path='/cart' component={Cart} />
         <Route exact path='/checkout' component={Checkout} />
         <Route exact path='/p/:filter' render={({match}) => {
@@ -68,7 +61,6 @@ const mapStateToProps = state => ({
   products: state.products.products,
   isFetching: state.products.isFetching,
   isAuthenticated: state.auth.isAuthenticated,
-  token: state.auth.token
 })
 const mapDispatchToProps = dispatch => ({
   filterProductsWithURL: value => dispatch(filterProductsWithURL(value)),

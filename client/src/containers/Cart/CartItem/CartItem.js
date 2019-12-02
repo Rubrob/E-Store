@@ -12,14 +12,13 @@ import {
 } from '../../../actions/cart'
 import CustomSelect from '../CustomSelect/CustomSelect'
 
-const CartItem = (props) => {
-  const {
-    data,
-    currency,
-    changeProductQuantity,
-    changeProductSize,
-    deleteCartProduct,
-  } = props
+const CartItem = ({
+  data,
+  currency,
+  changeProductQuantity,
+  changeProductSize,
+  deleteCartProduct,
+}) => {
 
   const {
     url,
@@ -45,22 +44,22 @@ const CartItem = (props) => {
 
         <div className='ProductToBuy-content-data'>
           <Typography
-            component='div'
             className='ProductToBuy-content-data-title'
-            children={<Link to={url} children={title} />}/>
-          <Typography variant='body2' component='div' children={`Gender: ${gender}'s`} />
-          <Typography variant='body2' component='div' children={`Color: ${color}`} />
-          <Typography variant='body2' component='div'>
+            children={<Link to={url} children={title} />}
+          />
+          <Typography variant='body2' color='textSecondary' children={`Gender: ${gender}'s`} />
+          <Typography variant='body2' color='textSecondary' children={`Color: ${color}`} />
+          <Typography variant='body2' color='textSecondary' component='div'>
             Size: <CustomSelect data={sizes} primary={size} onChangeData={data} onChange={changeSize} />
           </Typography>
-          <Typography variant='body2' component='div'>
+          <Typography variant='body2'color='textSecondary' component='div'>
             Quantity: <CustomSelect data={arrayFromNumber(availability)} primary={qty} onChangeData={data} onChange={changeQuantity}/>
           </Typography>
         </div>
 
         <div className='ProductToBuy-controls'>
-          <IconButton size='small' onClick={deleteItem} children={<Clear />} />
-          <Typography variant='button'>{currency}{data.qty * price}</Typography>
+          <IconButton size='small' onClick={deleteItem} children={<Clear fontSize='small' color='inherit' />} />
+          <Typography variant='body2'>{currency}{data.qty * price}</Typography>
         </div>
       </div>
 

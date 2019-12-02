@@ -4,19 +4,16 @@ import { IconButton, InputBase, Box } from '@material-ui/core'
 import { Search, Close } from '@material-ui/icons'
 import { backdropFilterSupport } from './../../../../utils/index'
 
-const MobileSearchBox = (props) => {
-  const {
-    value,
-    clear,
-    search,
-    suggestions,
-    onTextChange,
-    active,
-    setActive
-  } = props
+const MobileSearchBox = ({
+  value,
+  clear,
+  search,
+  suggestions,
+  onTextChange,
+  active,
+  setActive
+}) => {
   const input = createRef()
-
-  document.body.style.overflow = active ? 'hidden' : null
 
   const openSearchBox = () => setActive(true)
 

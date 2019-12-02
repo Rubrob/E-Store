@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { Typography, Box } from '@material-ui/core'
 import { tlcWithUnderline } from '../../../utils'
 import { connect } from 'react-redux'
+import cx from 'classnames'
+
 
 const DesktopMenu = ({ menu }) => {
   const [state, setState] = useState(null)
@@ -11,25 +13,32 @@ const DesktopMenu = ({ menu }) => {
   const closeMenu = () => setState(null)
 
   const mapSubcategories = (subcategories, categoryTitle, gender) => (
-    subcategories.map(subcategory => {
-      const link = tlcWithUnderline([gender, categoryTitle, subcategory.title].join('-'))
+    subcategories.map(({title}) => {
+      const link = tlcWithUnderline([gender, categoryTitle, title].join('-'))
       return (
         <Typography
-          key={subcategory.title}
+          key={title}
           variant='body2'
-          component='div'
-          className='subcategory__block-title'>
-          <Link to={`/p/${link}`} onClick={closeMenu} children={subcategory.title} />
+          color='textSecondary'
+          className='subcategory__block-title'
+        >
+          <Link to={`/p/${link}`} onClick={closeMenu} children={title} />
         </Typography>
       )
     })
   )
 
-  const menuItems = (menu) => menu.map(item => {
+  const menuItems = (menu) => menu.map((item) => {
     const link = tlcWithUnderline([state, item.title].join('-'))
     return (
       <Box key={item.title} className='category__block'>
-        <Typography variant='h6' component='div' gutterBottom className='category__block-title'>
+        <Typography
+          variant='h6'
+          component='div'
+          gutterBottom
+          className='category__block-title'
+          color='textPrimary'
+        >
           <Link to={`/p/${link}`} children={item.title} />
         </Typography>
         <Box className='subcategory__block'>
@@ -39,14 +48,15 @@ const DesktopMenu = ({ menu }) => {
     )
   });
 
-  const renderTrigers = menu.map(item =>
+  const renderTrigers = menu.map(({title}) =>
     <Typography
-      key={item.title}
+      key={title}
       component='div'
-      onMouseEnter={() => openMenu(item.title)}
+      onMouseEnter={() => openMenu(title)}
       onMouseLeave={closeMenu}
-      className={`triger ${state === item.title ? 'active' : ''}`}
-      children={item.title} />
+      className={cx('triger', {active: state === title})}
+      children={title}
+    />
   )
 
   const renderMenu = menu.map(item => {
@@ -57,7 +67,8 @@ const DesktopMenu = ({ menu }) => {
           className={`DesktopMenu-menu`}
           children={menuItems(item.categories)}
           onMouseEnter={() => openMenu(item.title)}
-          onMouseLeave={closeMenu} />
+          onMouseLeave={closeMenu}
+        />
       )
     }
     return null

@@ -11,7 +11,8 @@ import {
 
 const CustomBackdrop = withStyles({
   root: {
-    top: 64
+    top: 64,
+    height: '100vh',
   }
 })(Backdrop)
 
@@ -42,7 +43,7 @@ const DesktopSearchBox = (props) => {
 
   const clearSearchBox = () => {
     clear()
-    input.current.focus()
+    input.current.blur()
   }
 
   const onKeyUp = (evt) => {
@@ -81,7 +82,7 @@ const DesktopSearchBox = (props) => {
         onKeyUp={onKeyUp}
         onChange={onChange}/>
       {!!value.length && <IconButton color='inherit' onClick={clearSearchBox} children={<Close />} />}
-      <CustomBackdrop open={active} onClick={backdropClick}/>
+      <CustomBackdrop open={active} onClick={backdropClick} />
       <Box className='suggestions-wrap'>
         {suggestions}
       </Box>

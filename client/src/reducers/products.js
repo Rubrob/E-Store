@@ -29,6 +29,11 @@ const initialState = {
   searchedStr: '',
   isFetching: false,
   isFetchingError: false,
+  currentPage: {
+    colors: [],
+    sizes: [],
+    images: [],
+  }
 }
 
 // REDUCER CONTROLLERS
@@ -192,6 +197,11 @@ const productsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         categories: payload
+      }
+    case 'CURRENT_PAGE':
+      return {
+        ...state,
+        currentPage: {...payload}
       }
     default:
       return { ...state }

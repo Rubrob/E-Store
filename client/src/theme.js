@@ -1,4 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import {createMuiTheme} from '@material-ui/core/styles';
+// import defaultTheme from '@material-ui/core/styles/defaultTheme';
+
 
 const fields = {
   static: {
@@ -16,6 +18,11 @@ const fields = {
 }
 
 export const theme = createMuiTheme({
+  palette: {
+    text: {
+      secondary: '#777777'
+    }
+  },
   overrides:{
     MuiFormControl: {
       root: {
@@ -92,6 +99,13 @@ export const theme = createMuiTheme({
           backgroundColor: '#000'
         }
       },
+    },
+    MuiMenu: {
+      paper: {
+        minWidth: 150,
+        border: '1px solid',
+        borderColor: '#e5e5e5'
+      }
     }
   },
 });

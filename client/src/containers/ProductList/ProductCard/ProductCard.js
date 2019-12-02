@@ -92,14 +92,16 @@ function ProductCard({ product, currency }) {
           <Typography
             variant='body2'
             component='div'
+            color='textSecondary'
             children={`${gender}'s ${ampersand(subcategory)} ${category === 'shoes' ? category : ''}`} />
           <Typography
             variant='body2'
             component='div'
+            color='textSecondary'
             children={`${currency}${price}`} />
           <div className='colors'>
             {colorRounds}
-            <Typography variant='caption' className='colorsQuantity'>{colorQty}</Typography>
+            <Typography variant='caption' color='textSecondary' className='colorsQuantity'>{colorQty}</Typography>
           </div>
         </div>
     </div>

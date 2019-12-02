@@ -55,7 +55,8 @@ class Cart extends Component {
         variant='subtitle1'
         component='div'
         align='center'
-        children={`There are no items in your cart`} />
+        children={`There are no items in your cart`}
+      />
     : mapCartItems
 
     const qty = cartProducts.reduce((acc, curr) => acc + (curr.qty), 0)
@@ -66,8 +67,13 @@ class Cart extends Component {
       <div className='Cart'>
         <CustomTypography variant='h4' component='h2' align='center' children='CART' />
         {match &&
-        <Typography variant='body1' component='div' align='center' className='Cart-miniInfo'>
-          <Typography variant='body1' component='span' children={`${qtyLabel} | `} /> {currency}{total}
+        <Typography
+          component='div'
+          align='center'
+          color='textSecondary'
+          className='Cart-miniInfo'
+        >
+          <Typography component='span' children={qtyLabel} color='textPrimary'/> | {currency}{total}
         </Typography>}
         <div className='Cart-main'>
           <div className='Cart-main-products'>
@@ -75,7 +81,7 @@ class Cart extends Component {
           </div>
           <div className='Cart-main-toCheckout'>
             <div className='Cart-main-toCheckout-main'>
-              <Typography variant='h6' component='h4' children='ORDER SUMMARY:' paragraph/>
+              <Typography variant='h6' component='h4' children='ORDER SUMMARY:' paragraph />
               <Typography variant='subtitle1' component='div' children={qtyLabel} />
               <Typography variant='subtitle1' component='div' children={`Total: ${currency}${total}`}  display='block' />
             </div>

@@ -13,16 +13,16 @@ import {
   FETCH_CATEGORIES_SUCCESS,
 } from './types';
 
-export const GPP = (productID, colorID, products = []) => {
-  let productCID = []
-  const productPID =  products.filter(product => productID === product.id)[0]
-  if(productPID){
-    productCID = productPID.colors.filter(color => colorID === color.id)[0]
+export const getCurrentProduct = (ids) => (dispatch, getState) => {
+  let currentColor
+  const currentProduct = getState().products.products.filter(product => ids.productId === product.id)[0]
+  if(currentProduct){
+    currentColor = currentProduct.colors.filter(color => ids.colorId === color.id)[0]
   }
-  return {
-    pp: productPID,
-    cp: productCID
-  }
+  dispatch({type: 'CURRENT_PAGE', payload: {
+    ...currentProduct,
+    ...currentColor
+  }})
 }
 
 export const sortByPrice = (method) => ({ type: SORT_BY_PRICE, payload: method })

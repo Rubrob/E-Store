@@ -2,26 +2,19 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Menu, MenuItem, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { sortByPrice } from '../../../actions/products'
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 
-const StyledMenu = withStyles({
-  paper: {
-    borderRadius: 0,
-    boxShadow: '0 0 4px #e5e5e5'
-  },
-})(Menu);
 
 const StyledButton = withStyles({
   root: {
     minWidth: 50,
     width: 100,
     height: 50,
-    borderRadius: 0,
     '@media (max-width: 959.5px)': {
       width: 50
     },
-    '&.MuiButtonBase-root.MuiButton-root.MuiButton-text': {
+    '&.MuiButton-text': {
       padding: 0
     },
     '& .MuiButton-label': {
@@ -33,22 +26,21 @@ const StyledButton = withStyles({
       }
     }
   },
-  })(({icon, text, ...rest}) => (
+  })(({icon, label, ...rest}) => (
     <Button
       aria-controls='sort-menu'
       aria-haspopup='true'
       {...rest}>
-      {text}
+      {label}
       {icon}
     </Button>
   ));
 
-const Sort = (props) => {
-  const { sortByPrice, label } = props
+const Sort = ({ sortByPrice, label }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (evt) => {setAnchorEl(evt.currentTarget)}
-  const handleClose = () => {setAnchorEl(null)}
+  const handleClick = (evt) => setAnchorEl(evt.currentTarget)
+  const handleClose = () => setAnchorEl(null)
 
   const handleSort = (method) => {
     sortByPrice(method)
@@ -60,10 +52,10 @@ const Sort = (props) => {
       <StyledButton
         className='Sort'
         onClick={handleClick}
-        text={label}
-        icon={<FontAwesomeIcon icon='sort' />}
+        label={label}
+        icon={<ImportExportIcon fontSize='small' />}
       />
-      <StyledMenu
+      <Menu
         id='sort-menu'
         elevation={0}
         getContentAnchorEl={null}
@@ -79,10 +71,10 @@ const Sort = (props) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         className='Sort-menu'
-        >
+      >
         <MenuItem onClick={() => handleSort('low')}>Price: Low - High</MenuItem>
         <MenuItem onClick={() => handleSort('high')}>Price: High - Low</MenuItem>
-      </StyledMenu>
+      </Menu>
     </>
   )
 }

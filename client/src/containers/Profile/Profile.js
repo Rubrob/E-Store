@@ -1,6 +1,5 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, {useState, useEffect} from 'react'
+import { matchPath } from 'react-router-dom'
 import { Tabs, Tab } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import OrdersPage from './OrdersPage/OrdersPage'
@@ -9,39 +8,77 @@ import ProfilePage from './ProfilePage/ProfilePage'
 
 const useStyles = makeStyles({
   profile: {
-    padding: '60px 20px',
+    padding: '60px 12px',
     maxWidth: 1200,
     margin: '0 auto',
   }
 })
 
 
-const Profile = ({match, history}) => {
+const Profile = ({
+  match,
+  history,
+  location
+}) => {
   const classes = useStyles()
+
+  const getModeFromPathname = (pageName, modes, pathname) => (
+    Object.entries(modes)
+      .map(([mode, suffix]) => ({
+        mode,
+        ...(matchPath(pathname, {
+          path: `/${pageName}${suffix}`,
+          exact: true
+        }) || {})
+      }))
+      .find(result => result.path) || {}
+  );
+
+  const modes = {
+    preview: '',
+    orders: '/orders',
+  }
+
+  const [state, setState] = useState({
+    ...getModeFromPathname('profile', modes, location.pathname),
+  })
+
+  const handlePath = async (pathname) => {
+    await history.push(pathname)
+    const result = await getModeFromPathname('profile', modes, pathname)
+    await setState({...result})
+  }
+
+  useEffect(() => {
+    setState(getModeFromPathname('profile', modes, location.pathname))
+  }, [location.pathname, modes])
+
 
   return (
     <div className={classes.profile}>
       <Tabs
         variant='fullWidth'
-        value={history.location.pathname}
-        onChange={(evt, value) => history.push(value)}>
+        value={location.pathname}
+        onChange={(_, value) => handlePath(value)}>
         <Tab
           disableRipple
           fullWidth
           value={match.url}
-          label='Profile' />
+          label='Profile'
+        />
         <Tab
           disableRipple
           fullWidth
           value={`${match.url}/orders`}
-          label='Orders' />
+          label='Orders'
+        />
       </Tabs>
-      <Route exact path={match.url} component={ProfilePage} />
-      <Route exact path={`${match.url}/orders`} component={OrdersPage} />
+      {
+        state.mode === 'preview' ? <ProfilePage /> :
+        state.mode = 'orders' ?<OrdersPage /> : null
+      }
     </div>
   )
 }
 
-const mapStateToProps = state => ({})
-
-export default connect(mapStateToProps, null)(Profile)
+export default Profile

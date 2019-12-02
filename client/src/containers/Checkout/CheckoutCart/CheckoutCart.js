@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './CheckoutCart.sass'
 import { connect } from 'react-redux'
-import { Typography } from '@material-ui/core'
+import { Typography, Card, Box } from '@material-ui/core'
 import { ExpandLess, ExpandMore } from '@material-ui/icons'
 import CheckoutProduct from './CheckoutProduct/CheckoutProduct'
 import { freeIfZero } from '../../../utils'
@@ -23,32 +23,41 @@ const CheckoutCart = (props) => {
   }, [cartProducts, totalRecalculation])
 
   return (
-    <div className='checkoutCartMain'>
+    <Card className='checkoutCartMain'>
       <div className='checkoutCartHeader'>
-        <Typography variant='h6' component='h4' children='ORDER SUMMARY' />
+        <Typography variant='h5' component='h4' children='ORDER SUMMARY' />
         <div
           className='expandCheckoutCart'
           onClick={() => setExpand(!expand)}
-          children={expand ? <ExpandLess /> : <ExpandMore />} />
+          children={expand ? <ExpandLess /> : <ExpandMore />}
+        />
       </div>
 
       <div className='checkoutCartMainContent'>
         <div className={`checkoutSummary ${expand ? 'pseudo' : ''}`}>
-          <Typography variant='body2' component='div'>
-            Subtotal <span children={`${currency}${total}`} />
+          <Typography variant='body2' component='div' color='textSecondary' gutterBottom>
+            Subtotal:
+            <span>
+              {currency}{total}
+            </span>
           </Typography>
-          <Typography variant='body2' component='div'>
-            Delivery <span children={freeIfZero(deliveryMethods[delivery], currency)} />
+          <Typography variant='body2' component='div' color='textSecondary'>
+            Delivery: <span children={freeIfZero(deliveryMethods[delivery], currency)} />
           </Typography>
           <Typography variant='h6' component='div'>
-            Total <span children={`${currency}${total + deliveryMethods[delivery]}`} />
+            Total:
+            <Typography component='span' color='error'>
+              {currency}{total + deliveryMethods[delivery]}
+            </Typography>
           </Typography>
         </div>
-        <div className={expand ? 'expand' : 'hidden'}>
+
+        <Box className={expand ? 'expand' : 'hidden'}>
           {cartProducts.map((item, i) => <CheckoutProduct key={i} info={{...item, currency}}/>)}
-        </div>
+        </Box>
+
       </div>
-    </div>
+    </Card>
   )
 }
 

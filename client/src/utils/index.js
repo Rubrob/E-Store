@@ -54,3 +54,7 @@ export const backdropFilterSupport = () => {
     return false
   }
 }
+
+export const renderTitle = ({gender, subcategory, category}) => {
+  return `${gender}'s ${ampersand(subcategory || '')} ${category === 'shoes' ? category : ''}`
+}

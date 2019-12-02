@@ -16,7 +16,7 @@ module.exports = {
         }).save()
       });
 
-      res.json({
+      res.status(200).json({
         status: 'post'
       })
     }

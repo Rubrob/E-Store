@@ -9,6 +9,7 @@ import MenuListLink from '../../MobileMenu/MobileDrawer/MenuListLink/MenuListLin
 import { logOut } from '../../../../actions/auth'
 import { closeMobileMenu } from '../../../../actions/trigers'
 
+
 const JoinLogInButton = withStyles(() => ({
   root: {
     textAlign: 'center',
@@ -16,31 +17,29 @@ const JoinLogInButton = withStyles(() => ({
   },
 }))(ListItem)
 
-const MobileAccount = (props) => {
-  const { isAuthenticated, token } = props
-  const { closeMenu, logOut } = props
-  const onLogOut = () => {
-    logOut()
-    closeMenu()
-  }
-
+const MobileAccount = ({
+  isAuthenticated,
+  closeMenu,
+  logOut,
+}) => {
   return (
-    <>{isAuthenticated && token.length > 0 ?
-      <MenuListItem title='My Account' icon={<AccountCircle />}>
-        <MenuListLink text='Profile' type='link' link={'/profile'}/>
-        <MenuListLink text='Orders' type='link' link={'/profile/orders'}/>
-        <ListItem button className='listItem' onClick={onLogOut} children='Log Out' />
-      </MenuListItem> :
-      <JoinLogInButton button className='listItem listHeader' onClick={closeMenu}>
-        <Link to={`/register`} className='link' children='Join / Log In' />
-      </JoinLogInButton>
-    }</>
+    <>
+      {isAuthenticated ?
+        <MenuListItem title='My Account' icon={<AccountCircle />}>
+          <MenuListLink text='Profile' type='link' link={'/profile'}/>
+          <MenuListLink text='Orders' type='link' link={'/profile/orders'}/>
+          <ListItem button className='listItem' onClick={logOut} children='Log Out' />
+        </MenuListItem> :
+        <JoinLogInButton button className='listItem listHeader' onClick={closeMenu}>
+          <Link to={`/register`} className='link' children='Join / Log In' />
+        </JoinLogInButton>
+      }
+    </>
   )
 }
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  token: state.auth.token
 })
 const mapDispatchToProps = dispatch => ({
   closeMenu: () => dispatch(closeMobileMenu()),

@@ -91,7 +91,8 @@ class SignUp extends Component {
             color='secondary'
             className='submit'
             fullWidth
-            children={linkText} />
+            children={linkText}
+          />
         </form>
 
         <Typography variant='overline' className='SingUpIn-divider'>{linkText} Via</Typography>
@@ -115,9 +116,15 @@ class SignUp extends Component {
           />
         </div>
 
-        <div className='SingUpIn-route'>
-          {linkTitle} <span onClick={this.toggle} children={linkTextReverse} />
-        </div>
+        <Typography className='SingUpIn-route'>
+          {linkTitle}
+          <Typography
+            component='span'
+            color='textPrimary'
+            onClick={this.toggle}
+            children={linkTextReverse}
+          />
+        </Typography>
 
       </Container>
     </div>

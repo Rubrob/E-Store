@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import { Select, MenuItem, InputBase } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
+
 const CustomInput = withStyles(() => ({
-  root: {  },
   input: {
     fontSize: 14,
     padding: 0,
     paddingRight: 20,
-    color: '#999'
+    color: '#777'
   },
 }))(InputBase);
 
-const CustomSelect = ({data, primary, onChangeData, onChange = () => null}) => {
+const CustomSelect = ({
+  data,
+  primary,
+  onChangeData,
+  onChange = () => {}
+}) => {
   const [select, setSelect] = useState(primary)
   useEffect(() => {
     setSelect(primary)
@@ -22,7 +27,8 @@ const CustomSelect = ({data, primary, onChangeData, onChange = () => null}) => {
     setSelect(value)
     onChange({...onChangeData, data: value})
   }
-  const selectItems = data.map(item => <MenuItem key={item} value={item} children={item} />)
+
+  const selectItems = data.map(item => (<MenuItem key={item} value={item} children={item} />))
 
   return (
     <Select
@@ -30,7 +36,7 @@ const CustomSelect = ({data, primary, onChangeData, onChange = () => null}) => {
       input={<CustomInput />}
       onChange={handleSelect}
       children={selectItems}
-      />
+    />
   )
 }
 

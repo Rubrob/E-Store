@@ -32,30 +32,21 @@ export const submitShipping = value => dispatch => {
   dispatch({ type: SUBMIT_SHIPPING, payload: value })
 }
 
-export const submitCheckout = (data, callbacks) => async dispatch => {
+export const submitCheckout = (data, callback) => async (dispatch, getState) => {
 
-  const billing = {}
-  const { onSuccess, onFail } = callbacks
-  const { cardnumber, exp, cvv, ...rest } = data.billing
+  const {cart} = getState()
 
-  if (data.bas === true) {
-    const { firstname, lastname, address, country, city, zip } = data.shipping
-    billing.card = { cardnumber,  exp, cvv }
-    billing.address = { firstname, lastname, address, country, city, zip }
-  } else {
-    billing.card = { cardnumber,  exp, cvv }
-    billing.address = { ...rest }
+  if (data.bas) {
+    const {phone, email, ...shippingRest} = data.addresses.shipping
+    data.addresses.billing.address = {...shippingRest}
   }
 
-  const user_id = await localStorage.getItem('USER_ID')
+  const user_id = localStorage.getItem('USER_ID')
   const postData = {
     user_id,
-    addresses: {
-      shipping: data.shipping,
-      billing
-    },
-    delivery: data.delivery,
-    order: data.products
+    delivery: cart.defaultValues.delivery,
+    order: cart.cartProducts,
+    ...data
   }
 
   try {
@@ -65,9 +56,9 @@ export const submitCheckout = (data, callbacks) => async dispatch => {
       dispatch({ type: EMPTY_CART })
       return res
     })
-    .then((res) => onSuccess(res.data.message))
+    .then((res) => callback('success', res.data.message))
   } catch (err) {
-    await onFail(`Couldn't connect to the server ${err}`)
+    await callback('error', `Couldn't connect to the server ${err}`)
   }
 
   dispatch({ type: SUBMIT_CHECKOUT, payload: postData })
@@ -76,7 +67,7 @@ export const submitCheckout = (data, callbacks) => async dispatch => {
 export const changeProductQuantity = value => ({ type: CHANGE_PRODUCT_QUANTITY, payload: value })
 export const changeProductSize = value => ({ type: CHANGE_PRODUCT_SIZE, payload: value })
 
-export const checkCartProducts = (products, cart)  => dispatch => {
+export const checkCartProducts = (products, cart) => dispatch => {
 
   return new Promise((resolve, reject) => {
     resolve(cart)

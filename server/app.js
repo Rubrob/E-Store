@@ -5,13 +5,14 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 const path = require('path');
 const compression = require('compression');
-const {db} = require('./config')
+const config = require('./config')
 const app = express()
 
 // DB initialization
-mongoose.connect(db.DB_URI, {
+mongoose.connect(config.db.DB_URI, {
     useCreateIndex: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 
 
@@ -30,7 +31,7 @@ app.use('/', require('./routes/orders'))
 app.use('/', require('./routes/products'))
 app.use('/', require('./routes/categories'))
 
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
