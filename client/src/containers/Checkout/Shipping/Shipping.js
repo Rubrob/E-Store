@@ -13,16 +13,21 @@ import { freeIfZero } from "../../../utils"
 import { submitShipping, prevStep } from "../../../actions/cart"
 
 
-const Shipping = (props) => {
+const Shipping = ({
+  handleSubmit,
+  invalid,
+  step,
+  prevStep,
+  submitShipping,
+  delivery,
+  currency,
+  shipping,
+  deliveryMethods,
+}) => {
+  const {firstname, lastname, ...rest} = shipping
+  const previewContent = {fullname: `${firstname} ${lastname}`, ...rest}
 
-  const { handleSubmit, invalid } = props
-  const { step, prevStep, submitShipping, delivery, currency, shipping, deliveryMethods } = props
-  const { firstname, lastname, address, city, zip, country, email, phone } = shipping
-  const previewContent = { fullname: `${firstname} ${lastname}`, address, city, zip, country, email, phone }
-
-  const submit = (data) => {
-    submitShipping(data)
-  }
+  const submit = (data) => submitShipping(data)
 
   const delChild = (
     <div className="delChild">
@@ -38,7 +43,8 @@ const Shipping = (props) => {
       <div className="shipping-title">
         <Typography variant="h5" component="h4" children="SHIPPING" />
       </div>
-      {step >= 2 ? <div className="shipping-preview">
+      {step >= 2 ?
+        <div className="shipping-preview">
           <FormsPreview title="Shipping Address" content={previewContent} children={delChild} />
           <div className="prev" onClick={prevStep}>Edit</div>
         </div> :

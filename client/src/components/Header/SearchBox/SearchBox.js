@@ -54,8 +54,7 @@ const SearchBox = ({
 
 
   const renderSuggestions = (
-    suggestions.length === 0 ?
-    null :
+    !!suggestions.length &&
     <SearchItem
       currency={currency}
       onClick={(value) => search(value)}

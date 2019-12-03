@@ -3,7 +3,11 @@ import './MenuListItem.sass'
 import { Drawer, ListItem, ListItemText } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
 
-const MenuListItem = ({children, title, icon}) => {
+const MenuListItem = ({
+  children,
+  title,
+  icon
+}) => {
   const [drawer, setDrawer] = useState({
     open: false,
     header: ''

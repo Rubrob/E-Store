@@ -1,6 +1,5 @@
 import React from 'react'
 import './OrdersPage.sass'
-import { connect } from 'react-redux'
 import { Card, Typography } from '@material-ui/core'
 import { totalCalculation } from '../../../utils'
 import CheckoutProduct from '../../Checkout/CheckoutCart/CheckoutProduct/CheckoutProduct'
@@ -46,9 +45,4 @@ const OrderPage = ({
   )
 }
 
-const mapStateToProps = state => ({
-  currency: state.products.currency,
-  orders: state.auth.orders
-})
-
-export default connect(mapStateToProps, null)(OrderPage)
+export default OrderPage

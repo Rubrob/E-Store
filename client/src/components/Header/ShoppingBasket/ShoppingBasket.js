@@ -6,8 +6,12 @@ import { ShoppingCart } from '@material-ui/icons';
 
 const ShoppingBasket = ({ cartProducts }) => (
   <Link to='/cart'>
-    <IconButton color='inherit' aria-label='Shopping Cart'>
-      <Badge color='secondary' badgeContent={cartProducts.length} invisible={cartProducts.length <= 0}>
+    <IconButton color='primary'>
+      <Badge
+        color='secondary'
+        badgeContent={cartProducts.length}
+        invisible={!cartProducts.length}
+      >
         <ShoppingCart />
       </Badge>
     </IconButton>

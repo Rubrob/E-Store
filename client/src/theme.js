@@ -19,6 +19,9 @@ const fields = {
 
 export const theme = createMuiTheme({
   palette: {
+    primary: {
+      main: '#000000'
+    },
     text: {
       secondary: '#777777'
     }

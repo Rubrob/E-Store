@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 import './ProfilePage.sass'
-import { connect } from 'react-redux'
 import { ExpandLess, ExpandMore } from '@material-ui/icons'
+import { Button, Typography } from '@material-ui/core'
 import ProfileShippingAddress from './ProfileShippingAddress/ProfileShippingAddress'
 import ProfileBillingAddress from './ProfileBillingAddress/ProfileBillingAddress'
-import { Button, Typography } from '@material-ui/core'
 
-const ProfilePage = ({ fullname }) => {
+const ProfilePage = ({
+  fullname,
+  userShipping,
+  userBilling,
+  setShipping,
+  setBilling
+}) => {
   const [open, setOpen] = useState(true)
 
   return (
@@ -22,8 +27,22 @@ const ProfilePage = ({ fullname }) => {
         </Button>
         {open &&
           <>
-            <div className='profilePage-forms-form' children={<ProfileShippingAddress />} />
-            <div className='profilePage-forms-form' children={<ProfileBillingAddress />} />
+            <div className='profilePage-forms-form'>
+              <ProfileShippingAddress
+                formType='shipping'
+                preview={userShipping}
+                initialValues={userShipping}
+                onSubmit={setShipping}
+              />
+            </div>
+            <div className='profilePage-forms-form'>
+              <ProfileBillingAddress
+                formType='billing'
+                preview={userBilling}
+                initialValues={userBilling}
+                onSubmit={setBilling}
+              />
+            </div>
           </>
         }
       </div>
@@ -31,8 +50,4 @@ const ProfilePage = ({ fullname }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  fullname: state.auth.fullname,
-})
-
-export default connect(mapStateToProps, null)(ProfilePage)
+export default ProfilePage

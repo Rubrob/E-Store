@@ -12,13 +12,6 @@ const CustomButton = withStyles(() => ({
     display: 'flex',
     justifyContent: 'space-between',
     padding: 20,
-    color: '#fff',
-    '@media (max-width: 959.5px)': {
-      borderRadius: 0,
-     '&:not(:disabled)': {
-       background: '#6e6e6e'
-     }
-    }
   }
 }))(Button)
 
@@ -48,49 +41,69 @@ class Cart extends Component {
   }
 
   render() {
-    const { cartProducts, total, currency, history } = this.props
-    const mapCartItems = cartProducts.map((cartItem, i) => <CartItem key={i} data={cartItem} />)
-    const cartContent = cartProducts.length < 1 ?
+    const {
+      cartProducts,
+      total,
+      currency,
+      history
+    } = this.props
+
+    const renderCart = () => (
+      !cartProducts.length ? (
       <Typography
         variant='subtitle1'
         component='div'
         align='center'
-        children={`There are no items in your cart`}
+        children='There are no items in your cart'
       />
-    : mapCartItems
+    ) :
+      cartProducts.map((cartItem, i) => (
+        <CartItem key={i} data={cartItem} />
+      ))
+    )
 
     const qty = cartProducts.reduce((acc, curr) => acc + (curr.qty), 0)
-    const qtyLabel = qty < 2 ? `${qty} Item` : `${qty} Items`
-    const match = this.props.width === 'sm' || 'xs'
+    const match = /(sm|xs)/.test(this.props.width)
 
     return (
       <div className='Cart'>
         <CustomTypography variant='h4' component='h2' align='center' children='CART' />
         {match &&
-        <Typography
-          component='div'
-          align='center'
-          color='textSecondary'
-          className='Cart-miniInfo'
-        >
-          <Typography component='span' children={qtyLabel} color='textPrimary'/> | {currency}{total}
-        </Typography>}
+          <Typography
+            component='div'
+            align='center'
+            color='textSecondary'
+            className='Cart-miniInfo'
+          >
+            <Typography component='span' color='textPrimary'>
+              {qty < 2 ? `${qty} Item` : `${qty} Items`}
+            </Typography> | {currency}{total}
+          </Typography>
+        }
         <div className='Cart-main'>
           <div className='Cart-main-products'>
-            {cartContent}
+            {renderCart()}
           </div>
           <div className='Cart-main-toCheckout'>
             <div className='Cart-main-toCheckout-main'>
               <Typography variant='h6' component='h4' children='ORDER SUMMARY:' paragraph />
-              <Typography variant='subtitle1' component='div' children={qtyLabel} />
-              <Typography variant='subtitle1' component='div' children={`Total: ${currency}${total}`}  display='block' />
+              <Typography variant='subtitle1' component='div'>
+                {qty < 2 ? `${qty} Item` : `${qty} Items`}
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                component='div'
+                children={`Total: ${currency}${total}`}
+              />
             </div>
             <CustomButton
+              size='large'
               variant='contained'
-              color='secondary'
+              color={match ? 'default' : 'secondary'}
               disabled={cartProducts.length < 1}
-              onClick={() => history.push('/checkout')}>
-              CHECKOUT <KeyboardArrowRight />
+              onClick={() => history.push('/checkout')}
+            >
+              Checkout <KeyboardArrowRight />
             </CustomButton>
           </div>
         </div>

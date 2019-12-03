@@ -28,7 +28,9 @@ class ProductSlider extends Component {
   }
 
   render() {
-    const CustomArrow = ({ icon, onClick, classess }) => <Button className={classess} onClick={onClick} children={icon} />
+    const CustomArrow = ({icon, classes, onClick, variant}) => {
+      return(<Button onClick={onClick} className={classes} children={icon} />
+    )}
 
     const settings = {
       className: 'primarySlider',
@@ -37,8 +39,8 @@ class ProductSlider extends Component {
       ref: slider => (this.slider1 = slider),
       adaptiveHeight: true,
       fade: true,
-      prevArrow: <CustomArrow icon={<KeyboardArrowLeft />} classess='productslider_arrow-prev' />,
-      nextArrow: <CustomArrow icon={<KeyboardArrowRight />} classess='productslider_arrow-next' />
+      prevArrow: <CustomArrow icon={<KeyboardArrowLeft />} classes='productslider_arrow-prev' />,
+      nextArrow: <CustomArrow icon={<KeyboardArrowRight />} classes='productslider_arrow-next' />
     }
 
     const settings2 = {
@@ -47,8 +49,8 @@ class ProductSlider extends Component {
       slidesToShow: 5,
       asNavFor: this.state.nav1,
       ref: slider => (this.slider2 = slider),
-      prevArrow: <CustomArrow classess='productslider_arrow-prev' icon={<KeyboardArrowUp />}/>,
-      nextArrow: <CustomArrow classess='productslider_arrow-next' icon={<KeyboardArrowDown />}/>,
+      prevArrow: <CustomArrow classes='productslider_arrow-prev' icon={<KeyboardArrowUp />}/>,
+      nextArrow: <CustomArrow classes='productslider_arrow-next' icon={<KeyboardArrowDown />}/>,
       vertical: true,
       focusOnSelect: true,
       responsive: [

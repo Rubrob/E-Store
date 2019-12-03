@@ -4,6 +4,11 @@ import { Tabs, Tab } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import OrdersPage from './OrdersPage/OrdersPage'
 import ProfilePage from './ProfilePage/ProfilePage'
+import { connect } from 'react-redux'
+import {
+  setShippingAddress,
+  setBillingAddress
+} from '../../actions/auth'
 
 
 const useStyles = makeStyles({
@@ -18,7 +23,14 @@ const useStyles = makeStyles({
 const Profile = ({
   match,
   history,
-  location
+  location,
+  currency,
+  orders,
+  userShipping,
+  userBilling,
+  fullname,
+  setShipping,
+  setBilling,
 }) => {
   const classes = useStyles()
 
@@ -74,11 +86,30 @@ const Profile = ({
         />
       </Tabs>
       {
-        state.mode === 'preview' ? <ProfilePage /> :
-        state.mode = 'orders' ?<OrdersPage /> : null
+        state.mode === 'preview' ?
+        <ProfilePage
+          fullname={fullname}
+          userShipping={userShipping}
+          userBilling={userBilling}
+          setShipping={setShipping}
+          setBilling={setBilling}
+        /> :
+        state.mode = 'orders' ? <OrdersPage currency={currency} orders={orders} /> :
+        null
       }
     </div>
   )
 }
+const mapStateToProps = state => ({
+  userShipping: state.auth.addresses.shipping,
+  userBilling: state.auth.addresses.billing,
+  fullname: state.auth.fullname,
+  currency: state.products.currency,
+  orders: state.auth.orders
+})
+const mapDispatchToProps = dispatch => ({
+  setShipping: value => dispatch(setShippingAddress(value)),
+  setBilling: value => dispatch(setBillingAddress(value))
+})
 
-export default Profile
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

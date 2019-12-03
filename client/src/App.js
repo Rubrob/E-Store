@@ -1,21 +1,25 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
-import FrontPage from './components/FrontPage/FrontPage'
 import ProductList from './containers/ProductList/ProductList'
 import ProductPage from './containers/ProductList/ProductPage/ProductPage'
-import Cart from './containers/Cart/Cart'
-import Checkout from './containers/Checkout/Checkout'
-import SingUpIn from './containers/SingUpIn/SingUpIn'
-import Profile from './containers/Profile/Profile'
 import { filterURL, filterProductsWithURL } from './actions/products'
 import { fetchMember } from './actions/auth'
 import { fetchProducts, fetchCategories } from './actions/products'
 import Loader from './components/Loader/Loader'
-import Toaster from './components/Toaster/Toaster'
-import ScrollToTop from './components/ScrollToTop'
+import Loadable from 'react-loadable';
+import {withRouter} from 'react-router-dom'
+import {compose} from 'redux'
+import MainBlock from './components/MainBlock';
+
+
+const createLoadableComponent = (pathResolver) => {
+  return Loadable({
+    loader: pathResolver,
+    loading: props =>
+      props.error ? console.error(props.error) : <Loader />
+  });
+}
 
 
 const App = ({
@@ -25,35 +29,63 @@ const App = ({
   isFetching,
   filterProductsWithURL,
   isAuthenticated,
+  ...props
 }) => {
   useEffect(() => {
-    fetchMember()
-    fetchProducts()
-    fetchCategories()
+      fetchMember()
+      fetchProducts()
+      fetchCategories()
   },[fetchCategories, fetchMember, fetchProducts])
 
+  const routes = [
+    {
+      exact: true,
+      path: '/',
+      component: createLoadableComponent(() => import('./components/FrontPage/FrontPage'))
+    },
+    {
+      path: '/profile',
+      component: createLoadableComponent(() => import('./containers/Profile/Profile'))
+    },
+    {
+      exact: true,
+      path: '/cart',
+      component: createLoadableComponent(() => import('./containers/Cart/Cart'))
+    },
+    {
+      exact: true,
+      path: '/checkout',
+      component: createLoadableComponent(() => import('./containers/Checkout/Checkout'))
+    },
+    {
+      exact: true,
+      path: '/p',
+      component: createLoadableComponent(() => import('./containers/ProductList/ProductList'))
+    },
+    {
+      exact: true,
+      path: '/register',
+      component: createLoadableComponent(() => import('./containers/SingUpIn/SingUpIn'))
+    }
+  ]
+
+  if(props.location.pathname.indexOf('/profile') >= 0 && !isAuthenticated) {
+    return  <Redirect to='/register' />
+  }
+
   return (
-    isFetching ? <Loader /> :
-    <>
-      <Toaster />
-      <ScrollToTop />
-      <Header />
-      <>
-        <Route exact path='/' component={FrontPage} />
-        <Route path='/profile' render={(props) => isAuthenticated ? <Profile {...props} /> : <Redirect to='/register' />} />
-        <Route exact path='/cart' component={Cart} />
-        <Route exact path='/checkout' component={Checkout} />
-        <Route exact path='/p/:filter' render={({match}) => {
+    <MainBlock isCartLocation={props.location.pathname === '/cart'}>
+      {routes.map((routeprops) => (
+        <Route key={routeprops.path} {...routeprops} />
+      ))}
+      <Route exact path='/pp/:productId/:colorId' component={ProductPage} />
+      <Route exact path='/p/:filter' render={({match}) => {
           const URL = filterURL(match.params.filter, '-', 2)
           filterProductsWithURL(URL)
           return <ProductList title={URL} />
-        }}/>
-        <Route exact path='/pp/:productId/:colorId' component={ProductPage} />
-        <Route exact path='/p' component={ProductList} />
-        <Route exact path='/register' component={SingUpIn} />
-        <Route path='/' component={({location}) => <Footer isCartLocation={location.pathname === '/cart'} />} />
-      </>
-    </>
+        }}
+      />
+    </MainBlock>
   );
 }
 
@@ -69,4 +101,7 @@ const mapDispatchToProps = dispatch => ({
   fetchCategories: () => dispatch(fetchCategories()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(App)

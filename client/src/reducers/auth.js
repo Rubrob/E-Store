@@ -38,24 +38,21 @@ const initailState = {
   orders: []
 }
 
-const auth = (state = initailState, action) => {
-  switch(action.type){
+const auth = (state = initailState, {type, payload}) => {
+  switch(type){
     case FETCH_MEMBER_SUCCESS:
       return {
         ...state,
-        fullname: action.payload.fullname,
-        addresses: {
-          ...state.addresses,
-          ...action.payload.addresses
-        },
-        orders: action.payload.orders
+        fullname: payload.fullname,
+        addresses: payload.addresses,
+        orders: payload.orders
       }
     case SET_SHIPPING:
       return {
         ...state,
         addresses: {
           ...state.addresses,
-          shipping: { ...state.shipping, ...action.payload}
+          shipping: { ...state.shipping, ...payload}
         }
       }
     case SET_BILLING:
@@ -63,24 +60,36 @@ const auth = (state = initailState, action) => {
         ...state,
         addresses: {
           ...state.addresses,
-          billing: { ...state.billing, ...action.payload }
+          billing: { ...state.billing, ...payload }
         }
       }
     case AUTH_SIGN_UP:
       return {
-        ...state, token: action.payload, isAuthenticated: true, error: false
+        ...state,
+        token: payload,
+        isAuthenticated: true,
+        error: false
       }
     case AUTH_LOG_IN:
       return {
-        ...state, token: action.payload, isAuthenticated: true, error: false
+        ...state,
+        token: payload,
+        isAuthenticated: true,
+        error: false
       }
     case AUTH_LOG_OUT:
       return {
-        ...state, isAuthenticated: false, error: false, token: ''
+        ...state,
+        isAuthenticated: false,
+        error: false,
+        token: ''
       }
     case AUTH_ERROR:
       return {
-        ...state, error: true, isAuthenticated: false, token: ''
+        ...state,
+        error: true,
+        isAuthenticated: false,
+        token: ''
       }
     default:
       return { ...state }

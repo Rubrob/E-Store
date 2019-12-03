@@ -16,50 +16,43 @@ const CustomBackdrop = withStyles({
   }
 })(Backdrop)
 
-const DesktopSearchBox = (props) => {
-  const {
-    value,
-    clear,
-    onTextChange,
-    suggestions,
-    search,
-    active,
-    setActive,
-  } = props
-
+const DesktopSearchBox = ({
+  value,
+  clear,
+  onTextChange,
+  suggestions,
+  search,
+  active,
+  setActive,
+}) => {
   const input = createRef()
 
-  const exitInput = (input) => {
-    input.blur()
+  const exitInput = () => {
+    input.current.blur()
     clear()
   }
 
   const searchBtnClick = () => {
     if(input.current.value){
       search(input.current.value)
-      clear()
     }
-  }
-
-  const clearSearchBox = () => {
-    clear()
-    input.current.blur()
   }
 
   const onKeyUp = (evt) => {
     if(evt.target.value.length){
       if(evt.keyCode === 13){
         search(evt.target.value)
-        exitInput(evt.target)
+        exitInput()
       }
     }
 
     if(evt.keyCode === 27) {
-      exitInput(evt.target)
+      exitInput()
     }
   }
 
   const backdropClick = () => {
+    console.log(clear())
     clear()
     setActive(false)
   }
@@ -81,7 +74,7 @@ const DesktopSearchBox = (props) => {
         onFocus={() => setActive(true)}
         onKeyUp={onKeyUp}
         onChange={onChange}/>
-      {!!value.length && <IconButton color='inherit' onClick={clearSearchBox} children={<Close />} />}
+      {!!value.length && <IconButton color='inherit' onClick={clear} children={<Close />} />}
       <CustomBackdrop open={active} onClick={backdropClick} />
       <Box className='suggestions-wrap'>
         {suggestions}
