@@ -22,34 +22,33 @@ const ProductDetails = ({
   )
 
   return (
-      <div className='ProductDetails'>
-        <Hidden mdUp>
-          <div>
-            <Typography children={description} />
-          </div>
-        </Hidden>
+    <div className='ProductDetails'>
+      <Hidden mdUp>
+        <div>
+          <Typography children={description} />
+        </div>
+      </Hidden>
 
-        <Hidden smDown>
-          <div className='ProductDetails-desktop'>
-            <div className='ProductDetails-photo'>
-              {descriptionImages(4)}
-            </div>
-              <Typography
-                className='ProductDetails-desktop-title'
-                variant='h3'
-                align='right'
-                paragraph
-                component='div'
-                children={title}
-                />
-              <Typography
-                className='ProductDetails-desktop-body'
-                component='div'
-                children={description}
-                />
+      <Hidden smDown>
+        <div className='ProductDetails-desktop'>
+          <div className='ProductDetails-photo'>
+            {descriptionImages(4)}
           </div>
-        </Hidden>
-      </div>
+            <Typography
+              className='ProductDetails-desktop-title'
+              variant='h3'
+              align='right'
+              paragraph
+            >
+              {title}
+            </Typography>
+            <Typography
+              className='ProductDetails-desktop-body'
+              children={description}
+            />
+        </div>
+      </Hidden>
+    </div>
   )
 }
 

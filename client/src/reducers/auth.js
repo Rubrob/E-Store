@@ -7,8 +7,9 @@ import {
   AUTH_ERROR,
   FETCH_MEMBER_SUCCESS
 } from '../actions/types';
+import {LS} from './../utils/index';
 
-const jwtToken = localStorage.getItem('JWT_TOKEN')
+const jwtToken = LS.get('JWT_TOKEN')
 
 const initailState = {
   isAuthenticated: jwtToken ? true : false,

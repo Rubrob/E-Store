@@ -23,7 +23,7 @@ const CustomSelect = ({
     setSelect(primary)
   }, [primary])
 
-  const handleSelect = ({ target: { value } }) => {
+  const handleSelect = ({target: { value }}) => {
     setSelect(value)
     onChange({...onChangeData, data: value})
   }

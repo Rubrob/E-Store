@@ -11,20 +11,21 @@ import {
   AUTH_LOG_OUT,
   AUTH_ERROR,
 } from './types';
+import {LS} from './../utils';
 
 const setLocalStorage = (token, user_id) => {
-  localStorage.setItem('JWT_TOKEN', token)
-  localStorage.setItem('USER_ID', user_id)
+  LS.set('JWT_TOKEN', token)
+  LS.set('USER_ID', user_id)
 }
 
 export const setShippingAddress = (data) => async dispatch => {
-  const user_id = localStorage.getItem('USER_ID')
+  const user_id = LS.get('USER_ID')
   await axios.put('/users/user', { data, user_id, type: 'shipping' })
   dispatch({ type: SET_SHIPPING, payload: data })
 }
 
 export const setBillingAddress = (data) => async dispatch => {
-  const user_id = localStorage.getItem('USER_ID')
+  const user_id = LS.get('USER_ID')
   await axios.put('/users/user', { data, user_id, type: 'billing' })
   dispatch({ type: SET_BILLING, payload: data })
 }
@@ -32,7 +33,7 @@ export const setBillingAddress = (data) => async dispatch => {
 export const fetchMember = () => async dispatch => {
   dispatch({ type: FETCH_MEMBER_START })
   try {
-    const user_id = localStorage.getItem('USER_ID')
+    const user_id = LS.get('USER_ID')
     if(user_id === null){
       dispatch({ type: FETCH_MEMBER_FAIL })
     }else{
@@ -67,19 +68,13 @@ export const logIn = (data) => async dispatch => {
 }
 
 export const logOut = () => async dispatch => {
-  localStorage.removeItem('JWT_TOKEN')
-  localStorage.removeItem('USER_ID')
+  LS.remove('JWT_TOKEN')
+  LS.remove('USER_ID')
   dispatch({ type: AUTH_LOG_OUT })
 }
 
-export const oauthGoogle = (data) => async dispatch => {
-  const res = await axios.post('/users/oauth/google', { access_token: data })
-  dispatch({ type: AUTH_SIGN_UP, payload: res.data.token })
-  setLocalStorage(res.data.token, res.data.id)
-}
-
-export const oauthFacebook = (data) => async dispatch => {
-  const res = await axios.post('/users/oauth/facebook', { access_token: data })
+export const oauthThirdParty = ({access_token, party}) => async (dispatch) => {
+  const res = await axios.post(`/users/oauth/${party}`, {access_token})
   dispatch({ type: AUTH_SIGN_UP, payload: res.data.token })
   setLocalStorage(res.data.token, res.data.id)
 }

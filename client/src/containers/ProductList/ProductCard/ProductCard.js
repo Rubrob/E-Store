@@ -1,26 +1,27 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import './ProductCard.sass'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { Link } from 'react-router-dom'
 import { useMediaQuery, Typography, Hidden } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
-import { ampersand } from '../../../utils'
+import {renderTitle} from '../../../utils'
 
-function ProductCard({ product, currency }) {
-
+function ProductCard({product, currency}) {
   const match = useMediaQuery('(max-width: 599.5px)')
-  const { title, price, colors, subcategory, id, gender, category } = product
+  const {title, price, colors, subcategory, id, gender, category} = product
   const preview = colors[0].preview
   const quantity = colors.length > 1 ? 'Colors' : 'Color'
 
-  const previews = colors.map(color =>
-  <Link key={color.id} to={`/pp/${id}/${color.id}`} className='previewImg'>
-    <img
-      alt='product'
-      src={color.preview}
-      onMouseEnter={() => changeImage(color.id, color.preview)} />
-  </Link>)
+  const previews = colors.map((color) =>
+    <Link key={color.id} to={`/pp/${id}/${color.id}`} className='previewImg'>
+      <img
+        alt='product'
+        src={color.preview}
+        onMouseEnter={() => changeImage(color.id, color.preview)}
+      />
+    </Link>
+  )
 
   const [colorID, setColorID] = useState(colors[0].id)
   const [front, setFront] = useState(preview)
@@ -49,8 +50,8 @@ function ProductCard({ product, currency }) {
           setSlide(slide + (slideWidth * slidesToShow))
         }
         break;
-        default:
-          break;
+      default:
+        break;
       }
   }
 
@@ -59,7 +60,9 @@ function ProductCard({ product, currency }) {
     setFront(img)
   }
 
-  const colorRounds = colors.map((color, i) => (match && i >= 4) ? null : <span key={color.color} className={`color ${color.color}`} />)
+  const colorRounds = colors.map(({color}, i) =>
+    !(match && i >= 4) && <span key={color} className={`color ${color}`} />
+  )
   const colorQty = (match && colors.length >= 4) ? '+ More' : `${colors.length} ${quantity}`
 
   return (
@@ -77,31 +80,42 @@ function ProductCard({ product, currency }) {
                 <span
                   className='arrow left'
                   onClick={() => handleSlide('prev')}
-                  children={<KeyboardArrowLeft fontSize='small' />}/>
+                  children={<KeyboardArrowLeft fontSize='small' />}
+                />
                 <span
                   className='arrow right'
                   onClick={() => handleSlide('next')}
-                  children={<KeyboardArrowRight fontSize='small' />}/>
+                  children={<KeyboardArrowRight fontSize='small' />}
+                />
               </>}
           </div>
         </Hidden>
         }
 
         <div className='productInfo'>
-          <Typography component='div' className='title' children={title} />
+          <Typography
+            className='title'
+            children={title}
+          />
           <Typography
             variant='body2'
-            component='div'
             color='textSecondary'
-            children={`${gender}'s ${ampersand(subcategory)} ${category === 'shoes' ? category : ''}`} />
+          >
+            {renderTitle({gender, subcategory, category})}
+          </Typography>
           <Typography
             variant='body2'
-            component='div'
             color='textSecondary'
             children={`${currency}${price}`} />
           <div className='colors'>
             {colorRounds}
-            <Typography variant='caption' color='textSecondary' className='colorsQuantity'>{colorQty}</Typography>
+            <Typography
+              variant='caption'
+              color='textSecondary'
+              className='colorsQuantity'
+            >
+              {colorQty}
+            </Typography>
           </div>
         </div>
     </div>

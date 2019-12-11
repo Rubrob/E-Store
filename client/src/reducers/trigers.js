@@ -1,7 +1,6 @@
 import {
-  OPEN_MENU,
-  CLOSE_MENU,
-  TOGGLE_FILTER
+  TOGGLE_FILTER,
+  TOGGLE_MENU
 } from '../actions/types';
 
 const initialState = {
@@ -9,16 +8,13 @@ const initialState = {
   filter: false
 }
 
-const trigerReducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch(action.type){
-    case OPEN_MENU:
-      return { ...state, state: true }
-    case CLOSE_MENU:
-      return { ...state, state: false }
+    case TOGGLE_MENU:
+      return { ...state, state: !state.state  }
     case TOGGLE_FILTER:
       return { ...state, filter: !state.filter }
     default:
       return { ...state }
   }
 }
-export default trigerReducer

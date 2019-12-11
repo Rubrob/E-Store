@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, {useState, useEffect} from "react"
 import "./ProductInfo.sass"
 import {
   Typography,
@@ -7,8 +7,8 @@ import {
   Fab,
   Box
 } from "@material-ui/core"
-import { renderTitle } from "../../../../utils"
-import { notify } from "./../../../../components/Toaster/Toaster"
+import {renderTitle} from "../../../../utils"
+import {notify} from "./../../../../components/Toaster/Toaster"
 import ProductSlider from "../ProductSlider/ProductSlider"
 
 

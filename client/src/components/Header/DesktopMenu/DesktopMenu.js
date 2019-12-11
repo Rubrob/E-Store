@@ -1,20 +1,15 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import './DesktopMenu.sass'
-import { Link } from 'react-router-dom'
-import { Typography, Box } from '@material-ui/core'
-import { tlcWithUnderline } from '../../../utils'
-import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
+import {Typography, Box} from '@material-ui/core'
 import cx from 'classnames'
 
 
-const DesktopMenu = ({ menu }) => {
+const DesktopMenu = ({menu}) => {
   const [state, setState] = useState(null)
-  const openMenu = (item) => setState(item)
-  const closeMenu = () => setState(null)
 
-  const mapSubcategories = (subcategories, categoryTitle, gender) => (
-    subcategories.map(({title}) => {
-      const link = tlcWithUnderline([gender, categoryTitle, title].join('-'))
+  const mapSubcategories = (subcategories) => (
+    subcategories.map(({title, slug}) => {
       return (
         <Typography
           key={title}
@@ -22,70 +17,72 @@ const DesktopMenu = ({ menu }) => {
           color='textSecondary'
           className='subcategory__block-title'
         >
-          <Link to={`/p/${link}`} onClick={closeMenu} children={title} />
+          <Link to={`/p/${slug}`} onClick={() => setState(null)}>
+            {title}
+          </Link>
         </Typography>
       )
     })
   )
 
-  const menuItems = (menu) => menu.map((item) => {
-    const link = tlcWithUnderline([state, item.title].join('-'))
-    return (
-      <Box key={item.title} className='category__block'>
-        <Typography
-          variant='h6'
-          component='div'
-          gutterBottom
-          className='category__block-title'
-          color='textPrimary'
-        >
-          <Link to={`/p/${link}`} children={item.title} />
-        </Typography>
-        <Box className='subcategory__block'>
-          {mapSubcategories(item.subcategories, item.title, state)}
+  const menuItems = (menu) =>
+    menu.map((item) => {
+      return (
+        <Box key={item.title} className='category__block'>
+          <Typography
+            variant='h6'
+            component='div'
+            gutterBottom
+            className='category__block-title'
+            color='textPrimary'
+          >
+            <Link to={`/p/${item.slug}`} onClick={() => setState(null)}>
+              {item.title}
+            </Link>
+          </Typography>
+          <Box className='subcategory__block'>
+            {mapSubcategories(item.subcategories)}
+          </Box>
         </Box>
-      </Box>
-    )
+      )
   });
 
-  const renderTrigers = menu.map(({title}) =>
-    <Typography
-      key={title}
-      component='div'
-      onMouseEnter={() => openMenu(title)}
-      onMouseLeave={closeMenu}
-      className={cx('triger', {active: state === title})}
-      children={title}
-    />
-  )
+  const renderTrigers = () => (
+    menu.map(({title}) => (
+      <Typography
+        key={title}
+        component='div'
+        onMouseEnter={() => setState(title)}
+        onMouseLeave={() => setState(null)}
+        className={cx('triger', {active: state === title})}
+        children={title}
+      />
+    ))
+  );
 
-  const renderMenu = menu.map(item => {
-    if(state === item.title){
-      return (
+  const renderMenu = () => (
+    menu.map((item) =>
+      state === item.title && (
         <Box
           key={item.title}
-          className={`DesktopMenu-menu`}
-          children={menuItems(item.categories)}
-          onMouseEnter={() => openMenu(item.title)}
-          onMouseLeave={closeMenu}
-        />
+          className='DesktopMenu-menu'
+          onMouseEnter={() => setState(item.title)}
+          onMouseLeave={() => setState(null)}
+        >
+          {menuItems(item.categories)}
+        </Box>
       )
-    }
-    return null
-  })
+    )
+  );
 
   return(
     <>
       <Box className='DesktopMenu'>
-        {renderTrigers}
+        {renderTrigers()}
       </Box>
-      {renderMenu}
+      {renderMenu()}
     </>
   );
 }
 
-const mapStateToProps = state => ({
-  menu: state.products.categories
-})
-
-export default connect(mapStateToProps)(DesktopMenu)
+export default DesktopMenu

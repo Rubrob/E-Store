@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import {LS} from './../utils/index';
 import {
   NEXT_STEP,
   PREV_STEP,
@@ -20,8 +20,12 @@ export const deleteCartProduct = value => ({ type: DELETE_CART_PRODUCT, payload:
 export const changeDelivery = value => ({ type: CHANGE_DELIVERY, payload: value })
 
 export const totalRecalculation = (cart) => dispatch => {
-  const recalculation = cart.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
-  dispatch({ type: TOTAL_PRICE_RECALCULATION, payload: recalculation })
+  const totalPrice = cart.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
+  const totalCount = cart.reduce((acc, curr) => acc + (curr.qty), 0)
+  dispatch({ type: TOTAL_PRICE_RECALCULATION, payload: {
+    totalPrice,
+    totalCount
+  }})
 }
 
 export const nextStep = () => ({ type: NEXT_STEP })
@@ -41,7 +45,7 @@ export const submitCheckout = (data, callback) => async (dispatch, getState) => 
     data.addresses.billing.address = {...shippingRest}
   }
 
-  const user_id = localStorage.getItem('USER_ID')
+  const user_id = LS.get('USER_ID')
   const postData = {
     user_id,
     delivery: cart.defaultValues.delivery,
@@ -52,7 +56,7 @@ export const submitCheckout = (data, callback) => async (dispatch, getState) => 
   try {
     await axios.post('/order', { data: postData })
     .then((res) => {
-      localStorage.removeItem('CART')
+      LS.remove('CART')
       dispatch({ type: EMPTY_CART })
       return res
     })
@@ -67,7 +71,7 @@ export const submitCheckout = (data, callback) => async (dispatch, getState) => 
 export const changeProductQuantity = value => ({ type: CHANGE_PRODUCT_QUANTITY, payload: value })
 export const changeProductSize = value => ({ type: CHANGE_PRODUCT_SIZE, payload: value })
 
-export const checkCartProducts = (products, cart) => dispatch => {
+export const checkCartProducts = (products, cart) => (dispatch) => {
 
   return new Promise((resolve, reject) => {
     resolve(cart)

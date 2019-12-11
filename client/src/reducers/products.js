@@ -1,4 +1,5 @@
 import { ampersand, capitalize, tlcWithUnderline } from '../utils'
+import menu from '../constants/menu.json'
 
 import {
   SORT_BY_PRICE,
@@ -25,7 +26,7 @@ const initialState = {
   },
   searched: [],
   filtered: [],
-  categories: [],
+  categories: menu,
   searchedStr: '',
   isFetching: false,
   isFetchingError: false,
@@ -69,7 +70,7 @@ const sortByPrice = (method) => {
 
 const searchProduct = (products, filters, payload) => {
   if(payload.length > 0){
-    const regexp = new RegExp(`${payload}`, 'i') // or new RegExp(`^${payload}`, 'i')
+    const regexp = new RegExp(`${payload}`, 'i') // or (`^${payload}`, 'i')
 
     return filter(
       products.filter(item => regexp.test(item.title)),
@@ -93,7 +94,6 @@ const removeFilter = (filter, payload) => {
 }
 
 const filterProductsByURL = (products, categories, payload) => {
-
   let URLFILTER = {}
   categories.forEach(gender => {
     const { categories, title } = gender
@@ -124,8 +124,7 @@ const filterProductsByURL = (products, categories, payload) => {
 }
 
 // REDUCER
-
-const productsReducer = (state = initialState, { type, payload }) => {
+export default (state = initialState, {type, payload}) => {
   switch(type){
     case SORT_BY_PRICE:
       return {
@@ -196,7 +195,7 @@ const productsReducer = (state = initialState, { type, payload }) => {
     case FETCH_CATEGORIES_SUCCESS:
       return {
         ...state,
-        categories: payload
+        // categories: payload
       }
     case 'CURRENT_PAGE':
       return {
@@ -207,4 +206,3 @@ const productsReducer = (state = initialState, { type, payload }) => {
       return { ...state }
   }
 }
-export default productsReducer

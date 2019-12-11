@@ -12,10 +12,11 @@ import {
   RESET_CART,
   TOTAL_PRICE_RECALCULATION
 } from '../actions/types'
+import _ from 'lodash'
+import {LS} from './../utils';
 
-const cart = JSON.parse(localStorage.getItem('CART'))
 const initialState = {
-  cartProducts: cart || [],
+  cartProducts: LS.get('CART') || [],
   currency: '$',
   checkout: {
     addresses: {
@@ -28,6 +29,7 @@ const initialState = {
   },
   step: 1,
   total: 0,
+  count: 0,
   deliveryMethods: {
     standard: 0,
     expedited: 10,
@@ -36,84 +38,40 @@ const initialState = {
 }
 
 // REDUCER CONTROLLERS
-
-const deleteCartItem = (cart, { productId, colorId, size }) => (
-  cart.filter(cartItem => {
-    if(cartItem.productId === productId && cartItem.colorId === colorId && cartItem.size === size){
-      return false
-    }
-    return true
-  })
-)
-
-const changeCartItemSize = (cart, payload) => {
-  const { productId, colorId, size, data } = payload
-
-  cart.forEach(cartItem => {
-    if(productId === cartItem.productId && colorId === cartItem.colorId && size === cartItem.size){
-      cartItem.size = data
-    }
-  })
-
-  const woExisting = cart.filter(cartItem => {
-    if(productId === cartItem.productId && colorId === cartItem.colorId && data === cartItem.size){
-      return false
-    }
-    return true
-  })
-  const withExisting = cart.filter(cartItem => {
-    if(productId === cartItem.productId && colorId === cartItem.colorId && data === cartItem.size){
-      return true
-    }
-    return false
-  })
-
-  console.log('withExisting', withExisting, 'woExisting', woExisting);
-  const getUniqueFromExisting = (existing) => {
-    // let qtyTotal = existing.reduce((acc, curr) => acc + (curr.qty), 0)
-    // existing[0].qty = qtyTotal
-    return existing[0]
-  }
-
-  const uniqueExisting = getUniqueFromExisting(withExisting)
-
-  if(uniqueExisting){
-    return [...woExisting, uniqueExisting]
-  } else {
-    return woExisting
-  }
-}
-
-const changeCartItemQuantity = (cart, { productId, colorId, size, data }) => {
-  cart.forEach(cartItem => {
-    if(productId === cartItem.productId && colorId === cartItem.colorId && size === cartItem.size){
-      cartItem.qty = data
-    }
-  })
-  return cart
-}
-
 const addCartItem = (products, payload) => {
-  let isInCart = false
-  const { productId, colorId, size } = payload
+  const {productId, colorId, size} = payload
+  let alreadyInCart = _.find(products, {colorId, productId, size})
 
-  products.forEach((product) => {
-    if(colorId === (product.colorId || product.id) && productId === product.productId && size === product.size){
-      product.qty += payload.qty
-      isInCart = true
-    }
-  })
-
-  if(!isInCart){
+  if(alreadyInCart){
+    alreadyInCart.qty += payload.qty
+  }else{
     products.push(payload)
   }
-
-  localStorage.setItem('CART', JSON.stringify(products))
   return products
 }
 
+const deleteCartItem = (cart, {productId, colorId, size}) => (
+  _.reject(cart, {productId, colorId, size})
+)
 
-// REDUCER
+const changeCartItemSize = (cart, payload) => {
+  const {productId, colorId, size, data} = payload
+  const target = _.find(cart, {productId, colorId, size})
+  if(target){
+    target.size = data
+  }
+  const [conflicted, other] = _.partition(cart, {productId, colorId, size: data})
+  return [..._.uniqBy(conflicted, 'size'), ...other]
+}
+
+const changeCartItemQuantity = (cart, {productId, colorId, size, data}) => {
+  const cartItem = _.find(cart, {productId, colorId, size})
+  if(cartItem){
+    cartItem.qty = data
+  }
+  return cart
+}
+
 
 const cartReducer = (state = initialState, { type, payload }) => {
   switch(type){
@@ -173,7 +131,8 @@ const cartReducer = (state = initialState, { type, payload }) => {
     case TOTAL_PRICE_RECALCULATION:
       return {
         ...state,
-        total: payload
+        total: payload.totalPrice,
+        count: payload.totalCount
       }
     default:
       return { ...state }

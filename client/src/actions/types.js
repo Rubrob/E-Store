@@ -15,8 +15,7 @@ export const AUTH_LOG_OUT = 'AUTH_LOG_OUT'
 export const AUTH_ERROR = 'AUTH_ERROR'
 
 // TRIGERS
-export const OPEN_MENU = 'OPEN_MENU'
-export const CLOSE_MENU = 'CLOSE_MENU'
+export const TOGGLE_MENU = 'TOGGLE_MENU'
 export const TOGGLE_FILTER = 'TOGGLE_FILTER'
 
 // PRODUCTS

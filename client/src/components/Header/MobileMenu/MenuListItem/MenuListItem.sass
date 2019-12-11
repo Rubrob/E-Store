@@ -1,0 +1,22 @@
+@import '../../../../variables'
+
+.listItem
+  width: 100%
+  max-height: 54px
+  height: 100%
+  border-bottom: 1px solid $mobile-menu-border !important
+  &.listHeader
+    background: $white
+    text-align: center
+    &.noIcon
+      & span
+        margin-left: 0
+    & span
+      margin-left: -24px
+      font-weight: 600
+  & .listHeader
+  // &:first-child
+  //   background: $white !important
+  & .link
+    width: 100%
+    text-transform: capitalize

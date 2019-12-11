@@ -1,16 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { IconButton, Badge } from '@material-ui/core';
-import { ShoppingCart } from '@material-ui/icons';
+import {Link} from 'react-router-dom';
+import {IconButton, Badge} from '@material-ui/core';
+import {ShoppingCart} from '@material-ui/icons';
 
-const ShoppingBasket = ({ cartProducts }) => (
+const ShoppingBasket = ({cart}) => (
   <Link to='/cart'>
     <IconButton color='primary'>
       <Badge
         color='secondary'
-        badgeContent={cartProducts.length}
-        invisible={!cartProducts.length}
+        badgeContent={cart.length}
       >
         <ShoppingCart />
       </Badge>
@@ -18,8 +16,4 @@ const ShoppingBasket = ({ cartProducts }) => (
   </Link>
 )
 
-const mapStateToProps = state => ({
-  cartProducts: state.cart.cartProducts
-})
-
-export default connect(mapStateToProps, null)(ShoppingBasket);
+export default ShoppingBasket

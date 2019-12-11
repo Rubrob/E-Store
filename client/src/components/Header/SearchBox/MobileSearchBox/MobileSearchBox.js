@@ -1,8 +1,8 @@
-import React, { createRef, } from 'react'
+import React, {createRef} from 'react'
 import './MobileSearchBox.sass'
-import { IconButton, InputBase, Box } from '@material-ui/core'
-import { Search, Close } from '@material-ui/icons'
-import { backdropFilterSupport } from './../../../../utils'
+import {IconButton, InputBase, Box} from '@material-ui/core'
+import {Search, Close} from '@material-ui/icons'
+import {backdropFilterSupport} from './../../../../utils'
 import cx from 'classnames'
 
 
@@ -16,9 +16,7 @@ const MobileSearchBox = ({
   setActive
 }) => {
   const input = createRef()
-
   const openSearchBox = () => setActive(true)
-
   const searchAndClose = () => {
     if(input.current.value){
       search(input.current.value)
@@ -37,7 +35,7 @@ const MobileSearchBox = ({
     <Box className={cx('MobileSearchBox', {
       fixed: active
     })}>
-      {active ?
+      {active ? (
         <>
           <Box className={cx('MobileSearchBox-main', {
             blur: backdropFilterSupport
@@ -60,8 +58,14 @@ const MobileSearchBox = ({
           <Box>
             {suggestions}
           </Box>
-        </> :
-        <IconButton color='inherit' onClick={openSearchBox} children={<Search />} />}
+        </>
+       ) : (
+        <IconButton
+          color='inherit'
+          onClick={openSearchBox}
+          children={<Search />}
+        />
+      )}
     </Box>
   )
 }

@@ -1,9 +1,24 @@
 import { useState } from 'react';
+// import _ from 'lodash'
 
-export const tlc = str => str.split(' ').join('_').toLowerCase()
-export const pureTLC = str => str.split(' ').join('').toLowerCase()
+export const LS = {
+  set: (name, value) => {
+    if (typeof value === 'object') {
+      value = JSON.stringify(value);
+    }
+    localStorage.setItem(name, value);
+  },
+  get: (name) => {
+    const item = localStorage.getItem(name);
+    if (!item) return;
+    if (item[0] === '{' || item[0] === '[') return JSON.parse(item);
+    return item;
+  },
+  remove: (name) => localStorage.removeItem(name)
+}
 
-export const ampersand = str => {
+
+export const ampersand = (str='') => {
   if(str.indexOf('__')){
     const arr = str.split('__')
     const arr2 = arr.map(s => s.charAt(0).toUpperCase() + s.slice(1))
@@ -56,5 +71,5 @@ export const backdropFilterSupport = () => {
 }
 
 export const renderTitle = ({gender, subcategory, category}) => {
-  return `${gender}'s ${ampersand(subcategory || '')} ${category === 'shoes' ? category : ''}`
+  return `${gender}'s ${ampersand(subcategory)} ${category === 'shoes' ? category : ''}`
 }

@@ -1,22 +1,32 @@
 import React from 'react'
 import './Header.sass'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
   Hidden,
   Box
 } from '@material-ui/core'
+import cx from 'classnames'
 import SearchBox from './SearchBox/SearchBox'
 import DesktopAccount from './Account/DesktopAccount/DesktopAccount'
 import DesktopMenu from './DesktopMenu/DesktopMenu'
 import MobileMenu from './MobileMenu/MobileMenu'
 import ShoppingBasket from './ShoppingBasket/ShoppingBasket'
-import { backdropFilterSupport } from './../../utils/index'
-import logo from '../../logo.png'
-import cx from 'classnames'
+import {backdropFilterSupport} from './../../utils'
+import {connect} from 'react-redux';
+import {logOut} from '../../actions/auth'
+import {toggleMobileMenu} from '../../actions/trigers'
 
-const Header = (props) => (
+
+const Header = ({
+  cart,
+  menu,
+  isAuthenticated,
+  logOut,
+  onToggleMobileMenu,
+  isMobileMenuOpen
+}) => (
   <>
     <AppBar
       position='fixed'
@@ -30,17 +40,24 @@ const Header = (props) => (
           <Link
             to='/'
             className='logoButton'
-            children={<img src={logo} className='logo' alt='logo' />}
+            children={<img src='/logo.png' className='logo' alt='logo' />}
           />
           <Hidden smDown>
-            <DesktopMenu />
+            <DesktopMenu menu={menu} />
           </Hidden>
         </Box>
         <Box className='rightSide'>
           <SearchBox />
-          <DesktopAccount />
-          <ShoppingBasket />
-          <MobileMenu />
+          <DesktopAccount isAuthenticated={isAuthenticated} logOut={logOut} />
+          <ShoppingBasket cart={cart} />
+          <MobileMenu
+            menu={menu}
+            open={isMobileMenuOpen}
+            isAuthenticated={isAuthenticated}
+            onClose={onToggleMobileMenu}
+            onOpen={onToggleMobileMenu}
+            onLogOut={logOut}
+          />
         </Box>
       </Toolbar>
     </AppBar>
@@ -48,4 +65,15 @@ const Header = (props) => (
   </>
 );
 
-export default Header
+export default connect(
+  (state) => ({
+    cart: state.cart.cartProducts,
+    menu: state.products.categories,
+    isAuthenticated: state.auth.isAuthenticated,
+    isMobileMenuOpen: state.trigers.state
+  }),
+  (dispatch) => ({
+    onToggleMobileMenu: () => dispatch(toggleMobileMenu()),
+    logOut: () => dispatch(logOut())
+  })
+)(Header)

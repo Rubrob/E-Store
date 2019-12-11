@@ -1,8 +1,8 @@
 import React from 'react'
 import './SearchItem.sass'
-import { Typography } from '@material-ui/core'
+import {Typography} from '@material-ui/core'
 
-const SearchItem = ({ suggestions, currency, onClick }) => (
+const SearchItem = ({suggestions, currency, onClick}) => (
   <div className='suggestions'>
     {suggestions.map((item, i) => {
       // const index = item.title.toLowerCase().indexOf(text)

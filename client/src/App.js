@@ -32,9 +32,9 @@ const App = ({
   ...props
 }) => {
   useEffect(() => {
-      fetchMember()
-      fetchProducts()
-      fetchCategories()
+    fetchMember()
+    fetchProducts()
+    fetchCategories()
   },[fetchCategories, fetchMember, fetchProducts])
 
   const routes = [

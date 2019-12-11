@@ -1,9 +1,7 @@
 import {
-  OPEN_MENU,
-  CLOSE_MENU,
-  TOGGLE_FILTER
+  TOGGLE_FILTER,
+  TOGGLE_MENU
 } from './types';
 
-export const openMobileMenu = () => ({ type: OPEN_MENU })
-export const closeMobileMenu = () => ({ type: CLOSE_MENU })
-export const toggleFilter = () => ({ type: TOGGLE_FILTER })
+export const toggleMobileMenu = () => ({type: TOGGLE_MENU})
+export const toggleFilter = () => ({type: TOGGLE_FILTER})

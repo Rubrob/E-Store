@@ -1,7 +1,7 @@
 import React from "react";
-import { Field } from "redux-form";
-import { Grid, Box } from "@material-ui/core";
-import CustomTextField from "./../../CustomTextField/CustomTextField";
+import {Field} from "redux-form";
+import {Grid, Box} from "@material-ui/core";
+import StyledInput from "./../../StyledInput/StyledInput";
 import masks from "./../../../../utils/masks";
 
 
@@ -17,33 +17,31 @@ const PaymentFields = (props) => {
             name="cardnumber"
             type="tel"
             label="Card Number"
-            component={CustomTextField}
+            component={StyledInput}
             className="cardnumber"
             {...masks.cardnumber}
           />
-          </Grid>
-
-          <Grid item xs={12} sm={4}>
-            <Field
-              name="exp"
-              type="tel"
-              label="MM/YY"
-              component={CustomTextField}
-              className="exp"
-              {...masks.cardexp}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={4}>
-            <Field
-                name="cvv"
-                type="tel"
-                label="Secure Code"
-                component={CustomTextField}
-                className="cvv"
-                inputProps={{ maxLength: 4 }}
-              />
-            </Grid>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Field
+            name="exp"
+            type="tel"
+            label="MM/YY"
+            component={StyledInput}
+            className="exp"
+            {...masks.cardexp}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Field
+            name="cvv"
+            type="tel"
+            label="Secure Code"
+            component={StyledInput}
+            className="cvv"
+            inputProps={{ maxLength: 4 }}
+          />
+        </Grid>
       </Grid>
     </>
   )

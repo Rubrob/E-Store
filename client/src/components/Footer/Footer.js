@@ -1,6 +1,6 @@
 import React from 'react'
 import './Footer.sass'
-import { Typography, IconButton } from '@material-ui/core'
+import {Typography, IconButton} from '@material-ui/core'
 import InstagramIcon from '@material-ui/icons/Instagram';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import FacebookIcon from '@material-ui/icons/Facebook';
@@ -13,7 +13,6 @@ const contactInfo = {
   email: 'react-store@awesome.com',
   phone:  '+380 (99) 999 12 30'
 }
-
 
 const Footer = ({isCartLocation}) => {
   return (
