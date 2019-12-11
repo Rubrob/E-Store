@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './MenuListItem.sass'
 import {
-  Drawer,
+  Slide,
   ListItem,
   ListItemText,
   ListItemAvatar,
@@ -14,54 +14,30 @@ import {
 import {Link} from 'react-router-dom'
 
 
-const MenuListItem = ({
-  icon,
+export const MenuItem = ({
+  action = () => {},
+  icon = null,
   title,
+  direction = 'front',
   link,
-  onClose,
-  ...props,
-}) => {
-  const [drawer, setDrawer] = useState({
-    open: false,
-    header: ''
-  })
-
-  const handleDrawerOpen = (evt) => {
-    setDrawer({
-      open: true,
-      header: evt.currentTarget.title
-    })
-  }
-
-  const handleDrawerClose = () => {
-    setDrawer({
-      open: false,
-      header: ''
-    })
-  }
-
-  if(link){
-    return (
-      <ListItem
-        button
-        className='listItem'
-        onClick={onClose}
-      >
+  pure,
+  ...props
+}) => (
+  <ListItem
+    button
+    title={title}
+    onClick={action}
+    {...props}
+  >
+    {link ? (
+      !pure && (
         <Link to={link} className='link'>
           {title}
         </Link>
-      </ListItem>
-    )
-  }
-
-  return (
-    <>
-      <ListItem
-        button
-        className='listItem'
-        title={title}
-        onClick={handleDrawerOpen}
-      >
+      )
+    ) : (
+      <>
+        {direction === 'back' && <KeyboardArrowLeft />}
         {icon ? (
           <ListItemAvatar>
             <Avatar>
@@ -70,28 +46,73 @@ const MenuListItem = ({
           </ListItemAvatar>
         ) : null}
         <ListItemText primary={title} />
-        <KeyboardArrowRight />
-      </ListItem>
+        {direction === 'front' && <KeyboardArrowRight />}
+      </>
+    )}
+  </ListItem>
+)
 
-      <Drawer
-        variant='persistent'
-        anchor='right'
-        open={drawer.open}
-        className='MobileMenu'
+const MenuListItem = ({
+  icon,
+  title,
+  link,
+  onClose,
+  ...props,
+}) => {
+  const [state, setState] = useState({
+    open: false,
+    header: ''
+  })
+
+  const handleOpen = () => {
+    setState({
+      open: true,
+      header: title
+    })
+  }
+
+  const handleClose = () => {
+    setState({
+      open: false,
+      header: ''
+    })
+  }
+
+  if(link){
+    return (
+      <MenuItem
+        className='listItem'
+        action={onClose}
+        link={link}
+        title={title}
+      />
+    )
+  }
+
+  return (
+    <>
+      <MenuItem
+        title={title}
+        className='listItem'
+        action={handleOpen}
+        icon={icon}
+      />
+      <Slide
+        direction="left"
+        in={state.open}
+        mountOnEnter
+        unmountOnExit
       >
-        <ListItem
-          button
-          className='listItem listHeader'
-          onClick={handleDrawerClose}
-        >
-          <KeyboardArrowLeft />
-          <ListItemText
-            // className='listHeader'
-            primary={drawer.header}
+        <div className='MobileMenu-drawer'>
+          <MenuItem
+            title={state.header}
+            className='listItem listHeader'
+            action={handleClose}
+            direction='back'
           />
-        </ListItem>
-        {props.children}
-      </Drawer>
+          {props.children}
+        </div>
+      </Slide>
     </>
   );
 }

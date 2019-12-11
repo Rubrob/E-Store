@@ -1,8 +1,6 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import {AccountCircle} from '@material-ui/icons'
-import {ListItem, ListItemText} from '@material-ui/core'
-import MenuListItem from '../../MobileMenu/MenuListItem/MenuListItem'
+import MenuListItem, {MenuItem} from '../../MobileMenu/MenuListItem/MenuListItem'
 
 
 const MobileAccount = ({
@@ -15,39 +13,36 @@ const MobileAccount = ({
       title='My Account'
       icon={<AccountCircle />}
     >
-      <MenuListItem
+      <MenuItem
+        className='listItem'
         title='Orders'
         link='/profile/orders'
-        onClose={onClose}
+        action={onClose}
       />
-      <MenuListItem
+      <MenuItem
+        className='listItem'
         title='Profile'
         link='/profile'
-        onClose={onClose}
+        action={onClose}
       />
-      <ListItem
-        button
+      <MenuItem
         className='listItem'
-        onClick={() => {
+        title='Log Out'
+        action={() => {
           logOut()
           onClose()
         }}
-      >
-        Log Out
-      </ListItem>
+        pure
+        direction={null}
+      />
     </MenuListItem>
   ) : (
-    <ListItem
-      button
+    <MenuItem
       className='listItem listHeader noIcon'
-      onClick={onClose}
-    >
-      <ListItemText>
-        <Link to='/register' className='link'>
-          Join / Log In
-        </Link>
-      </ListItemText>
-    </ListItem>
+      action={onClose}
+      title='Join / Log In'
+      link='/register'
+    />
   )
 }
 
