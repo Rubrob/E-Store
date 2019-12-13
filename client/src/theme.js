@@ -17,7 +17,7 @@ const fields = {
   }
 }
 
-export const theme = createMuiTheme({
+export default createMuiTheme({
   palette: {
     primary: {
       main: '#000000'

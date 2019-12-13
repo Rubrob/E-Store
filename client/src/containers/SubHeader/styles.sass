@@ -1,0 +1,33 @@
+.subHeader
+  display: flex
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  box-sizing: border-box
+  background: #fff
+  &.fixed
+    position: fixed
+    top: 64px
+    left: 0
+    z-index: 700
+    padding: 0 40px
+  &-main
+    display: flex
+    justify-content: space-between
+    align-items: center
+  &-title
+    transition: .4s
+
+@media (max-width: 959.5px)
+  .subHeader
+    padding: 4px 24px
+    &.fixed
+      padding: 0 24px
+    &-main
+      width: 100%
+@media (max-width: 599.5px)
+  .subHeader
+    padding: 0 4px
+    &.fixed
+      top: 56px
+      padding: 0 4px

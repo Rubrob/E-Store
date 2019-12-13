@@ -1,0 +1,31 @@
+.checkout
+  display: flex
+  flex-direction: column
+  width: 100%
+  max-width: 1200px
+  box-sizing: border-box
+  margin: auto
+  padding: 60px 20px
+  &-content
+    position: relative
+    display: flex
+    justify-content: center
+    &-forms
+      flex: 1
+      max-width: 700px
+      width: 100%
+      margin-right: 20px
+    &-cart
+      flex: 1
+      max-width: 320px
+
+@media (max-width: 959.5px)
+  .checkout
+    &-content
+      flex-direction: column-reverse
+      align-items: center
+      &-forms
+        margin-right: 0
+      &-cart
+        min-width: 100%
+        max-width: 100%

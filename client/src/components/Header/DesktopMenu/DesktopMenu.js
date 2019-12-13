@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import './DesktopMenu.sass'
+import './styles.sass'
 import {Link} from 'react-router-dom'
 import {Typography, Box} from '@material-ui/core'
 import cx from 'classnames'

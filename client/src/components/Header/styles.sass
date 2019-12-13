@@ -1,0 +1,34 @@
+.Header
+  border-bottom: 1px solid #e5e5e5
+  box-sizing: border-box
+  &.blur
+    background: rgba(#fff, .8) !important
+    backdrop-filter: blur(20px)
+    -webkit-backdrop-filter: blur(20px)
+
+  .toolbar
+    align-items: center
+    justify-content: space-between
+
+  .leftSide
+    display: flex
+    .logoButton
+      display: flex
+      align-items: center
+      margin-right: 20px
+      padding-left: 6px
+      .logo
+        height: 40px
+
+  .rightSide
+    display: flex
+
+@media (max-width: 599.5px)
+  .Header
+    .leftSide
+      .logoButton
+        padding-left: 12px
+        .logo
+          height: 34px
+    .MuiToolbar-gutters
+      padding: 0 4px

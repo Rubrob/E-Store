@@ -1,0 +1,40 @@
+@import '../../../variables'
+
+.customSwiper
+  padding: 100px 0
+  max-width: 1600px
+  margin: auto
+  &-slider
+    padding: 100px
+    margin: 100px 0 !important
+.swiper-container
+  margin: 0 60px !important
+  .swiper-arrows--prev, .swiper-arrows--next
+    position: absolute
+    top: 50%
+    height: 64px
+    margin-top: -32px
+    z-index: 1
+  .swiper-arrows--prev
+    left: 0
+  .swiper-arrows--next
+    right: 0
+  .swiper-pagination
+    &-bullet-active
+      background: $primary-black !important
+    img
+      min-height: inherit
+      height: 100%
+      max-height: inherit
+      padding-left: 4px
+
+@media (max-width: 959.5px)
+  .swiper-container
+    margin: 0 !important
+
+@media (max-width: 600px)
+  .swiper-container
+    .swiper-arrows--prev, .swiper-arrows--next
+      display: none
+  .customSwiper
+    padding: 50px 0

@@ -1,0 +1,39 @@
+@import '../../variables'
+
+.Footer
+  margin-top: 80px
+  background: $primary-black
+
+  &-main
+    display: flex
+    justify-content: space-between
+    padding: 40px
+    color: $footer-text
+
+    &-contacts, &-social
+      h4
+        color: $white
+    &-social
+      &-icon
+        padding: 10px !important
+        margin-right: 5px !important
+        color: #000 !important
+        background: #aaaa !important
+        &:hover
+          background: #fff !important
+    &-rights
+      padding: 20px 0
+      color: $footer-text
+      border-top: 1px solid rgba($white, .2)
+
+@media (max-width: 959.5px)
+  .isCartLocation
+    margin-bottom: 64px !important
+
+@media (max-width: 599.5px)
+  .Footer
+    &-main
+      padding: 40px 20px
+      flex-direction: column
+      &-contacts
+        margin-bottom: 40px

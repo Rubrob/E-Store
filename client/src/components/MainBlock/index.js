@@ -1,8 +1,10 @@
-import React from 'react'
-import Toaster from '../Toaster/Toaster'
-import ScrollToTop from '../ScrollToTop'
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer';
+import React from "react";
+import Toaster from "../Toaster";
+import ScrollToTop from "../ScrollToTop";
+import Header from "../Header";
+import Footer from "../Footer";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const MainBlock = (props) => {
   return (
@@ -10,7 +12,9 @@ const MainBlock = (props) => {
       <Toaster />
       <ScrollToTop />
       <Header />
-      {props.children}
+      <div>
+        {props.children}
+      </div>
       <Footer isCartLocation={props.isCartLocation} />
     </div>
   )

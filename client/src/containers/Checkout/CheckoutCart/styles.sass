@@ -1,0 +1,60 @@
+@import '../../../variables'
+
+.checkoutCartMain
+  width: 100%
+  max-height: 765px
+  box-sizing: border-box
+  border: 1px solid $light-gray
+
+  .checkoutCartHeader
+    padding: 15px
+    border-bottom: 1px solid $light-gray
+
+  .checkoutCartMainContent
+    padding: 12px
+
+  .expandCheckoutCart
+    position: absolute
+    top: 0
+    right: 0
+    display: none
+    height: 100%
+    width: 100%
+    padding-right: 20px
+    box-sizing: border-box
+    cursor: pointer
+
+  .checkoutSummary
+    position: relative
+
+    > div
+      display: flex
+      justify-content: space-between
+      // padding: 2px 0
+      &:last-child
+        margin-top: 12px
+
+@media (max-width: 959.5px)
+  .checkoutCartMain
+    min-height: 0
+    margin-bottom: 20px
+    .expand
+      display: block
+    .hidden
+      display: none
+    .checkoutCartHeader
+      position: relative
+    .expandCheckoutCart
+      display: flex
+      align-items: center
+      justify-content: flex-end
+    .checkoutCartMainContent
+      padding: 12px
+      flex-direction: column
+
+    .checkoutSummary
+      position: relative
+      padding: 8px
+      &.pseudo
+        &::after
+          @include bottomBorder

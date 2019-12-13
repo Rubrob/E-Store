@@ -1,0 +1,22 @@
+@import '../../../../variables'
+
+.DesktopSearchBox
+  position: relative
+  display: flex
+  max-width: 270px
+  border-radius: 25px
+  background: rgba($light-gray, .4)
+
+  .suggestions-wrap
+    position: fixed
+    top: 64px
+    right: 0
+    width: 50%
+    max-height: 50vh
+    overflow: hidden
+    overflow-y: scroll
+    box-sizing: border-box
+    border-radius: 0 0 0 12px
+    border-top: 1px solid $light-gray
+    &::-webkit-scrollbar
+      width: 0

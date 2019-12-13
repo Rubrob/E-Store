@@ -1,0 +1,149 @@
+@import '../../../variables'
+
+@mixin beforeAfter
+  content: ''
+  position: absolute
+
+.productCard
+  position: relative
+  display: flex
+  flex-direction: column
+  width: calc(25% - 4px)
+  margin: 2px
+  background: $white
+  transition: .4s
+  &::before
+    @include beforeAfter
+    right: 0
+    bottom: 0
+    width: 100%
+    height: 100%
+    opacity: 0
+    z-index: -1
+    cursor: pointer
+    box-shadow: 0 0 1px $secondary-black
+    transition: all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+
+  &:hover
+    z-index: 1
+    &::before
+      opacity: 1
+      transform: scale(1.08)
+      background: inherit
+    .previewBox
+      transform: translateY(-60px)
+      transition-delay: .2s
+      transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .6s
+      opacity: 1
+
+    .arrow
+      opacity: 1
+      transition-delay: .4s
+
+  .frontImg img
+    display: block
+    width: 100%
+
+  .previewBox
+    width: 100%
+    background: $img-bg
+    position: relative
+    display: flex
+    justify-content: center
+    transform: translateY(-80%)
+    opacity: 0
+    align-self: center
+    width: 100%
+    margin-bottom: -60px
+    max-width: 236px
+    user-select: none
+    transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+    transition-delay: 0
+
+    .previewImgs
+      overflow: hidden
+      max-width: 180px
+      img
+        display: block
+        height: 60px
+
+      .previewSlider
+        position: relative
+        display: flex
+        width: 100%
+        transition: .4s
+
+        .previewImg
+          position: relative
+          &::before
+            @include beforeAfter
+            bottom: 0
+            width: 100%
+            height: 3px
+            opacity: 0
+            background: rgba($primary-black, .5)
+            border-radius: 5px
+          &:hover::before
+            opacity: 1
+          img
+            height: 60px
+
+.arrow
+  position: absolute
+  display: flex !important
+  align-items: center
+  height: 100%
+  opacity: 0
+  cursor: pointer
+  transition: .4s
+  svg
+    font-size: 1.75rem
+  &:hover
+    color: $secondary-black-light
+  &.left
+    left: 0
+  &.right
+    right: 0
+
+.productInfo
+  width: 100%
+  padding: 10px
+  box-sizing: border-box
+  text-transform: capitalize
+  .title
+    font-weight: 600
+
+.colors
+  display: flex
+  align-items: center
+  margin: 5px 0 !important
+  .colorsMore
+    font-weight: 600
+  .color
+    width: 13px
+    height: 13px
+    margin-right: 4px
+    border-radius: 50%
+    border: 1px solid $light-gray
+
+@media (max-width: 1200.5px)
+  .productCard
+    width: calc(33.33% - 4px)
+
+@media (max-width: 959.5px)
+  .productCard
+    width: calc(50% - 4px)
+    &::before
+      display: none
+
+
+@media (max-width: 499.5px)
+  .productCard
+    width: calc(50% - 1.5px)
+    margin: 3px 0
+    &:nth-child(even)
+      margin-left: 3px
+    .productInfo
+      font-size: 0.8rem
+      & .title
+        font-size: .9rem
