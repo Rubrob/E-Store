@@ -16,13 +16,17 @@ render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
       <SnackbarProvider
+        // classes={{
+        //   variantError: 'snackbar-error',
+        //   variantSuccess: 'snackbar-success'
+        // }}
         maxSnack={3}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
+        // anchorOrigin={{
+        //   vertical: 'bottom',
+        //   horizontal: 'left',
+        // }}
         // preventDuplicate
-        autoHideDuration={2000}
+        autoHideDuration={3000}
       >
         <App />
       </SnackbarProvider>

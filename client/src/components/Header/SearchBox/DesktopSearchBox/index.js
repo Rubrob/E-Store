@@ -65,7 +65,7 @@ const DesktopSearchBox = ({
 
   return (
     <Box className="DesktopSearchBox">
-      <IconButton color="inherit" onClick={searchBtnClick}>
+      <IconButton color="primary" onClick={searchBtnClick}>
         <Search />
       </IconButton>
       <InputBase

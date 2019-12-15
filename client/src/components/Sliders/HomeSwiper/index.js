@@ -3,8 +3,7 @@ import "./styles.sass";
 import {Button, Typography, Box} from "@material-ui/core";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@material-ui/icons";
 import Swiper from "react-id-swiper";
-import "react-id-swiper/lib/styles/scss/swiper.scss";
-import "react-id-swiper/lib/styles/css/swiper.css";
+import 'swiper/css/swiper.css'
 
 
 const HomeSwiper = (props) => {

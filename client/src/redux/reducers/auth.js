@@ -81,6 +81,11 @@ const auth = (state = initailState, {type, payload}) => {
     case AUTH_LOG_OUT:
       return {
         ...state,
+        addresses: {
+          shipping: {},
+          billing: {}
+        },
+        fullname: '',
         isAuthenticated: false,
         error: false,
         token: ''
@@ -88,7 +93,7 @@ const auth = (state = initailState, {type, payload}) => {
     case AUTH_ERROR:
       return {
         ...state,
-        error: true,
+        error: payload,
         isAuthenticated: false,
         token: ''
       }

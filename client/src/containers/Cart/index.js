@@ -123,7 +123,7 @@ class Cart extends Component {
               size="large"
               fullWidth
               variant="contained"
-              color={match ? "default" : "secondary"}
+              color={match ? "default" : "primary"}
               disabled={!cartProducts.length}
               onClick={() => history.push("/checkout")}
               endIcon={<KeyboardArrowRight />}

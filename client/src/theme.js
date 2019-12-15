@@ -20,10 +20,11 @@ const fields = {
 export default createMuiTheme({
   palette: {
     primary: {
-      main: '#000000'
+      main: '#000'
+      // main: '#455a64'
     },
     text: {
-      secondary: '#777777'
+      secondary: '#757575'
     }
   },
   overrides:{

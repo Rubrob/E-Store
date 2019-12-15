@@ -22,8 +22,8 @@ const DesktopAccount = ({isAuthenticated, logOut}) => {
   return (
     <>
       <Button
-        aria-controls="accountMenu"
         className="DesktopAccount"
+        color="primary"
         onClick={isAuthenticated ? handleOpen : null}
       >
           {isAuthenticated ? (

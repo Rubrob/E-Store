@@ -1,140 +1,101 @@
 import React, {useState} from "react";
 import "./styles.sass";
 import {Link} from "react-router-dom";
-import {Typography, Hidden} from "@material-ui/core";
-import {KeyboardArrowLeft, KeyboardArrowRight} from "@material-ui/icons";
+import {Typography, Box, Avatar, useMediaQuery} from "@material-ui/core";
 import {renderTitle} from "utils";
-import { colors as colorsType } from "constants/index";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import {colors as colorsType} from "constants/index";
 
 
-function ProductCard({product, currency}) {
+const ProductCard = ({
+  product,
+  currency
+}) => {
+  const match = useMediaQuery("(max-width:600px)")
   const {title, price, colors, subcategory, id, gender, category} = product
+  const [preview, setPreview] = useState(false)
+  const [mainImage, setMainImage] = useState({
+    url: colors[0].preview,
+    id: colors[0].id
+  })
 
-  const previews = colors.map((color) => (
-    <Link key={color.id} to={`/pp/${id}/${color.id}`} className="previewImg">
-      <img
-        alt="product"
-        src={color.preview}
-        onMouseEnter={() => changeImage(color.id, color.preview)}
-      />
-    </Link>
-  ))
+  const changeImage = (id, url) => setMainImage({url, id})
+  const togglePreview = (option) => () => !match && setPreview(option)
 
-  const [colorID, setColorID] = useState(colors[0].id)
-  const [front, setFront] = useState(colors[0].preview)
-  const [slide, setSlide] = useState(0)
-
-  const handleSlide = (type) => {
-    const slidesCount = colors.length
-    const slideWidth = 60
-    const slidesToShow = 3
-    switch(type){
-      case "next":
-        if(slide <= -(slidesCount - (slidesCount % slidesToShow)) * slideWidth){
-          setSlide(-(slidesCount - (slidesCount % slidesToShow)) * slideWidth)
-          // console.log(-(slidesCount * slideWidth) - 180)
-          // console.log(-(slidesCount - slidesToShow) * slideWidth)
-          // console.log(-(slidesCount + 1) * slideWidth, (slidesCount % slidesToShow), slidesCount)
-        } else {
-          setSlide(slide - 180)
-        }
-        break;
-
-      case "prev":
-        if(slide >= -(slidesToShow-1) * slideWidth) {
-          setSlide(0)
-        } else {
-          setSlide(slide + (slideWidth * slidesToShow))
-        }
-        break;
-      default:
-        break;
-      }
-  }
-
-  const changeImage = (colorID, img) => {
-    setColorID(colorID)
-    setFront(img)
-  }
-
-  const renderColors = () => (
-    <>
-      {colors.map(({color}, i) => (
-        (i < 4) && (
-          <span
-            key={color}
-            className="color"
-            style={{background: colorsType[color]}}
-          />
+  const renderPreviews = (variant) => {
+    return <>
+      {colors.map((item, index) => (
+        (index < 4) && (
+          variant === "circles" ? (
+            <span
+              key={item.color}
+              className="ProductCard-colors-circle"
+              style={{background: colorsType[item.color]}}
+            />
+          ) : variant === "images" ? (
+            <Link
+              key={item.id}
+              to={`/pp/${id}/${item.id}`}
+              className="ProductCard-colors-image"
+            >
+              <Avatar
+                src={item.preview}
+                alt="product"
+                variant="rounded"
+                onMouseEnter={() => changeImage(item.id, item.preview)}
+              />
+            </Link>
+          ) : null
         )
       ))}
       <Typography
         variant="caption"
         color="textSecondary"
-        className="colorsMore"
+        className="ProductCard-colors-plusMore"
       >
         {colors.length > 4 && "+ More"}
       </Typography>
     </>
-  )
+  }
 
   return (
-    <div className="productCard">
-      <Link to={`/pp/${id}/${colorID}`} className="frontImg">
-        <img src={front} alt="img"/>
+    <div
+      className="ProductCard"
+      onMouseEnter={togglePreview(colors.length > 1)}
+      onMouseLeave={togglePreview(false)}
+    >
+      <Link
+        to={`/pp/${id}/${mainImage.id}`}
+        className="ProductCard-mainImage"
+      >
+        <img src={mainImage.url} alt="img"/>
       </Link>
 
-      {colors.length > 1 && (
-        <Hidden xsDown>
-          <div className="previewBox">
-            <div className="previewImgs">
-              <div className="previewSlider" style={{left: slide}}>
-                {previews}
-              </div>
-            </div>
-            {colors.length > 3 && (
-              <>
-                <span
-                  className="arrow left"
-                  onClick={() => handleSlide("prev")}
-                >
-                  <KeyboardArrowLeft fontSize="small" />
-                </span>
-                <span
-                  className="arrow right"
-                  onClick={() => handleSlide("next")}
-                >
-                  <KeyboardArrowRight fontSize="small" />
-                </span>
-              </>
-            )}
+      <div className="ProductCard-info">
+        <div className="ProductCard-info-content">
+          <div>
+            <Typography className="ProductCard-title">
+              {title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {renderTitle({gender, subcategory, category})}
+            </Typography>
           </div>
-        </Hidden>
-      )}
-
-      <div className="productInfo">
-        <Typography
-          className="title"
-        >
-          {title}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-        >
-          {renderTitle({gender, subcategory, category})}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-        >
-          {currency}{price}
-        </Typography>
-        <div className="colors">
-          {renderColors()}
+          <Typography variant="body2">
+            {currency}{price}
+          </Typography>
         </div>
+        <Box mt={1} display="flex" alignItems="center" height={40}>
+          {preview && !match ? (
+            // <Hidden xsDown></Hidden>
+            <div className="ProductCard-colors">
+              {renderPreviews("images")}
+            </div>
+          ) : (
+            <div className="ProductCard-colors">
+              {renderPreviews("circles")}
+            </div>
+          )}
+        </Box>
       </div>
     </div>
   )

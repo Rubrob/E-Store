@@ -4,6 +4,7 @@ import {Button, Typography} from "@material-ui/core";
 import FormsPreview from "containers/Checkout/FormsPreview";
 import CheckoutForm from "containers/Checkout/CheckoutForm";
 import {isObjectValues} from "utils";
+import cx from "classnames";
 
 
 const ProfileForm = ({
@@ -23,42 +24,43 @@ const ProfileForm = ({
   }
 
   return (
-    <div className={`ProfileForm ${!isValues && !open && "toAdd"}`}>
+    <div className={cx('ProfileForm', {toAdd: !isValues && !open})}>
       <Typography variant="h6" className="ProfileForm-header">
         {props.title}
       </Typography>
       <div className="ProfileForm-preview">
-        {open ?
+        {open ? (
           <form onSubmit={handleSubmit(submit)}>
             <CheckoutForm type={formType} />
             <div className="formBtns">
               <Button
-                variant="contained"
                 onClick={() => setOpen(false)}
                 children="Cancel"
               />
               <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
                 type="submit"
                 disabled={invalid}
                 children="Save"
               />
             </div>
-          </form> :
+          </form>
+          ) : (
           <>
-            <div>
+            <>
               {isValues && <FormsPreview content={preview} />}
-            </div>
+            </>
             <Button
               variant="contained"
+              color='primary'
               className="openForm"
               onClick={() => setOpen(true)}
             >
               {isValues ? "Edit" : "Add"}
             </Button>
           </>
-        }
+        )}
       </div>
     </div>
   )

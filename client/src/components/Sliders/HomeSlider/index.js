@@ -16,7 +16,7 @@ const HomeSlider = ({slides, settings}) => {
             <Typography variant="h4" className="Carousel-block-title">
               {item.title}
             </Typography>
-            <Button size="large" variant="contained" color="secondary">
+            <Button size="large" variant="contained" color="default">
               Shop
             </Button>
           </div>

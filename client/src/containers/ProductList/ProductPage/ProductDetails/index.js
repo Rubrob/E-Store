@@ -25,7 +25,7 @@ const ProductDetails = ({
     <div className="ProductDetails">
       <Hidden mdUp>
         <div>
-          <Typography>
+          <Typography color='textSecondary'>
             {description}
           </Typography>
         </div>
@@ -44,9 +44,11 @@ const ProductDetails = ({
             >
               {title}
             </Typography>
-            <Typography className="ProductDetails-desktop-body">
-              {description}
-            </Typography>
+            <div className="ProductDetails-desktop-body" >
+              <Typography color='textSecondary'>
+                {description}
+              </Typography>
+            </div>
         </div>
       </Hidden>
     </div>

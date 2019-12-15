@@ -9,8 +9,8 @@ import {
   Step,
   Stepper
 } from "@material-ui/core";
-import {notify} from "components/Toaster";
 import CheckoutPreview from "containers/Checkout/CheckoutPreview";
+import {useSnackbar} from "notistack";
 
 
 export default (props) => {
@@ -18,6 +18,7 @@ export default (props) => {
   const steps = ["Shipping", "Billing", "Place Order"];
   const handleNext = () => setStep(prevStep => prevStep + 1);
   const handleBack = () => setStep(prevStep => prevStep - 1);
+  const {enqueueSnackbar} = useSnackbar();
   const submitCheckout = async (evt) => {
     evt.preventDefault()
     const checkoutData = {
@@ -26,7 +27,7 @@ export default (props) => {
         billing: props.billingPreview,
       }
     }
-    await props.onCheckout(checkoutData, (type, msg) => notify(type, msg))
+    await props.onCheckout(checkoutData, (variant, msg) => enqueueSnackbar(msg, {variant}))
   }
 
   const renderSteppers = () => (

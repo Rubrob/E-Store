@@ -56,7 +56,7 @@ const MobileMenu = ({
   return (
     <Hidden mdUp>
       <IconButton
-        color="inherit"
+        color="primary"
         onClick={onOpen}
         children={<MoreVert/>}
       />

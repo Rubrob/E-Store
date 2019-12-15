@@ -47,34 +47,44 @@ export const fetchMember = () => async dispatch => {
 }
 
 
-export const signUp = (data) => async dispatch => {
+export const signUp = (data, callback) => async dispatch => {
   try {
     const res = await axios.post('/users/signup', data)
     dispatch({ type: AUTH_SIGN_UP, payload: res.data.token })
-    await setLocalStorage(res.data.token, res.data.id)
+    setLocalStorage(res.data.token, res.data.id)
+    callback("Welcome Back", "success")
   } catch (err) {
-    dispatch({ type: AUTH_ERROR })
+    dispatch({type: AUTH_ERROR, payload: err.message})
+    callback(err.message, "error")
   }
 }
 
-export const logIn = (data) => async dispatch => {
+export const logIn = (data, callback) => async dispatch => {
   try {
     const res = await axios.post('/users/signin', data);
     dispatch({ type: AUTH_LOG_IN, payload: res.data.token })
     setLocalStorage(res.data.token, res.data.id)
+    callback("Welcome Back", "success")
   } catch (err) {
-    dispatch({ type: AUTH_ERROR })
+    dispatch({type: AUTH_ERROR, payload: err.message})
+    callback(err.message, "error")
   }
 }
 
-export const logOut = () => async dispatch => {
+export const logOut = () => async (dispatch) => {
   LS.remove('JWT_TOKEN')
   LS.remove('USER_ID')
-  dispatch({ type: AUTH_LOG_OUT })
+  dispatch({type: AUTH_LOG_OUT})
 }
 
-export const oauthThirdParty = ({access_token, party}) => async (dispatch) => {
-  const res = await axios.post(`/users/oauth/${party}`, {access_token})
-  dispatch({ type: AUTH_SIGN_UP, payload: res.data.token })
-  setLocalStorage(res.data.token, res.data.id)
+export const oauthThirdParty = ({access_token, party}, callback) => async (dispatch) => {
+  try {
+    const res = await axios.post(`/users/oauth/${party}`, {access_token})
+    dispatch({type: AUTH_SIGN_UP, payload: res.data.token})
+    setLocalStorage(res.data.token, res.data.id)
+    callback("Welcome Back", "success")
+  } catch (err) {
+    dispatch({type: AUTH_ERROR, payload: err.message})
+    callback(err.message, "error")
+  }
 }

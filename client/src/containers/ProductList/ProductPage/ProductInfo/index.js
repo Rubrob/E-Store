@@ -8,8 +8,8 @@ import {
   Box
 } from "@material-ui/core";
 import {renderTitle} from "utils";
-import {notify} from "components/Toaster";
 import ProductSlider from "../ProductSlider";
+import {useSnackbar} from "notistack";
 
 
 const ProductInfo = ({
@@ -32,6 +32,7 @@ const ProductInfo = ({
         ? "One Size" : 0,
     });
   }, [data.sizes])
+  const {enqueueSnackbar} = useSnackbar();
 
   const {
     colors = [],
@@ -46,7 +47,7 @@ const ProductInfo = ({
       img: images[0],
       url: url
     })
-    notify("success", "Succesfully added to your cart")
+    enqueueSnackbar("Succesfully added to your cart", {variant: "success"})
   }
 
   const renderColors = () => (

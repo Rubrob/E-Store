@@ -1,19 +1,6 @@
 import React from "react";
 import "./styles.sass";
 import {Typography, Button, Box} from "@material-ui/core";
-import {withStyles} from "@material-ui/core/styles";
-
-
-const NewsButton = withStyles(() => ({
-  root: {
-    color: "#444",
-    background: "rgba(255, 255, 255, .8)",
-    "&:hover": {
-      background: "rgba(255, 255, 255, .1)",
-      color: "#fff"
-    },
-  }
-}))(Button)
 
 
 const NewsSection = (props) => {
@@ -23,7 +10,9 @@ const NewsSection = (props) => {
         <img src={item.image} alt="img" />
         <div>
           <Typography gutterBottom>{item.text}</Typography>
-          <NewsButton color="inherit" children={"Shop"} />
+          <Button color="default" variant='contained'>
+            Shop
+          </Button>
         </div>
       </div>
     ))

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Fab,
   Button,
   Typography,
   withStyles
@@ -15,6 +14,9 @@ const styles = (theme) => ({
     width: 35,
     height: 35,
     minHeight: 35,
+    minWidth: 35,
+    borderRadius: 50,
+    border: "1px solid #e5e5e5",
     color: styledBy("colorType", colors, (color) => theme.palette.getContrastText(color)),
     backgroundColor: styledBy("colorType", colors, (color) => color),
     "&:hover": {
@@ -24,22 +26,20 @@ const styles = (theme) => ({
 });
 
 
-const styledBy = (property, mapping, cb) => props => cb(mapping[props[property]]);
+const styledBy = (property, mapping, cb) => (props) => cb(mapping[props[property]]);
 
-const MuiltyColorFab = withStyles(styles)(({
+const FilterColorButton = withStyles(styles)(({
   classes,
   className,
   colorType,
   ...props
 }) => (
-  <Fab className={cx(classes.root, className)} {...props} />
+  <Button
+    className={cx(classes.root, className)}
+    {...props}
+  />
 ))
 
-const FilterButton = withStyles(() => ({
-  root: {
-    minWidth: 30
-  }
-}))(Button)
 
 const FilterBlock = ({
   globalFilter,
@@ -58,11 +58,10 @@ const FilterBlock = ({
 
     return (
       filterType === "color" ?
-      <MuiltyColorFab
+      <FilterColorButton
         key={item}
         className={{
           [filterType]: filterType,
-          // active
         }}
         size="small"
         disableFocusRipple
@@ -70,9 +69,9 @@ const FilterBlock = ({
         onClick={() => onChange(data)}
       >
         {active && <Done fontSize="small" />}
-      </MuiltyColorFab>
+      </FilterColorButton>
       :
-      <FilterButton
+      <Button
         key={item}
         className={cx({
           [filterType]: filterType,
@@ -82,12 +81,12 @@ const FilterBlock = ({
         variant={active ? "contained": "outlined"}
       >
         {item}
-      </FilterButton>
+      </Button>
     )})
 
   return (
     <div className="FilterBlock">
-      <Typography variant="h6" className="FilterBlock-header">
+      <Typography variant="h6">
         {label}
       </Typography>
       <div className="FilterBlock-content">

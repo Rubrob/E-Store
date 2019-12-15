@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "./styles.sass";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {reduxForm, Field} from "redux-form";
+import {reduxForm} from "redux-form";
 import FacebookLogin from "react-facebook-login";
 import GoogleLogin from "react-google-login";
 import {Button, Typography, Box, Container} from "@material-ui/core";
@@ -12,25 +12,10 @@ import {
   logIn,
   oauthThirdParty,
 } from "redux/actions/auth";
-import {notify} from "components/Toaster";
-import StyledInput from "components/StyledInput";
+import LogInFields from "./LogInFields";
+import SingUpFields from "./SignUpFields";
+import {withSnackbar} from "notistack";
 
-
-const LogInFields = () => (
-  <>
-    <Field className="input" name="email" label="Email" type="email" component={StyledInput} />
-    <Field className="input" name="password" autoComplete="on" label="Password" type="password" component={StyledInput} />
-  </>
-)
-
-const SingUpFields = () => (
-  <>
-    <Field className="input" name="firstname" label="First Name" component={StyledInput} />
-    <Field className="input" name="lastname" label="Last Name" component={StyledInput} />
-    <Field className="input" name="email" label="Email" type="email" component={StyledInput} />
-    <Field className="input" name="password" autoComplete="on" label="Password" type="password" component={StyledInput} />
-  </>
-)
 
 class SignUp extends Component {
   constructor(props) {
@@ -45,37 +30,48 @@ class SignUp extends Component {
   }
 
   toggle = () => this.setState({toggle: !this.state.toggle})
-  displayError = () => {
-    if (this.props.errorMessage) {
-      notify("error", "Email is already in use")
-    }
-  }
+
+  displayError = (msg, variant) => (
+    this.props.enqueueSnackbar(msg, {variant: variant})
+  )
 
   onSubmit = async (data) => {
     if(this.state.toggle){
-      await this.props.logIn(data)
+      await this.props.logIn(data, this.displayError);
     }else{
-      await this.props.signUp(data);
+      await this.props.signUp(data, this.displayError);
     }
-
-    this.displayError()
   }
 
-  responseGoogle = async (res) => {
+  responseThirdParty = (party) => async (res) => {
     await this.props.oauthThirdParty({
       access_token: res.accessToken,
-      party: "google"
-    });
-    this.displayError()
+      party: party
+    }, this.displayError);
   }
 
-  responseFacebook = async (res) => {
-    await this.props.oauthThirdParty({
-      access_token: res.accessToken,
-      party: "facebook"
-    });
-    this.displayError()
-  }
+  renderForm = () => (
+    <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+      <>
+        {this.state.toggle ? (
+          <LogInFields />
+        ) : (
+          <SingUpFields />
+        )}
+      </>
+      <Box mt={4}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          size="large"
+          fullWidth
+        >
+          {this.state.toggle ? "Log In" : "Sing Up"}
+        </Button>
+      </Box>
+    </form>
+  )
 
   render() {
     const linkText = this.state.toggle ? "Log In" : "Sing Up"
@@ -86,25 +82,10 @@ class SignUp extends Component {
     return (
       <div className="SingUpIn">
         <Container className="SingUpIn-container" maxWidth="xs">
-          <Typography variant="h5">
-            {formTitle}
-          </Typography>
-
-          <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-            {this.state.toggle ? <LogInFields /> : <SingUpFields />}
-            <Box mt={4}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="secondary"
-                size="large"
-                fullWidth
-              >
-                {linkText}
-              </Button>
-            </Box>
-          </form>
-
+          <Typography variant="h5">{formTitle}</Typography>
+          <>
+            {this.renderForm()}
+          </>
           <Typography
             variant="overline"
             className="SingUpIn-divider"
@@ -118,15 +99,15 @@ class SignUp extends Component {
               textButton="FACEBOOK"
               cssClass="SingUpIn-via f"
               fields="name,email,picture"
-              callback={this.responseFacebook}
+              callback={this.responseThirdParty("facebook")}
               icon="fa-facebook"
             />
             <GoogleLogin
               clientId={process.env.REACT_APP_G_CLIENT_ID}
               buttonText="GOOGLE"
               className="SingUpIn-via g"
-              onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
+              onSuccess={this.responseThirdParty("google")}
+              onFailure={this.responseThirdParty("google")}
               cookiePolicy={"single_host_origin"}
             />
           </div>
@@ -156,12 +137,13 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 })
 const mapDispatchToProps = dispatch => ({
-  signUp: (value) => dispatch(signUp(value)),
-  logIn: (value) => dispatch(logIn(value)),
-  oauthThirdParty: (value) => dispatch(oauthThirdParty(value)),
+  signUp: (value, callback) => dispatch(signUp(value, callback)),
+  logIn: (value, callback) => dispatch(logIn(value, callback)),
+  oauthThirdParty: (value, callback) => dispatch(oauthThirdParty(value, callback)),
 })
 
 export default compose(
+  withSnackbar,
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: "sign",

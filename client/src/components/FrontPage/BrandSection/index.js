@@ -7,7 +7,6 @@ const BrandSection = ({brands}) => (
   <div className="brand_container">
     <Typography
       variant="h4"
-      component="h2"
       align="center"
     >
       OUR BRANDS

@@ -40,7 +40,7 @@ const MobileSearchBox = ({
           <Box className={cx("MobileSearchBox-main", {
             blur: backdropFilterSupport
           })}>
-            <IconButton color="inherit" onClick={searchAndClose} children={<Search />} />
+            <IconButton color="primary" onClick={searchAndClose} children={<Search />} />
             <Box className="MobileSearchBox-main-input">
               <InputBase
                 autoFocus
@@ -53,7 +53,7 @@ const MobileSearchBox = ({
                 onChange={onTextChange}
               />
             </Box>
-            <IconButton color="inherit" onClick={clear}>
+            <IconButton color="primary" onClick={clear}>
               <Close />
             </IconButton>
           </Box>
@@ -63,7 +63,7 @@ const MobileSearchBox = ({
         </>
        ) : (
         <IconButton
-          color="inherit"
+          color="primary"
           onClick={openSearchBox}
           children={<Search />}
         />

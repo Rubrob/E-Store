@@ -86,22 +86,20 @@ const Profile = ({
           label="Orders"
         />
       </Tabs>
-      {
-        state.mode === "preview" ? (
-          <ProfilePage
-            fullname={fullname}
-            userShipping={userShipping}
-            userBilling={userBilling}
-            setShipping={setShipping}
-            setBilling={setBilling}
-          />
-        ) : state.mode = "orders" ? (
-          <OrdersPage
-            currency={currency}
-            orders={orders}
-          />
-        ) : null
-      }
+      {state.mode === "preview" ? (
+        <ProfilePage
+          fullname={fullname}
+          userShipping={userShipping}
+          userBilling={userBilling}
+          setShipping={setShipping}
+          setBilling={setBilling}
+        />
+      ) : state.mode = "orders" ? (
+        <OrdersPage
+          currency={currency}
+          orders={orders}
+        />
+      ) : null}
     </div>
   )
 }

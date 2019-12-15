@@ -19,3 +19,15 @@ a {
 button {
   border: none
 }
+
+
+.snackbar-error {
+  /* background: #fff !important; */
+  /* background: #f05 !important; */
+}
+
+.snackbar-success {
+  /* background: #fff !important; */
+  /* background: #0c0 !important; */
+  /* background: #43a047 !important; */
+}

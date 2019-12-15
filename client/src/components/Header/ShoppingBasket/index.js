@@ -8,7 +8,7 @@ const ShoppingBasket = ({cart}) => (
   <Link to="/cart">
     <IconButton color="primary">
       <Badge
-        color="secondary"
+        color="error"
         badgeContent={cart.length}
       >
         <ShoppingCart />
