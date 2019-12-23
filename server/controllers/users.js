@@ -14,13 +14,12 @@ singToken = (user) => {
 
 module.exports = {
     signUp: async (req, res, next) => {
+        const {email, password, firstname, lastname} = req.value.body;
 
-        const { email, password, firstname, lastname } = req.value.body;
-
-        // Check if there is a user with the same email
         const existingUser = await User.findOne({
             "local.email": email
         });
+        
         if (existingUser) {
             console.log('Email is already in use')
             return res.status(403).json({
@@ -28,7 +27,6 @@ module.exports = {
             })
         }
 
-        // Create a new user
         const newUser = new User({
             method: 'local',
             local: {
@@ -37,33 +35,12 @@ module.exports = {
                 firstname: firstname,
                 lastname: lastname
             },
-            addresses: {
-                shipping: {
-                        firstname: '',
-                        lastname: '',
-                        address: '',
-                        country: '',
-                        city: '',
-                        zip: '',
-                        email: '',
-                        phone: ''
-                    },
-                    billing: {
-                        firstname: '',
-                        lastname: '',
-                        address: '',
-                        country: '',
-                        city: '',
-                        zip: ''
-                    }
-            }
         })
         await newUser.save()
 
-        // Generate token   // https://jwt.io/
+        // https://jwt.io/
         const token = singToken(newUser)
 
-        // Response with token
         res.status(200).json({
             token,
             id: newUser._id
@@ -71,9 +48,7 @@ module.exports = {
     },
 
     signIn: async (req, res, next) => {
-        // Generate token
         const token = singToken(req.user);
-        console.log('successfully logined')
         res.status(200).json({
             token,
             id: req.user._id
@@ -103,7 +78,7 @@ module.exports = {
     },
 
     getUser: async (req, res, next) => {
-        const { user_id } = req.body
+        const {user_id} = req.body
         const customer = await User.findOne({
             "_id": user_id
         });
@@ -118,7 +93,7 @@ module.exports = {
     },
 
     updateUser: async (req, res, next) => {
-        const { data, type } = req.body
+        const {data, type} = req.body
         let customer = {}
 
         customer = await User.findOne({

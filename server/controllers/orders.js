@@ -19,14 +19,11 @@ module.exports = {
     },
 
     getUserOrders: async (req, res, next) => {
-      const { user_id } = req.body
-      const orders = []
-      const userOrders = await Order.find({
-        "user_id": user_id
-      });
-
-      userOrders.forEach(item => orders.push(item.order))
-
+      const {user_id} = req.body
+      const orders = await Order
+        .find({"user_id": user_id})
+        .select("order date")
+        
       res.status(200).json({
         orders
       })

@@ -3,7 +3,7 @@ import "./styles.sass";
 import {Card, Typography} from "@material-ui/core";
 import {totalCalculation} from "utils";
 import CheckoutProduct from "containers/Checkout/CheckoutCart/CheckoutProduct";
-// import moment from "moment"
+import moment from "moment";
 
 
 const OrderPage = ({
@@ -21,7 +21,6 @@ const OrderPage = ({
       />
       <div>
         {!orders.length ? (
-
           <Typography
             variant="subtitle1"
             component="div"
@@ -29,18 +28,17 @@ const OrderPage = ({
             children="You don't have any orders yet"
           />
         ) : (
-          orders.map((item, itemI) => (
-            <Card className="orderPage-block" key={itemI}>
-              {item.map((p, i) => (
+          orders.map(({order}, index) => (
+            <Card className="orderPage-block" key={index}>
+              {order.map((p, i) => (
                 <CheckoutProduct key={i} withUrl info={p} currency={currency} />
               ))}
               <Typography variant="h6" component="div" className="orderPage-total">
-                Total: <span>{currency}{totalCalculation(item)}</span>
+                Total: <span>{currency}{totalCalculation(order)}</span>
               </Typography>
-              {/* <Typography align="left" variant="caption" style={{padding: 8, display:"block"}}>
-                {moment(new Date()).format("MMM DD, YYYY HH:mm")} */}
-                {/* todo */}
-              {/* </Typography> */}
+              <Typography align="left" variant="caption" style={{margin: '0 0 8px 8px', display:"block"}}>
+                {moment(new Date()).format("MMM DD, YYYY HH:mm")}
+              </Typography>
             </Card>
           ))
         )}

@@ -38,39 +38,35 @@ const userSchema = new Schema({
     },
     addresses: {
         shipping: {
-                firstname: '',
-                lastname: '',
-                address: '',
-                country: '',
-                city: '',
-                zip: '',
-                email: '',
-                phone: ''
-            },
-            billing: {
-                firstname: '',
-                lastname: '',
-                address: '',
-                country: '',
-                city: '',
-                zip: ''
-            }
+            firstname: {type: String, default: ''},
+            lastname: {type: String, default: ''},
+            address: {type: String, default: ''},
+            country: {type: String, default: ''},
+            city: {type: String, default: ''},
+            zip: {type: String, default: ''},
+            email: {type: String, default: ''},
+            phone: {type: String, default: ''}
+        },
+        billing: {
+            firstname: {type: String, default: ''},
+            lastname: {type: String, default: ''},
+            address: {type: String, default: ''},
+            country: {type: String, default: ''},
+            city: {type: String, default: ''},
+            zip: {type: String, default: ''}
+        }
     }
 })
 
 userSchema.pre('save', async function (next) {
     try {
-
         if(this.method !== 'local'){
             next()
         }
-        // Generate a Salt
-        const salt = await bcrypt.genSalt(10)
 
-        // Generate a password Hash (salt + hash)
+        const salt = await bcrypt.genSalt(10)
         const PWHash = await bcrypt.hash(this.local.password, salt)
 
-        // Re-assign hashed version over original, plain text password
         this.local.password = PWHash;
         next()
     } catch (err) {

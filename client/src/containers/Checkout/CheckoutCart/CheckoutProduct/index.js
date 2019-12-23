@@ -31,7 +31,7 @@ const CheckoutProduct = ({
           ) : info.title}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="div">
-          Gender: {info.gender}"s
+          Gender: {info.gender}'s
         </Typography>
         <Typography variant="body2" color="textSecondary" component="div">
           Color: {info.color}

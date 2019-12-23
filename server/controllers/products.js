@@ -10,7 +10,7 @@ module.exports = {
       })
     },
     postProduct: async (req, res, next) => {
-      req.body.forEach(async item => {
+      req.body.forEach(async (item) => {
         new Product({
           ...item
         }).save()

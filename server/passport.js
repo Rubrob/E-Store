@@ -45,8 +45,7 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
         // console.log('__REFRESHTOKEN__:', refreshToken);
         // console.log('__PROFILE__:', profile)
 
-        // Check whether this current user exists in DB
-        const existingUser = await User.findOne({ "google.id": profile.id })
+        const existingUser = await User.findOne({"google.id": profile.id})
         if(existingUser){
             console.log('User already exists')
             return done(null, existingUser)
@@ -62,26 +61,6 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
                 firstname: profile.name.givenName,
                 lastname: profile.name.familyName
             },
-            addresses: {
-                shipping: {
-                        firstname: '',
-                        lastname: '',
-                        address: '',
-                        country: '',
-                        city: '',
-                        zip: '',
-                        email: '',
-                        phone: ''
-                    },
-                    billing: {
-                        firstname: '',
-                        lastname: '',
-                        address: '',
-                        country: '',
-                        city: '',
-                        zip: ''
-                    }
-            }
         })
         await newUser.save()
         done(null, newUser)
@@ -103,7 +82,7 @@ passport.use('facebookToken', new FacebookTokenStrategy({
         // console.log('__REFRESHTOKEN__:', refreshToken);
         // console.log('__PROFILE__:', profile)
 
-        const exisingUser = await User.findOne({ 'facebook.id': profile.id });
+        const exisingUser = await User.findOne({'facebook.id': profile.id});
         if(exisingUser){
             console.log('User already exists')
             return done(null, exisingUser)
@@ -117,26 +96,6 @@ passport.use('facebookToken', new FacebookTokenStrategy({
                 firstname: profile.name.givenName,
                 lastname: profile.name.familyName
             },
-            addresses: {
-                shipping: {
-                        firstname: '',
-                        lastname: '',
-                        address: '',
-                        country: '',
-                        city: '',
-                        zip: '',
-                        email: '',
-                        phone: ''
-                    },
-                    billing: {
-                        firstname: '',
-                        lastname: '',
-                        address: '',
-                        country: '',
-                        city: '',
-                        zip: ''
-                    }
-            }
         })
         await newUser.save()
         done(null, newUser)
@@ -151,8 +110,7 @@ passport.use(new LocalStrategy({
     usernameField: 'email'
 }, async (email, password, done) => {
   try {
-    // Find the user given the email
-    const user = await User.findOne({ 'local.email': email })
+    const user = await User.findOne({'local.email': email})
 
     // If not, handle it
     if(!user){
