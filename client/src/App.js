@@ -8,7 +8,6 @@ import {
   filterURL,
   filterProductsWithURL,
   fetchProducts,
-  fetchCategories
 } from "redux/actions/products";
 import {fetchMember} from "redux/actions/auth";
 import Loader from "components/Loader";
@@ -29,7 +28,6 @@ const createLoadableComponent = (pathResolver) => {
 const App = ({
   fetchMember,
   fetchProducts,
-  fetchCategories,
   isFetching,
   filterProductsWithURL,
   isAuthenticated,
@@ -38,8 +36,7 @@ const App = ({
   useEffect(() => {
     fetchMember()
     fetchProducts()
-    fetchCategories()
-  },[fetchCategories, fetchMember, fetchProducts])
+  },[fetchMember, fetchProducts])
 
   const routes = [
     {
@@ -105,7 +102,6 @@ export default compose(
       filterProductsWithURL: (value) => dispatch(filterProductsWithURL(value)),
       fetchMember: () => dispatch(fetchMember()),
       fetchProducts: () => dispatch(fetchProducts()),
-      fetchCategories: () => dispatch(fetchCategories()),
     })
   )
 )(App)

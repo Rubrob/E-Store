@@ -24,11 +24,9 @@ const Shipping = ({
     <Card className="shipping">
       <form onSubmit={handleSubmit((data) => onSubmit(data))}>
         <CheckoutForm type="shipping" />
-        <Typography className="shippingNote">
+        <Typography className="shippingNote" variant="caption">
           <Lock fontSize="inherit" />
-          <Typography variant="caption">
             Your privacy is important to us. We will only contact you if there is an issue with your order.
-          </Typography>
         </Typography>
         <DeliveryBox
           onChange={changeDelivery}
@@ -36,7 +34,7 @@ const Shipping = ({
           selected={delivery}
           currency={currency}
         />
-        <Box alignSelf="flex-end" mt={3}>
+        <Box display='flex' justifyContent="flex-end" mt={3} width={1}>
           {buttons({invalid, submitting, pristine})}
         </Box>
       </form>

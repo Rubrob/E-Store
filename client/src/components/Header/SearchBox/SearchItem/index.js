@@ -1,6 +1,7 @@
 import React from "react";
 import "./styles.sass";
 import {Typography} from "@material-ui/core";
+import {renderTitle} from "utils";
 
 
 const SearchItem = ({
@@ -8,7 +9,7 @@ const SearchItem = ({
   currency,
   onClick
 }) => (
-  <div className="suggestions">
+  <div className={"suggestions"}>
     {suggestions.map((item, i) => {
       // const index = item.title.toLowerCase().indexOf(text)
       // const highlight = <>
@@ -23,7 +24,13 @@ const SearchItem = ({
           <div>
             {/* {highlight} */}
             <Typography variant="body1" color="textPrimary" children={item.title} />
-            <Typography variant="body2" color="textSecondary" children={`${item.gender}"s`} />
+            <Typography variant="body2" color="textSecondary">
+              {renderTitle({
+                gender: item.gender, 
+                category: item.category, 
+                subcategory: item.subcategory
+              })} 
+            </Typography>
             <Typography variant="body2" color="textSecondary" children={`${currency}${item.price}`} />
           </div>
         </div>

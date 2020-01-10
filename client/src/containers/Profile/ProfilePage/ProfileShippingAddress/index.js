@@ -8,4 +8,4 @@ export default reduxForm({
   form: "profile-shipping",
   validate,
   enableReinitialize: true
-})((props) => (<ProfileForm {...props} />))
+})(ProfileForm)

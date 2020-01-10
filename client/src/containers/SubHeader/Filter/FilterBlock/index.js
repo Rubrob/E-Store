@@ -1,9 +1,9 @@
 import React from "react";
 import {
   Button,
-  Typography,
-  withStyles
+  Typography
 } from "@material-ui/core";
+import {withStyles} from "@material-ui/core/styles";
 import cx from "classnames";
 import {Done} from "@material-ui/icons";
 import {colors} from "constants/index";

@@ -6,7 +6,7 @@ import App from './App';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import store from 'redux/store';
-import {ThemeProvider} from '@material-ui/styles';
+import {ThemeProvider} from '@material-ui/core/styles';
 import theme from './theme';
 import {SnackbarProvider} from 'notistack';
 
@@ -20,7 +20,7 @@ render(
         //   variantError: 'snackbar-error',
         //   variantSuccess: 'snackbar-success'
         // }}
-        maxSnack={3}
+        maxSnack={2}
         // anchorOrigin={{
         //   vertical: 'bottom',
         //   horizontal: 'left',

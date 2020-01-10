@@ -1,10 +1,14 @@
 @import '../../../../variables'
 
 .suggestions
-  width: 100%
-  padding: 12px 24px
+  // width: 100%
+  padding: 12px
   background: $white
   box-sizing: border-box
+  &.blur
+    background: rgba(#fff, .8)
+    -webkit-backdrop-filter: blur(20px)
+    backdrop-filter: blur(20px)
   &-item
     display: flex
     align-items: flex-start

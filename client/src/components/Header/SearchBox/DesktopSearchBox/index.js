@@ -1,6 +1,6 @@
 import React, {createRef} from "react";
 import "./styles.sass";
-import {withStyles} from "@material-ui/styles";
+import {withStyles} from "@material-ui/core/styles";
 import {Search, Close} from "@material-ui/icons";
 import {
   IconButton,

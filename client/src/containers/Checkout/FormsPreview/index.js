@@ -1,12 +1,11 @@
 import React from "react";
 import "./styles.sass";
-import {Typography} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 
 const FormsPreview = ({
   title,
   content = {},
-  children,
 }) => {
   const tranfsormValues = (data) => {
     const {firstname, lastname, ...rest} = data
@@ -22,9 +21,9 @@ const FormsPreview = ({
   const renderValues = (values) => (
     Object.entries(values).map(([key, value]) => (
       <Typography
+        key={key}
         variant="body2"
         color="textSecondary"
-        key={key}
         children={value}
       />
     ))
@@ -43,7 +42,6 @@ const FormsPreview = ({
       <div>
         {renderValues(tranfsormValues(content))}
       </div>
-      {children}
     </div>
   )
 }

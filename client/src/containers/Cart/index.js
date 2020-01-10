@@ -68,7 +68,7 @@ class Cart extends Component {
       ) :
       cartProducts.map((item) => (
         <CartItem
-          key={item.id + item.size}
+          key={item._id + item.size}
           data={item}
           currency={currency}
           onDelete={deleteItem}

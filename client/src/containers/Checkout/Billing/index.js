@@ -41,18 +41,15 @@ const Billing = ({
         <PaymentFields />
         <FormControlLabel
           className="billingAddressCheckbox"
-          control={
-            <Checkbox
-              checked={checked}
-              onChange={() => setChecked(!checked)}
-            />
-          }
+          checked={checked}
+          onChange={() => setChecked(!checked)}
+          control={<Checkbox />}
           label="Billing address same as shipping"
         />
         {!checked && (
           <CheckoutForm type="billing" />
         )}
-        <Box alignSelf="flex-end" mt={3}>
+        <Box display='flex' justifyContent="flex-end" mt={3} width={1}>
           {buttons({invalid, submitting, pristine})}
         </Box>
       </form>

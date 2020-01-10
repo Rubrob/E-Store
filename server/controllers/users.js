@@ -1,6 +1,9 @@
 const JWT = require('jsonwebtoken');
 const {JWT_SECRET} = require('../config');
 const User = require('../models/user');
+const Order = require('../models/order');
+const Product = require('../models/product');
+const mongoose = require('mongoose');
 
 
 singToken = (user) => {
@@ -43,81 +46,88 @@ module.exports = {
 
         res.status(200).json({
             token,
-            id: newUser._id
         })
     },
 
-    signIn: async (req, res, next) => {
+    login: async (req, res, next) => {
         const token = singToken(req.user);
         res.status(200).json({
             token,
-            id: req.user._id
         })
     },
-
-    googleOAuth: async (req, res, next) => {
-        const token = singToken(req.user)
-        res.status(200).json({
-            token,
-            id: req.user._id
-        })
-    },
-
-    facebookOAuth: async (req, res, next) => {
-        const token = singToken(req.user)
-        res.status(200).json({
-            token,
-            id: req.user._id
-        })
-    },
-
-    secret: async (req, res, next) => {
-        res.json({
-            secret: 'resource'
-        })
+    logout: async (req, res, next) => {
+        req.logout()
+        res.redirect('/')
     },
 
     getUser: async (req, res, next) => {
-        const {user_id} = req.body
-        const customer = await User.findOne({
-            "_id": user_id
-        });
-
-        const method = customer.method
-        const givenName = customer[method].firstname
-        const familyName = customer[method].lastname
+        const method = req.user.method
+        const givenName = req.user[method].firstname
+        const familyName = req.user[method].lastname
         res.status(200).json({
             fullname: `${givenName} ${familyName}`,
-            addresses: customer.addresses
+            addresses: req.user.addresses
         })
     },
 
     updateUser: async (req, res, next) => {
-        const {data, type} = req.body
-        let customer = {}
-
-        customer = await User.findOne({
-            "_id": req.body.user_id
-        });
-
-        if(type === 'shipping'){
-            await customer.update({ 'addresses.shipping': data }, (err, doc) => {
-                console.log('DOC', doc);
-            });
-        }
-
-        if(type === 'billing'){
-             await customer.update({ 'addresses.billing': data }, (err, doc) => {
-                console.log('DOC', doc);
-            });
-        }
-        await customer.save()
-
-        console.log(customer);
-        res.status(200).json({
-            customer,
-            status: 'updated'
+        const user = await User.findOne({
+            "_id": req.user._id
         })
-    }
+
+        await user.update({
+            addresses: {
+                ...user.addresses,
+                ...req.body
+            }
+        })
+        await user.save()
+
+        res.status(200).json({
+            addresses: user.addresses
+        })
+    },
+
+    getUserOrders: async (req, res, next) => {
+        const orders = await Order
+          .find({"user_id": req.user._id})
+          .select("order date")
+          
+        res.status(200).json({
+          orders
+        })
+    },
+
+    createOrder: async (req, res, next) => {
+        let user_id = null
+        try {
+            if(req.headers.authorization) {
+                const token = req.headers.authorization.split(' ')[1]
+                const payload = JWT.verify(token, JWT_SECRET)
+                const user = await User.findById(payload.sub)
+                if(user) {
+                    user_id = user._id
+                }
+            } 
+        } catch (error) {
+            res.json({
+                message: "Token is invalid"
+            })
+        }
+        const {order, delivery, addresses} = req.body
+
+        const newOrder = new Order({
+          user_id,
+          order,
+          delivery,
+          addresses
+        })
+        await newOrder.save()
+  
+        res.status(200).json({
+          message: 'Thank you for order!',
+          order: newOrder
+        })
+    },
 
 }

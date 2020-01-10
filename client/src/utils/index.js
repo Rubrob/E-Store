@@ -18,7 +18,7 @@ export const LS = {
 }
 
 
-export const ampersand = (str='') => {
+export const ampersand = (str = '') => {
   if(str.indexOf('__')){
     const arr = str.split('__')
     const arr2 = arr.map(s => s.charAt(0).toUpperCase() + s.slice(1))
@@ -45,19 +45,6 @@ export const SetFixed = (YOffset) => {
 }
 
 export const tlcWithUnderline = (str) => str.toLowerCase().split(' & ').join('__')
-
-export const isObjectValues = (obj) => {
-  let isValues = false
-  for(let key in obj){
-    if(!obj[key].length){
-      isValues = false
-    }else{
-      isValues = true
-    }
-  }
-  return isValues
-}
-
 export const totalCalculation = (arr) => arr.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
 
 export const backdropFilterSupport = () => {

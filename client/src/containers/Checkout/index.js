@@ -1,7 +1,8 @@
 import React, {useEffect} from "react";
 import "./styles.sass";
 import {connect} from "react-redux";
-import {Typography, withStyles} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
+import {withStyles} from "@material-ui/core/styles";
 import CheckoutCart from "./CheckoutCart";
 import {
   submitShipping,

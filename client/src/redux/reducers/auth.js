@@ -1,11 +1,10 @@
 import {
-  SET_SHIPPING,
-  SET_BILLING,
   AUTH_SIGN_UP,
   AUTH_LOG_IN,
   AUTH_LOG_OUT,
   AUTH_ERROR,
-  FETCH_MEMBER_SUCCESS
+  FETCH_MEMBER_SUCCESS,
+  SET_USER_ADDRESSES
 } from '../actions/types';
 import {LS} from 'utils';
 
@@ -48,21 +47,11 @@ const auth = (state = initailState, {type, payload}) => {
         addresses: payload.addresses,
         orders: payload.orders
       }
-    case SET_SHIPPING:
+    case SET_USER_ADDRESSES:
       return {
         ...state,
-        addresses: {
-          ...state.addresses,
-          shipping: { ...state.shipping, ...payload}
-        }
-      }
-    case SET_BILLING:
-      return {
-        ...state,
-        addresses: {
-          ...state.addresses,
-          billing: { ...state.billing, ...payload }
-        }
+        ...payload,
+        addresses: payload.addresses
       }
     case AUTH_SIGN_UP:
       return {
@@ -88,7 +77,7 @@ const auth = (state = initailState, {type, payload}) => {
         fullname: '',
         isAuthenticated: false,
         error: false,
-        token: ''
+        token: null
       }
     case AUTH_ERROR:
       return {

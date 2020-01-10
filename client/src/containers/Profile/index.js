@@ -5,10 +5,7 @@ import {Tabs, Tab} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import OrdersPage from "./OrdersPage";
 import ProfilePage from "./ProfilePage";
-import {
-  setShippingAddress,
-  setBillingAddress
-} from "redux/actions/auth";
+import {setUserAddresses} from "redux/actions/auth";
 
 
 const useStyles = makeStyles({
@@ -16,6 +13,9 @@ const useStyles = makeStyles({
     padding: "60px 12px",
     maxWidth: 1200,
     margin: "0 auto",
+  },
+  tabs: {
+    textTransform: 'none'
   }
 })
 
@@ -29,8 +29,7 @@ const Profile = ({
   userShipping,
   userBilling,
   fullname,
-  setShipping,
-  setBilling,
+  setUserAddresses
 }) => {
   const classes = useStyles()
 
@@ -46,43 +45,42 @@ const Profile = ({
       .find(result => result.path) || {}
   );
 
-  const modes = {
-    preview: "",
-    orders: "/orders",
-  }
 
   const [state, setState] = useState({
-    ...getModeFromPathname("profile", modes, location.pathname),
+    modes: {
+      preview: "",
+      orders: "/orders",
+    },
+    mode: 'preview'
   })
 
-  const handlePath = async (pathname) => {
-    await history.push(pathname)
-    const result = await getModeFromPathname("profile", modes, pathname)
-    await setState({...result})
-  }
 
   useEffect(() => {
-    setState(getModeFromPathname("profile", modes, location.pathname))
-  }, [location.pathname, modes])
+    setState((prevState) => ({
+      ...prevState, 
+      ...getModeFromPathname("profile", state.modes, location.pathname)
+    }))
+  }, [location.pathname, state.modes])
 
 
   return (
     <div className={classes.profile}>
       <Tabs
-        variant="fullWidth"
         value={location.pathname}
-        onChange={(_, value) => handlePath(value)}
+        indicatorColor="primary"
+        onChange={(_, value) => history.push(value)}
+        centered
       >
         <Tab
           disableRipple
-          fullWidth
+          className={classes.tabs}
           value={match.url}
           label="Profile"
         />
         <Tab
           disableRipple
-          fullWidth
-          value={`${match.url}/orders`}
+          className={classes.tabs}
+          value={match.url + "/orders"}
           label="Orders"
         />
       </Tabs>
@@ -91,8 +89,7 @@ const Profile = ({
           fullname={fullname}
           userShipping={userShipping}
           userBilling={userBilling}
-          setShipping={setShipping}
-          setBilling={setBilling}
+          setUserAddresses={setUserAddresses}
         />
       ) : state.mode = "orders" ? (
         <OrdersPage
@@ -113,7 +110,6 @@ export default connect(
     orders: state.auth.orders
   }),
   (dispatch) => ({
-    setShipping: value => dispatch(setShippingAddress(value)),
-    setBilling: value => dispatch(setBillingAddress(value))
+    setUserAddresses: value => dispatch(setUserAddresses(value))
   })
 )(Profile)

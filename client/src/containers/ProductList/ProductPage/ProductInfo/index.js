@@ -55,10 +55,10 @@ const ProductInfo = ({
       <div className="avColors">
         {colors.map((color) => (
           <Avatar
-            key={color.id}
+            key={color._id}
             src={color.preview}
             variant="square"
-            onClick={() => changeColor(data.productId, color.id)}
+            onClick={() => changeColor(data.productId, color._id)}
           />
         ))}
       </div>
@@ -66,25 +66,26 @@ const ProductInfo = ({
   )
 
   const renderSizes = () => (
-    sizes.length > 2 &&
-    <>
-      <Typography variant="subtitle1" paragraph>
-        Select Size
-      </Typography>
-      <div className="avSizes">
-        {sizes.map((size) => (
-          <Button
-            key={size}
-            color={state.size === size  ? "primary" : "default"}
-            variant={state.size === size ? "contained" : "outlined"}
-            onClick={() => setstate({...state, size})}
-            children={size}
-            className="avSizes-size"
-            disableTouchRipple
-          />
-        ))}
-      </div>
-    </>
+    sizes.length > 2 && (
+      <>
+        <Typography variant="subtitle1" paragraph>
+          Select Size
+        </Typography>
+        <div className="avSizes">
+          {sizes.map((size) => (
+            <Button
+              key={size}
+              color={state.size === size  ? "primary" : "default"}
+              variant={state.size === size ? "contained" : "outlined"}
+              onClick={() => setstate({...state, size})}
+              children={size}
+              className="avSizes-size"
+              disableTouchRipple
+            />
+          ))}
+        </div>
+      </>
+    )
   )
 
   const renderProductTitle = () => (

@@ -1,10 +1,14 @@
-import React, {useState} from "react";
+import React from "react";
 import "./styles.sass";
-import {Button, Typography} from "@material-ui/core";
-import FormsPreview from "containers/Checkout/FormsPreview";
+import {
+  Button, 
+  Typography, 
+  ExpansionPanel, 
+  ExpansionPanelSummary, 
+  ExpansionPanelDetails
+} from "@material-ui/core";
 import CheckoutForm from "containers/Checkout/CheckoutForm";
-import {isObjectValues} from "utils";
-import cx from "classnames";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
 const ProfileForm = ({
@@ -12,56 +16,45 @@ const ProfileForm = ({
   invalid,
   onSubmit,
   initialValues,
-  preview,
   formType,
   ...props
 }) => {
-  const [open, setOpen] = useState(false)
-  const isValues = isObjectValues(initialValues)
   const submit = async (value) => {
-    await onSubmit(value)
-    setOpen(false)
+    await onSubmit({[formType]: value})
   }
 
+
   return (
-    <div className={cx('ProfileForm', {toAdd: !isValues && !open})}>
-      <Typography variant="h6" className="ProfileForm-header">
-        {props.title}
-      </Typography>
-      <div className="ProfileForm-preview">
-        {open ? (
+    <div className='ProfileForm'>      
+      <ExpansionPanel elevation={0}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography variant="h6">
+            {props.title}
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
           <form onSubmit={handleSubmit(submit)}>
             <CheckoutForm type={formType} />
             <div className="formBtns">
-              <Button
-                onClick={() => setOpen(false)}
-                children="Cancel"
-              />
+              <Button onClick={() => props.reset()}>
+                Cancel
+              </Button>
               <Button
                 variant="contained"
                 color="primary"
                 type="submit"
                 disabled={invalid}
-                children="Save"
-              />
+              >
+                Save
+              </Button>
             </div>
           </form>
-          ) : (
-          <>
-            <>
-              {isValues && <FormsPreview content={preview} />}
-            </>
-            <Button
-              variant="contained"
-              color='primary'
-              className="openForm"
-              onClick={() => setOpen(true)}
-            >
-              {isValues ? "Edit" : "Add"}
-            </Button>
-          </>
-        )}
-      </div>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     </div>
   )
 }

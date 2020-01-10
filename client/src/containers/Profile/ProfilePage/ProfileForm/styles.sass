@@ -1,37 +1,13 @@
 @import '../../../../variables'
 
 .ProfileForm
-  &.toAdd
+  max-width: 600px
+  padding: 20px 0
+  border-bottom: 1px solid #e5e5e5
+
+  & .formBtns
+    margin-top: 24px
     display: flex
-    align-items: center
-  &-header
-    width: 100%
-    padding: 15px
-    box-sizing: border-box
-
-  &-preview
-    display: flex
-    justify-content: space-between
-    align-items: flex-end
-
-    .openForm
-      margin-right: 20px
-
-    form
-      .formBtns
-        margin-top: 40px
-        display: flex
-        justify-content: flex-end
-        button:first-child
-          margin-right: 8px
-
-
-@media (max-width: 599.5px)
-  .profileShippingAddress
-    &-preview
-      flex-direction: column
-      justify-content: center
-      align-items: flex-start
-
-    .openForm
-      margin-left: 20px
+    justify-content: flex-end
+    button:first-child
+      margin-right: 8px

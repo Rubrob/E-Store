@@ -13,7 +13,6 @@ import {
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_START,
   FETCH_PRODUCTS_FAIL,
-  FETCH_CATEGORIES_SUCCESS,
   CURRENT_PAGE
 } from '../actions/types';
 
@@ -180,11 +179,6 @@ export default (state = initialState, {type, payload}) => {
         ...state,
         isFetching: false,
         isFetchingError: true
-      }
-    case FETCH_CATEGORIES_SUCCESS:
-      return {
-        ...state,
-        // categories: payload
       }
     case CURRENT_PAGE:
       return {

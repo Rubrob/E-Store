@@ -3,38 +3,22 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {freeIfZero} from "utils";
 
 
 const useStyles = makeStyles({
-  root: {
-    display: "flex",
-    textTransform: "capitalize",
-    position: "relative"
-  },
   radioGroup: {
-    marginTop: 20,
+    marginTop: 24,
     padding: 10
   },
   title: {
     fontWeight: 600,
   },
-  content: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between"
-  },
   plan: {
-    width: "100%"
-  },
-  cost: {
-    position: "absolute",
-    right: 0,
-    top: "50%",
-    transform: "translate3d(0, -50%, 0)"
+    textTransform: "capitalize",
   }
 })
 
@@ -54,22 +38,19 @@ const DeliveryBox = ({
       <Typography
         variant="subtitle1"
         className={classes.title}
-        paragraph
+        gutterBottom
       >
         Select your shipping speed
       </Typography>
-      {Object.keys(methods).map(key => (
-        <div className={classes.root} key={key}>
-          <FormControlLabel className={classes.plan} value={key} control={<Radio />} label={
-            <Typography component="div" className={classes.content}>
-              {key}
-              <Typography
-                component="span"
-                className={classes.cost}
-                children={freeIfZero(methods[key], currency)}
-              />
-            </Typography>} />
-        </div>))}
+      {Object.keys(methods).map((key) => (
+        <FormControlLabel 
+          key={key} 
+          className={classes.plan} 
+          value={key} 
+          control={<Radio />} 
+          label={key + ' - ' + freeIfZero(methods[key], currency)} 
+        />
+      ))}
     </RadioGroup>
   )
 }

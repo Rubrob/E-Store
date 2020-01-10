@@ -9,7 +9,6 @@ import {
   FETCH_PRODUCTS_START,
   FETCH_PRODUCTS_SUCCESS,
   FETCH_PRODUCTS_FAIL,
-  FETCH_CATEGORIES_SUCCESS,
   CURRENT_PAGE
 } from './types';
 
@@ -24,9 +23,9 @@ export const getCurrentProduct = (ids) => (dispatch, getState) => {
     product: [],
     color: []
   }
-  page.product = _.filter(getState().products.products, {id: ids.productId})[0]
+  page.product = _.filter(getState().products.products, {_id: ids.productId})[0]
   if(page.product){
-    page.color = _.filter(page.product.colors, {id: ids.colorId})[0]
+    page.color = _.filter(page.product.colors, {_id: ids.colorId})[0]
   }
   dispatch({type: CURRENT_PAGE, payload: page})
 }
@@ -55,10 +54,6 @@ export const getFilters = (products) => {
   return filters
 }
 
-export const fetchCategories = () => async dispatch => {
-  let res = await axios.get('/categories')
-  dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: res.data.categories })
-}
 
 export const fetchProducts = () => async dispatch => {
   dispatch({ type: FETCH_PRODUCTS_START })

@@ -28,7 +28,7 @@ const OrderPage = ({
             children="You don't have any orders yet"
           />
         ) : (
-          orders.map(({order}, index) => (
+          orders.map(({order, date}, index) => (
             <Card className="orderPage-block" key={index}>
               {order.map((p, i) => (
                 <CheckoutProduct key={i} withUrl info={p} currency={currency} />
@@ -37,7 +37,7 @@ const OrderPage = ({
                 Total: <span>{currency}{totalCalculation(order)}</span>
               </Typography>
               <Typography align="left" variant="caption" style={{margin: '0 0 8px 8px', display:"block"}}>
-                {moment(new Date()).format("MMM DD, YYYY HH:mm")}
+                {moment(date).format("MMM DD, YYYY HH:mm")}
               </Typography>
             </Card>
           ))

@@ -30,7 +30,6 @@ export const totalRecalculation = (cart) => dispatch => {
   }})
 }
 
-
 export const submitShipping = payload => dispatch => {
   dispatch({type: SUBMIT_SHIPPING, payload})
 }
@@ -41,14 +40,17 @@ export const sumbitBilling = payload => dispatch => {
 export const submitCheckout = (formdata, callback) => async (dispatch, getState) => {
   const {cart} = getState()
   const data = {
-    user_id: LS.get('USER_ID'),
     delivery: cart.defaultValues.delivery,
     order: cart.cartProducts,
     ...formdata
   }
 
   try {
-    await axios.post('/order', {data})
+    await axios.post('/users/orders', data, {
+      headers: {
+        'Authorization': `Bearer ${getState().auth.token}` 
+      }
+    })
     .then((res) => {
       LS.remove('CART')
       dispatch({ type: EMPTY_CART })
@@ -70,7 +72,7 @@ export const checkCartProducts = (products, cart) => (dispatch) => {
     const pchecked = []
 
     const checkCartRelevance = (item, cartItem) => {
-      return item.id === cartItem.colorId && item.availability >= cartItem.availability && item.sizes.indexOf(cartItem.size) !== -1
+      return item._id === cartItem.colorId && item.availability >= cartItem.availability && item.sizes.indexOf(cartItem.size) !== -1
     }
 
     const sortCart = (arr, cartItem) => arr.forEach(item => {
@@ -82,7 +84,7 @@ export const checkCartProducts = (products, cart) => (dispatch) => {
     })
 
     const loopCart = (item, cart) => {
-      cart.forEach(cartItem => item.id === cartItem.productId ? sortCart(item.colors, cartItem) : null)
+      cart.forEach(cartItem => item._id === cartItem.productId ? sortCart(item.colors, cartItem) : null)
     }
 
     products.forEach(item => loopCart(item, checked))

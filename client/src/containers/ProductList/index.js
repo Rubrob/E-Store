@@ -20,7 +20,7 @@ const ProductList = ({
   toggle
 }) => {
   const match = useMediaQuery("(max-width: 959.5px)")
-  const productCards = filtered.map(product => <ProductCard key={product.id} product={product} currency={currency} />)
+  const productCards = filtered.map(product => <ProductCard key={product._id} product={product} currency={currency} />)
 
   return (
     <div className="productList">

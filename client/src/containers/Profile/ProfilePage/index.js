@@ -9,8 +9,7 @@ const ProfilePage = ({
   fullname,
   userShipping,
   userBilling,
-  setShipping,
-  setBilling
+  setUserAddresses
 }) => {
   return (
     <div className="profilePage">
@@ -23,21 +22,17 @@ const ProfilePage = ({
         Hi, {fullname}
       </Typography>
       <div className="profilePage-forms">
-        <div className="profilePage-forms-form">
+        <div>
           <ProfileShippingAddress
             formType="shipping"
-            preview={userShipping}
             initialValues={userShipping}
-            onSubmit={setShipping}
+            onSubmit={setUserAddresses}
             title="Shipping Address"
           />
-        </div>
-        <div className="profilePage-forms-form">
           <ProfileBillingAddress
             formType="billing"
-            preview={userBilling}
             initialValues={userBilling}
-            onSubmit={setBilling}
+            onSubmit={setUserAddresses}
             title="Billing Address"
           />
         </div>

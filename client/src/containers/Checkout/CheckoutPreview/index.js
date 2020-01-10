@@ -7,7 +7,7 @@ import FormsPreview from "containers/Checkout/FormsPreview";
 const CheckoutPreview = (props) => {
   return (
     <Box width={1}>
-      <Card className="shipping">
+      <Card className="CheckoutPreview">
         <form onSubmit={props.onSumbit}>
           <FormsPreview
             title="Shipping Address"
@@ -21,7 +21,7 @@ const CheckoutPreview = (props) => {
             title="Delivery Speed"
             content={props.deliveryPreview}
           />
-          <Box alignSelf="flex-end" mt={3}>
+          <Box display="flex" justifyContent="flex-end" mt={3}>
             {props.buttons(props)}
           </Box>
         </form>
