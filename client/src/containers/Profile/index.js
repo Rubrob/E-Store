@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     margin: "0 auto",
   },
   tabs: {
-    textTransform: 'none'
+    // textTransform: 'none'
   }
 })
 
