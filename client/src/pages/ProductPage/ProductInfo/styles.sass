@@ -1,0 +1,106 @@
+@import 'variables'
+
+.ProductInfo
+  &-title
+    // display: flex
+    // justify-content: space-between
+    // width: 100%
+    // box-sizing: border-box
+    // text-transform: capitalize
+    margin-bottom: 24px
+    & h4
+      font-size: 2rem !important
+    // &.desktop
+    //   display: none
+
+
+
+.ProductInfo-content
+  display: flex
+  justify-content: center
+  width: 100%
+  box-sizing: border-box
+
+  &-main
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    box-sizing: border-box
+    width: 100%
+    max-width: 360px
+    min-width: 200px
+    margin: 0 20px
+    padding: 0
+
+    &-colors
+      width: 100%
+      .avColors
+        display: flex
+        justify-content: flex-start
+        flex-wrap: wrap
+        margin: 20px 0
+        &-active
+          position: relative
+          &::after
+            content: ''
+            position: absolute
+            top: 0
+            left: 0
+            height: 60px
+            width: 60px
+            background: rgba(0, 0, 0, .08)
+            z-index: 100
+        .MuiAvatar-root
+          min-width: 60px
+          width: 60px
+          height: 60px
+          min-height: 60px
+          margin: 2px
+          border-radius: 5px
+          cursor: pointer
+
+    &-sizes
+      width: 100%
+      margin: 20px 0
+      .avSizes
+        display: grid
+        grid-gap: 4px
+        grid-template-columns: repeat(4, 1fr)
+        width: 100%
+        &-size
+          border-color: $border-color
+          min-width: 30px
+          &:disabled
+            opacity: .5
+            border: 1px solid $border-color !important
+
+@media (max-width: 959.5px)
+  .ProductInfo
+    padding: 20px 0
+    &-title
+      margin: 0 18px 18px
+
+  .ProductInfo-content
+    flex-direction: column
+    justify-content: flex-start
+    align-items: center
+
+    &-main
+      max-width: 100%
+      width: 100%
+      padding: 24px
+      margin: 0
+      box-sizing: border-box
+
+      &-colors
+        .avColors
+          margin: 0
+          flex-wrap: nowrap
+          overflow-x: scroll
+          &::-webkit-scrollbar
+            height: 0
+
+@media (max-width: 599.5px)
+  .ProductInfo
+    &-title
+      margin: 0 12px 12px

@@ -1,13 +1,13 @@
-@import '../../../variables'
+@import 'variables'
 
-.Carousel
-  max-width: 100%
+.HomeSlider
+  padding: 10px
+  max-height: 840px
+  overflow: hidden
   &-block
-    display: flex !important
+    display: flex
     justify-content: center
-    padding: 10px
     &-title
-      font-size: 60px !important
       margin-bottom: 30px !important
       text-shadow: 0px 0px 10px #000
     > div
@@ -16,47 +16,29 @@
       justify-content: center
       width: 100%
       max-width: 1600px
-      padding: 0 20px
-      box-sizing: border-box
     img
       width: 100%
       height: 100%
     &-text
       position: absolute
-      display: flex
-      flex-direction: column
-      align-items: flex-start
-      justify-content: space-between
       top: 0
-      left: 20px
+      left: 0
       padding: 40px
       width: 100%
       box-sizing: border-box
       color: $white
+      max-width: 600px
 
 @media (max-width: 959.5px)
-  .Carousel
+  .HomeSlider
     &-block
-      padding: 0
       &-title
         font-size: 34px !important
         margin-bottom: 12px !important
-      &-text
-        justify-content: flex-end
-        padding: 50px
-        bottom: 0
 
 @media (max-width: 600px)
-  .Carousel
-    max-height: 840px
-    width: auto
-    .slick-list
-      overflow: hidden
-      max-height: 840px
+  .HomeSlider
+    padding: 0
     &-block
-      padding: 0
-      > div
-        padding: 0
       &-text
-        left: 0
         padding: 20px

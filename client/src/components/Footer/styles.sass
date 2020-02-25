@@ -1,8 +1,9 @@
-@import '../../variables'
+@import 'variables'
 
 .Footer
-  margin-top: 80px
-  background: $primary-black
+  position: relative
+  z-index: 100
+  background: $black
 
   &-main
     display: flex
@@ -11,22 +12,23 @@
     color: $footer-text
 
     &-contacts, &-social
-      h4
+      & > :first-child
         color: $white
     &-social
       &-icon
         padding: 10px !important
         margin-right: 5px !important
-        color: #000 !important
-        background: #aaaa !important
+        background: rgba($footer-text, .5) !important
         &:hover
-          background: #fff !important
+          background: $white !important
     &-rights
       padding: 20px 0
       color: $footer-text
       border-top: 1px solid rgba($white, .2)
 
 @media (max-width: 959.5px)
+  .Footer
+    z-index: 0
   .isCartLocation
     margin-bottom: 64px !important
 

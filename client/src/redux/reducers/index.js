@@ -1,18 +1,16 @@
-import { combineReducers } from 'redux';
-import cart from './cart'
-import products from './products'
-import trigers from './trigers'
-import auth from './auth'
-import searchbox from './searchbox'
-import { reducer as formReducer } from 'redux-form'
+import { combineReducers } from "redux";
+import cart from "./cart";
+import products from "./products";
+import auth from "./auth";
+import notifications from "./notifications";
+import { reducer as formReducer } from "redux-form";
 
 const rootReducer = combineReducers({
+  auth,
   cart,
   products,
-  trigers,
-  auth,
-  searchbox,
+  notifications,
   form: formReducer
-})
+});
 
-export default rootReducer
+export default rootReducer;

@@ -1,47 +1,25 @@
 import React from "react";
 import "./styles.sass";
-import {
-  IconButton,
-  Hidden,
-  SwipeableDrawer
-} from "@material-ui/core";
-import {MoreVert} from "@material-ui/icons";
-import MobileAccount from "../Account/MobileAccount";
+import { IconButton, Hidden, SwipeableDrawer } from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MenuListItem from "./MenuListItem";
 
+export const MobileMenuContext = React.createContext(null);
 
-const MobileMenu = ({
-  menu,
-  open,
-  onOpen,
-  onClose,
-  onLogOut,
-  isAuthenticated
-}) => {
-  const renderMenuItems = (menu) => {
-    let [gender, category] = menu[0].slug.split("-")
-    return (
-      <>
-        <MenuListItem
-          title={`All ${gender}'s ${category}`}
-          link={`/p/${[gender, category].join("-")}`}
-          onClose={onClose}
-        />
-        {menu.map(({title, slug}) => (
-          <MenuListItem
-            key={title}
-            title={title}
-            link={`/p/${slug}`}
-            onClose={onClose}
-          />
-        ))}
-      </>
-    )
-  }
+const MobileMenu = ({ menu, onLogOut, isAuthenticated }) => {
+  const [open, setOpen] = React.useState(false);
+  const onToggle = () => setOpen(!open);
 
-  const renderMenu = (menu) => {
-    return menu.map(({title, categories, subcategories}) =>
-     categories ? (
+  const renderMenuItems = menu => {
+    return menu.map(({ title, slug }) => (
+      <MenuListItem key={title} title={title} link={`/p/${slug}`} />
+    ));
+  };
+
+  const renderMenu = menu => {
+    return menu.map(({ title, categories, subcategories }) =>
+      categories ? (
         <MenuListItem key={title} title={title}>
           {renderMenu(categories)}
         </MenuListItem>
@@ -50,36 +28,60 @@ const MobileMenu = ({
           {renderMenuItems(subcategories)}
         </MenuListItem>
       )
-    )
-  }
+    );
+  };
+
+  const renderAccountMenu = () => {
+    return isAuthenticated ? (
+      <MenuListItem
+        title="My Account"
+        className="listItem -header"
+        icon={<AccountCircleIcon />}
+      >
+        <MenuListItem
+          className="listItem"
+          title="Orders"
+          link="/profile/orders"
+        />
+        <MenuListItem className="listItem" title="Profile" link="/profile" />
+        <MenuListItem
+          pure
+          className="listItem"
+          title="Log Out"
+          direction={false}
+          onClick={onLogOut}
+        />
+      </MenuListItem>
+    ) : (
+      <MenuListItem
+        className="listItem -header noIcon"
+        title="Join / Log In"
+        link="/register"
+      />
+    );
+  };
 
   return (
     <Hidden mdUp>
-      <IconButton
-        color="primary"
-        onClick={onOpen}
-        children={<MoreVert/>}
-      />
-      <SwipeableDrawer
-        anchor="right"
-        open={open}
-        onClose={onClose}
-        onOpen={onOpen}
-        className="MobileMenu"
-      >
-        <div>
-          <MobileAccount
-            onClose={onClose}
-            isAuthenticated={isAuthenticated}
-            logOut={onLogOut}
-          />
+      <MobileMenuContext.Provider value={{ onClose: onToggle }}>
+        <IconButton color="primary" onClick={onToggle}>
+          <MoreVertIcon />
+        </IconButton>
+        <SwipeableDrawer
+          anchor="right"
+          open={open}
+          onClose={onToggle}
+          onOpen={onToggle}
+          className="MobileMenu"
+        >
           <div>
-            {renderMenu(menu)}
+            {renderAccountMenu()}
+            <div>{renderMenu(menu)}</div>
           </div>
-        </div>
-      </SwipeableDrawer>
+        </SwipeableDrawer>
+      </MobileMenuContext.Provider>
     </Hidden>
-  )
-}
+  );
+};
 
-export default MobileMenu
+export default MobileMenu;

@@ -1,0 +1,32 @@
+@import 'variables'
+
+.OrderItem
+  position: relative
+  display: flex
+  align-items: center
+  padding: 8px
+  &:not(:last-child):before
+    content: ''
+    position: absolute
+    left: 50%
+    bottom: 0
+    transform: translateX(-50%)
+    width: 90%
+    height: 1px
+    background: $border-color
+  &-info
+    margin-left: 12px
+    text-transform: capitalize
+    > :last-child
+      font-weight: 600
+    &-title
+      font-weight: 600 !important
+  a
+    text-decoration: underline
+  &-img
+    height: 120px
+    a
+      height: inherit
+    img
+      height: inherit
+      display: block

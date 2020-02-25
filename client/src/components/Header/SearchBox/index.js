@@ -1,105 +1,152 @@
-import React, {useState} from "react";
-import {compose} from "redux";
-import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
-import {useMediaQuery} from "@material-ui/core";
-import {searchProduct} from "redux/actions/products";
-import DesktopSearchBox from "./DesktopSearchBox";
-import MobileSearchBox from "./MobileSearchBox";
-import SearchItem from "./SearchItem";
-import {setSuggestions, emptySuggestions} from "redux/actions/searchbox";
+import React, { useState } from "react";
+import "./styles.sass";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import {
+  useMediaQuery,
+  Backdrop,
+  Slide,
+  IconButton,
+  Fade
+} from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
+import {
+  dispatchClearSuggestions,
+  dispatchSearchSuggestions,
+  dispatchSubheaderTitle
+} from "redux/actions";
+import SearchSuggestions from "./SearchSuggestions";
+import SearchInput from "components/Header/SearchBox/SearchInput";
 
+const TransitionWrapper = ({ type, children, ...props }) => {
+  switch (type) {
+    case "fade":
+      return (
+        <Fade mountOnEnter unmountOnExit {...props}>
+          {children}
+        </Fade>
+      );
+    case "slide":
+      return (
+        <Slide direction="left" mountOnEnter unmountOnExit {...props}>
+          {children}
+        </Slide>
+      );
+    default:
+      return children;
+  }
+};
 
 const SearchBox = ({
-  products,
-  currency,
   history,
+  currency,
   suggestions,
-  setSuggestions,
-  searchProduct,
-  emptySuggestions
+  suggestions_total,
+  dispatchSearchSuggestions,
+  dispatchClearSuggestions,
+  dispatchSubheaderTitle,
+  ...props
 }) => {
-  const matches = useMediaQuery("(min-width: 960px)")
+  const matchWidth = useMediaQuery("(min-width: 960px)");
   const [state, setState] = useState({
-    text: "",
-    active: false,
-  })
+    isSuggestionsShowing: false,
+    open: false
+  });
 
-  const search = (value) => {
-    history.push("/p/")
-    searchProduct(value)
-    suggestionSelected()
-  }
+  React.useEffect(() => {
+    document.body.style.overflow = suggestions_total > 0 ? "hidden" : "";
+  }, [suggestions_total]);
 
-  const onTextChange = (evt) => {
-    const { value } = evt.target
-    if(value.length){
-      setSuggestions(value, [...products])
-    }else{
-      setSuggestions(value, [])
-    }
+  const onClose = () => {
+    setState(prevState => ({
+      ...prevState,
+      isSuggestionsShowing: false,
+      open: false
+    }));
+    setTimeout(() => dispatchClearSuggestions(), 300);
+  };
 
-    setState({
-      active: true,
-      text: value
-    })
-  }
+  const onHideSuggestions = () => {
+    dispatchClearSuggestions();
+    setState(prevState => ({
+      ...prevState,
+      isSuggestionsShowing: false,
+      open: true
+    }));
+  };
 
-  const suggestionSelected = () => {
-    setState({
-      active: false,
-      text: ""
-    })
-    emptySuggestions()
-  }
+  const onGetSuggestions = async value => {
+    await dispatchSearchSuggestions(value).then(() =>
+      setState(prevState => ({
+        ...prevState,
+        isSuggestionsShowing: true
+      }))
+    );
+  };
 
+  const onSearch = value => {
+    history.push("/p/?search=" + value);
+    dispatchSubheaderTitle(`Search for "${value}"`);
+  };
 
-  const renderSuggestions = (
-    !!suggestions.length &&
-    <SearchItem
-      currency={currency}
-      onClick={(value) => search(value)}
-      suggestions={suggestions}
-    />
-  )
-
-  return(
-    matches ? (
-      <DesktopSearchBox
-        clear={suggestionSelected}
-        search={search}
-        onTextChange={onTextChange}
-        suggestions={renderSuggestions}
-        value={state.text}
-        active={state.active}
-        setActive={(bool) => setState({ ...state, active: bool })}
+  return (
+    <>
+      {!state.open && !matchWidth ? (
+        <IconButton color="primary" onClick={() => setState({ open: true })}>
+          <SearchIcon />
+        </IconButton>
+      ) : (
+        <SearchInput
+          onGetSuggestions={onGetSuggestions}
+          onSearch={onSearch}
+          onHideSuggestions={!matchWidth ? onHideSuggestions : undefined}
+          onClose={onClose}
+          showClear={!matchWidth}
+          autoFocus={state.open}
+        >
+          <TransitionWrapper
+            type={state.open ? "slide" : "slide"}
+            in={state.isSuggestionsShowing}
+            direction={state.open ? "top" : "left"}
+          >
+            <div className="SearchBoxSuggestions">
+              <SearchSuggestions
+                currency={currency}
+                items={suggestions}
+                total={suggestions_total}
+              />
+            </div>
+          </TransitionWrapper>
+        </SearchInput>
+      )}
+      <Backdrop
+        open={
+          (state.isSuggestionsShowing && suggestions_total > 0) || state.open
+        }
+        className="SearchBoxSuggestions-dropdown"
+        onClick={matchWidth ? onClose : null}
       />
-    ) : (
-      <MobileSearchBox
-        clear={suggestionSelected}
-        search={search}
-        onTextChange={onTextChange}
-        suggestions={renderSuggestions}
-        value={state.text}
-        active={state.active}
-        setActive={(bool) => setState({ ...state, active: bool })}
-      />
-    )
+    </>
   );
-}
+};
 
 export default compose(
   withRouter,
   connect(
-    (state) => ({
-      products: state.products.products,
+    state => ({
       currency: state.products.currency,
-      suggestions: state.searchbox.suggestions
+      suggestions: state.products.suggestions,
+      suggestions_total: state.products.suggestions_total
+      // {
+      //   suggestions_total: state.products.suggestions_total,
+      //   suggestions: state.products.suggestions
+      // }
     }),
-    (dispatch) => ({
-      searchProduct: value => dispatch(searchProduct(value)),
-      setSuggestions: (value, items) => dispatch(setSuggestions(value, items)),
-      emptySuggestions: () => dispatch(emptySuggestions())
-    })
+    {
+      dispatchClearSuggestions,
+      dispatchSearchSuggestions,
+      dispatchSubheaderTitle
+    }
   )
-)(SearchBox)
+)(SearchBox);

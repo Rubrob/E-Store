@@ -1,0 +1,24 @@
+@import 'variables'
+
+.SearchBoxSuggestions
+  position: fixed
+  top: 64px
+  right: 0
+  width: 100%
+  max-width: 1000px
+  overflow-y: scroll
+  border-radius: 0 0 0 12px
+  border-top: 1px solid $border-color
+  &::-webkit-scrollbar
+    display: none
+  &-dropdown
+    top: 64px !important
+    height: 100vh
+
+@media(max-width: 960px)
+  .SearchBoxSuggestions
+    top: 56px
+    max-height: calc(100vh - 56px)
+    border-top: 0
+    &-dropdown
+      background: $white !important

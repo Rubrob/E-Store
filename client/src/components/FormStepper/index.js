@@ -1,50 +1,41 @@
-import React, {useState} from "react";
-import Shipping from "containers/Checkout/Shipping";
-import Billing from "containers/Checkout/Billing";
-import {freeIfZero, capitalize} from "utils";
-import {
-  Button,
-  Box,
-  StepLabel,
-  Step,
-  Stepper
-} from "@material-ui/core";
-import CheckoutPreview from "containers/Checkout/CheckoutPreview";
-import {useSnackbar} from "notistack";
+import React, { useState } from "react";
+import Shipping from "pages/Checkout/Shipping";
+import Billing from "pages/Checkout/Billing";
+import CheckoutPreview from "pages/Checkout/CheckoutPreview";
+import { freeIfZero } from "utils/index";
+import _capitalize from "lodash/capitalize";
+import { Button, Box, StepLabel, Step, Stepper } from "@material-ui/core";
 
-
-export default (props) => {
+export default props => {
   const [step, setStep] = useState(0);
   const steps = ["Shipping", "Billing", "Place Order"];
   const handleNext = () => setStep(prevStep => prevStep + 1);
   const handleBack = () => setStep(prevStep => prevStep - 1);
-  const {enqueueSnackbar} = useSnackbar();
-  const submitCheckout = async (evt) => {
-    evt.preventDefault()
+  const submitCheckout = async evt => {
+    evt.preventDefault();
     const checkoutData = {
       addresses: {
         shipping: props.shippingPreview,
-        billing: props.billingPreview,
+        billing: props.billingPreview
       }
-    }
-    await props.onCheckout(checkoutData, (variant, msg) => enqueueSnackbar(msg, {variant}))
-  }
+    };
+    await props.onCheckout(checkoutData);
+  };
 
-  const renderSteppers = () => (
+  const renderSteppers = () =>
     steps.map(label => (
       <Step key={label}>
         <StepLabel>{label}</StepLabel>
       </Step>
-    ))
-  )
+    ));
 
-  const renderButtons = (condition) => {
+  const renderButtons = condition => {
     return (
       <>
         <Button
           disabled={step === 0}
           onClick={handleBack}
-          style={{marginRight: 8}}
+          style={{ marginRight: 8 }}
         >
           Back
         </Button>
@@ -58,8 +49,8 @@ export default (props) => {
           {step === steps.length - 1 ? "Place Order" : "Next"}
         </Button>
       </>
-    )
-  }
+    );
+  };
 
   return (
     <Box width={1}>
@@ -71,30 +62,37 @@ export default (props) => {
           <Shipping
             currency={props.currency}
             initialValues={props.initialValuesShipping}
-            onSubmit={(data) => {
-              props.submitShipping(data)
-              handleNext()
+            onSubmit={data => {
+              props.submitShipping(data);
+              handleNext();
             }}
-            delivery={props.delivery}
+            selectedDelivery={props.selectedDelivery}
             deliveryMethods={props.deliveryMethods}
-            changeDelivery={props.changeDelivery}
-            buttons={(props) => renderButtons(props.invalid || props.submitting)}
+            setDeliveryMethod={props.setDeliveryMethod}
+            buttons={props => renderButtons(props.invalid || props.submitting)}
           />
         ) : step === 1 ? (
-            <Billing
-              initialValues={props.initialValuesBilling}
-              onSubmit={(data) => {
-                props.sumbitBilling(data)
-                handleNext()
-              }}
-              shipping={props.shippingPreview}
-              buttons={(props) => renderButtons(props.invalid || props.submitting || props.pristine)}
-            />
+          <Billing
+            initialValues={props.initialValuesBilling}
+            onSubmit={data => {
+              props.sumbitBilling(data);
+              handleNext();
+            }}
+            shipping={props.shippingPreview}
+            buttons={props =>
+              renderButtons(props.invalid || props.submitting || props.pristine)
+            }
+          />
         ) : step === 2 ? (
           <CheckoutPreview
             shippingPreview={props.shippingPreview}
             billingPreview={props.billingPreview}
-            deliveryPreview={{speed: `${capitalize(props.delivery)}: ${freeIfZero(props.deliveryMethods[props.delivery], props.currency)}`}}
+            deliveryPreview={{
+              speed: `${_capitalize(props.selectedDelivery)}: ${freeIfZero(
+                props.deliveryMethods[props.selectedDelivery],
+                props.currency
+              )}`
+            }}
             onSumbit={submitCheckout}
             buttons={() => renderButtons(false)}
           />
@@ -102,4 +100,4 @@ export default (props) => {
       </div>
     </Box>
   );
-}
+};

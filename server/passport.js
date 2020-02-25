@@ -1,130 +1,131 @@
-const passport = require('passport');
-const JwtStrategy = require('passport-jwt').Strategy;
-const {ExtractJwt} = require('passport-jwt');
-const LocalStrategy = require('passport-local').Strategy;
-
-const GooglePlusTokenStrategy = require('passport-google-plus-token');
-const FacebookTokenStrategy = require('passport-facebook-token');
-
-const {JWT_SECRET, oauth} = require('./config');
-const {google, facebook} = oauth;
-const User = require('./models/user');
-
+const passport = require("passport");
+const { ExtractJwt } = require("passport-jwt");
+const JwtStrategy = require("passport-jwt").Strategy;
+const LocalStrategy = require("passport-local").Strategy;
+const GooglePlusTokenStrategy = require("passport-google-plus-token");
+const FacebookTokenStrategy = require("passport-facebook-token");
+const {
+  JWT_SECRET,
+  G_CLIENT_ID,
+  G_CLIENT_SECRET,
+  FB_CLIENT_ID,
+  FB_CLIENT_SECRET
+} = require("./config");
+const { User } = require("./models");
 
 // JSON WRB STRATEGY
-passport.use(new JwtStrategy({
-    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-    secretOrKey: JWT_SECRET
-}, async (payload, done) => {
-    try{
+passport.use(
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromHeader("authorization"),
+      secretOrKey: JWT_SECRET
+    },
+    async (payload, done) => {
+      try {
         const user = await User.findById(payload.sub).select(`-local.password`);
-        
-        if(!user) return done(null, false)
+        if (!user) return done(null, false);
         // Otherwise, return the user
-        done(null, user)
-    }catch(err){
-        done(err, false)
+        done(null, user);
+      } catch (error) {
+        done(error, false);
+      }
     }
-}))
-
+  )
+);
 
 // GOOGLE OAuth STRATEGY
-const {G_CLIENT_ID, G_CLIENT_SECRET} = google;
+passport.use(
+  "googleToken",
+  new GooglePlusTokenStrategy(
+    {
+      clientID: G_CLIENT_ID,
+      clientSecret: G_CLIENT_SECRET
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // console.log("__ACCESSTOKEN:", accessToken, "\n__REFRESHTOKEN__:", refreshToken, "\n__PROFILE__:", profile);
+        const existingUser = await User.findOne({ "google.id": profile.id });
 
-passport.use('googleToken', new GooglePlusTokenStrategy({
-    clientID: G_CLIENT_ID,
-    clientSecret: G_CLIENT_SECRET
-}, async (accessToken, refreshToken, profile, done) => {
-    try {
-        // console.log('__ACCESSTOKEN:', accessToken)
-        // console.log('__REFRESHTOKEN__:', refreshToken);
-        // console.log('__PROFILE__:', profile)
-
-        const existingUser = await User.findOne({"google.id": profile.id})
-        if(existingUser){
-            console.log('User already exists')
-            return done(null, existingUser)
+        if (existingUser) {
+          return done(null, existingUser);
         }
 
-        console.log('User doesn`t exists creating a new Account')
-        // If new Account
         const newUser = new User({
-            method: 'google',
-            google: {
-                id: profile.id,
-                email: profile.emails[0].value,
-                firstname: profile.name.givenName,
-                lastname: profile.name.familyName
-            },
-        })
-        await newUser.save()
-        done(null, newUser)
-
-    } catch (err) {
-        done(err, false, err.message)
+          method: "google",
+          google: {
+            id: profile.id,
+            email: profile.emails[0].value,
+            firstname: profile.name.givenName,
+            lastname: profile.name.familyName
+          }
+        });
+        await newUser.save();
+        done(null, newUser);
+      } catch (error) {
+        done(error, false, error.message);
+      }
     }
-}))
-
+  )
+);
 
 // FACKBOOK OAuth STRATEGY
-const { FB_CLIENT_ID, FB_CLIENT_SECRET } = facebook
-passport.use('facebookToken', new FacebookTokenStrategy({
-    clientID: FB_CLIENT_ID,
-    clientSecret: FB_CLIENT_SECRET
-}, async (accessToken, refreshToken, profile, done) => {
-    try {
-        // console.log('__ACCESSTOKEN:', accessToken)
-        // console.log('__REFRESHTOKEN__:', refreshToken);
-        // console.log('__PROFILE__:', profile)
+passport.use(
+  "facebookToken",
+  new FacebookTokenStrategy(
+    {
+      clientID: FB_CLIENT_ID,
+      clientSecret: FB_CLIENT_SECRET
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // console.log("__ACCESSTOKEN:", accessToken, "\n__REFRESHTOKEN__:", refreshToken, "\n__PROFILE__:", profile);
+        const exisingUser = await User.findOne({ "facebook.id": profile.id });
 
-        const exisingUser = await User.findOne({'facebook.id': profile.id});
-        if(exisingUser){
-            console.log('User already exists')
-            return done(null, exisingUser)
+        if (exisingUser) {
+          return done(null, exisingUser);
         }
 
         const newUser = new User({
-            method: 'facebook',
-            facebook: {
-                id: profile.id,
-                email: profile.emails[0].value,
-                firstname: profile.name.givenName,
-                lastname: profile.name.familyName
-            },
-        })
-        await newUser.save()
-        done(null, newUser)
-    } catch (err) {
-        done(err, false, err.message)
+          method: "facebook",
+          facebook: {
+            id: profile.id,
+            email: profile.emails[0].value,
+            firstname: profile.name.givenName,
+            lastname: profile.name.familyName
+          }
+        });
+        await newUser.save();
+        done(null, newUser);
+      } catch (error) {
+        done(error, false, error.message);
+      }
     }
-}))
-
+  )
+);
 
 // LOCAL STRATEGY
-passport.use(new LocalStrategy({
-    usernameField: 'email'
-}, async (email, password, done) => {
-  try {
-    const user = await User.findOne({'local.email': email})
+passport.use(
+  new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
+    try {
+      const user = await User.findOne({ "local.email": email });
 
-    // If not, handle it
-    if(!user){
-        console.log('is existed')
-        return done(null, false)
+      if (!user) {
+        console.log({ message: "User doesn't exists" });
+        return done(null, false);
+      }
+
+      // Check if the password is correct
+      const isMatch = await user.isValidPassword(password);
+
+      // If not, handle it
+      if (!isMatch) {
+        console.log({ message: "Credantials doesn't match" });
+        return done(null, false);
+      }
+
+      done(null, user);
+    } catch (error) {
+      done(error, false);
     }
-
-    // Check if the password is correct
-    const isMatch = await user.isValidPassword(password);
-
-    // If not, handle it
-    if(!isMatch){
-        console.log('doesnt match');
-        return done(null, false)
-    }
-
-    // Otherwise, return user
-    done(null, user)
-  } catch (err) {
-      done(err, false)
-  }
-}));
+  })
+);

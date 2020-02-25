@@ -1,113 +1,77 @@
-import axios from 'axios'
-import {LS} from 'utils';
-import {
-  CHANGE_DELIVERY,
-  SUBMIT_SHIPPING,
-  SUBMIT_BILLING,
-  SUBMIT_CHECKOUT,
-  ADD_TO_CART,
-  DELETE_CART_PRODUCT,
-  CHANGE_PRODUCT_QUANTITY,
-  CHANGE_PRODUCT_SIZE,
-  EMPTY_CART,
-  RESET_CART,
-  TOTAL_PRICE_RECALCULATION
-} from './types';
+import types from "./types";
+import api from "api";
+import { enqueueSnackbar } from "./notifications";
+import { createAsyncAction, tokenConfig } from "redux/utils";
 
-export const addToCart = (payload) => ({type: ADD_TO_CART, payload})
-export const deleteCartProduct = (payload) => ({type: DELETE_CART_PRODUCT, payload})
-export const changeDelivery = (payload) => ({type: CHANGE_DELIVERY, payload})
-export const changeProductQuantity = payload => ({type: CHANGE_PRODUCT_QUANTITY, payload})
-export const changeProductSize = payload => ({type: CHANGE_PRODUCT_SIZE, payload})
-export const emptyCart = () => ({type: EMPTY_CART})
+export const setDeliveryMethod = payload => ({
+  type: types.cart.CHANGE_DELIVERY,
+  payload
+});
 
-export const totalRecalculation = (cart) => dispatch => {
-  const totalPrice = cart.reduce((acc, curr) => acc + (curr.price * curr.qty), 0)
-  const totalCount = cart.reduce((acc, curr) => acc + (curr.qty), 0)
-  dispatch({ type: TOTAL_PRICE_RECALCULATION, payload: {
-    totalPrice,
-    totalCount
-  }})
-}
+export const submitShipping = payload => ({
+  type: types.cart.SUBMIT_SHIPPING,
+  payload
+});
 
-export const submitShipping = payload => dispatch => {
-  dispatch({type: SUBMIT_SHIPPING, payload})
-}
-export const sumbitBilling = payload => dispatch => {
-  dispatch({type: SUBMIT_BILLING, payload})
-}
+export const sumbitBilling = payload => ({
+  type: types.cart.SUBMIT_BILLING,
+  payload
+});
 
-export const submitCheckout = (formdata, callback) => async (dispatch, getState) => {
-  const {cart} = getState()
-  const data = {
-    delivery: cart.defaultValues.delivery,
-    order: cart.cartProducts,
-    ...formdata
+export const submitCheckout = createAsyncAction({
+  type: types.cart.SUBMIT_CHECKOUT,
+  api: async (getState, formdata) => {
+    const { selectedDelivery } = getState().cart;
+    const data = {
+      delivery: selectedDelivery,
+      ...formdata
+    };
+    return await api.products.checkout(tokenConfig(getState), data);
+  },
+  onSuccess: (dispatch, _, res) => dispatch(enqueueSnackbar(res.message, { variant: "success" })),
+  onError: (dispatch, _, error) => dispatch(enqueueSnackbar(error.response.data.message, { variant: "error" }))
+});
+
+export const dispatchValidateCart = createAsyncAction({
+  type: types.cart.VALIDATE_CART,
+  api: async () => await api.products.validateCart()
+});
+
+export const dispatchAddToCart = createAsyncAction({
+  type: types.cart.ADD_CART_ITEM,
+  api: async (_, data) => await api.products.addToCart(data),
+  onSuccess: async dispatch => {
+    await dispatch(dispatchValidateCart());
+    dispatch(
+      enqueueSnackbar("Succesfully added to cart", {
+        variant: "success"
+      })
+    );
   }
+});
 
-  try {
-    await axios.post('/users/orders', data, {
-      headers: {
-        'Authorization': `Bearer ${getState().auth.token}` 
-      }
-    })
-    .then((res) => {
-      LS.remove('CART')
-      dispatch({ type: EMPTY_CART })
-      return res
-    })
-    .then((res) => callback('success', res.data.message))
-  } catch (err) {
-    await callback('error', `Couldn't connect to the server ${err}`)
+export const dispatchUpdateCartItem = createAsyncAction({
+  type: types.cart.UPDATE_CART_ITEM,
+  api: async (_, data, sku) => await api.products.updateCartItem(data, sku),
+  onSuccess: async dispatch => {
+    await dispatch(dispatchValidateCart());
+    dispatch(
+      enqueueSnackbar("Succesfully updated", {
+        variant: "success"
+      })
+    );
   }
+});
 
-  dispatch({type: SUBMIT_CHECKOUT, payload: data})
-}
-
-export const checkCartProducts = (products, cart) => (dispatch) => {
-  return new Promise((resolve, reject) => {
-    resolve(cart)
-  })
-  .then((checked) => {
-    const pchecked = []
-
-    const checkCartRelevance = (item, cartItem) => {
-      return item._id === cartItem.colorId && item.availability >= cartItem.availability && item.sizes.indexOf(cartItem.size) !== -1
-    }
-
-    const sortCart = (arr, cartItem) => arr.forEach(item => {
-      if(checkCartRelevance(item, cartItem)){
-        if(pchecked.indexOf(cartItem) === -1){
-          pchecked.push(cartItem)
-        }
-      }
-    })
-
-    const loopCart = (item, cart) => {
-      cart.forEach(cartItem => item._id === cartItem.productId ? sortCart(item.colors, cartItem) : null)
-    }
-
-    products.forEach(item => loopCart(item, checked))
-
-    return pchecked
-  })
-  .then(res => {
-    if (res.length) {
-      dispatch({type: RESET_CART,payload: res})
-    }
-  })
-
-  // const forSome = []
-
-  // products.forEach(product => {
-  //   cart.forEach(item => {
-  //     const some = (a) => a.id === item.colorId && a.availability >= item.availability && a.sizes.indexOf(item.size) !== -1
-  //     if(product.colors.some(some)){
-  //       forSome.push(item)
-  //     }
-  //   })
-  // })
-  // console.log('forSome', forSome);
-
-  // return checked.length >= 1 ? false : true
-}
+export const dispatchDeleteCartItem = createAsyncAction({
+  type: types.cart.DELETE_CART_ITEM,
+  api: async (_, sku) => await api.products.deleteCartItem(sku),
+  onSuccess: async dispatch => {
+    await dispatch(dispatchValidateCart());
+    dispatch(
+      enqueueSnackbar("Succesfully deleted", {
+        variant: "success"
+      })
+    );
+  }
+});

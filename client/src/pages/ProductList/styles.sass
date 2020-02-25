@@ -1,0 +1,31 @@
+.ProductList
+  display: flex
+  width: 100%
+  flex: 1
+  min-height: 75vh
+  box-sizing: border-box
+  &-empty
+    display: flex
+    justify-content: center
+    align-items: center
+    min-height: 75vh
+    width: 100%
+    padding: 20px
+    box-sizing: border-box
+  &-content
+    display: flex
+    flex-wrap: wrap
+    align-self: stretch
+    width: 100%
+    min-width: 300px
+    min-height: inherit
+    margin-bottom: 40px
+
+
+@media (max-width: 959.5px)
+  .ProductList
+    width: 100%
+    padding: 0
+    align-items: center
+    &-content
+      padding: 0

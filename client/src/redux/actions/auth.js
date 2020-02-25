@@ -1,93 +1,46 @@
-import axios from 'axios';
-import {LS} from 'utils';
-import {
-  FETCH_MEMBER_START,
-  FETCH_MEMBER_SUCCESS,
-  FETCH_MEMBER_FAIL,
-  AUTH_SIGN_UP,
-  AUTH_LOG_IN,
-  AUTH_LOG_OUT,
-  AUTH_ERROR,
-  SET_USER_ADDRESSES
-} from './types';
+import types from "./types";
+import api from "api";
+import { enqueueSnackbar } from "./notifications";
+import { createAsyncAction, tokenConfig } from "redux/utils";
 
+export const setUserAddresses = createAsyncAction({
+  type: types.auth.AUTH_SET_USER_ADDRESSES,
+  api: async (getState, data) => await api.auth.updateUserAddresses(tokenConfig(getState), data),
+  onSuccess: dispatch => dispatch(enqueueSnackbar("Succesfully updated!", { variant: "success" }))
+});
 
-const setLocalStorage = (token) => {
-  LS.set('JWT_TOKEN', token)
-}
+export const getUser = createAsyncAction({
+  type: types.auth.AUTH_GET_USER,
+  api: async getState => await api.auth.getUser(tokenConfig(getState)),
+  condition: getState => getState().auth.isAuthenticated
+});
 
+export const getUserOrders = createAsyncAction({
+  type: types.auth.AUTH_GET_USER_ORDERS,
+  api: async getState => await api.auth.getUserOrders(tokenConfig(getState))
+});
 
-export const setUserAddresses = (data) => async (dispatch, getState) => {
-  await axios.put('/users/user', data, {
-    headers: {
-      'Authorization': getState().auth.token
-    }
-  })
-    .then(res => dispatch({ type: SET_USER_ADDRESSES, payload: res.data }))
-}
+export const signUp = createAsyncAction({
+  type: types.auth.AUTH_SIGN_UP,
+  api: async (_, data) => await api.auth.signUp(data),
+  onSuccess: dispatch => dispatch(enqueueSnackbar("Welcome User", { variant: "success" })),
+  onError: (dispatch, _, error) => dispatch(enqueueSnackbar(error.response.data.message, { variant: "error" }))
+});
 
-
-export const fetchMember = () => async (dispatch, store) => {
-  dispatch({ type: FETCH_MEMBER_START })
-  try {
-    if(!store().auth.isAuthenticated){
-      dispatch({ type: FETCH_MEMBER_FAIL })
-    }else{
-      const res = await axios.get('/users/user', {
-        headers: {
-          authorization: store().auth.token
-        }
-      })
-      const order = await axios.get('/users/orders', {         
-        headers: {
-          authorization: store().auth.token
-        }
-      })
-      dispatch({ type: FETCH_MEMBER_SUCCESS, payload: { ...res.data, ...order.data} })
-    }
-  } catch (err) {
-    dispatch({ type: FETCH_MEMBER_FAIL })
-  }
-}
-
-
-export const signUp = (data, callback) => async dispatch => {
-  try {
-    const res = await axios.post('/users/signup', data)
-    dispatch({ type: AUTH_SIGN_UP, payload: res.data.token })
-    setLocalStorage(res.data.token)
-    callback("Welcome Back", "success")
-  } catch (err) {
-    dispatch({type: AUTH_ERROR, payload: err.message})
-    callback(err.message, "error")
-  }
-}
-
-export const logIn = (data, callback) => async dispatch => {
-  try {
-    const res = await axios.post('/users/signin', data);
-    dispatch({ type: AUTH_LOG_IN, payload: res.data.token })
-    setLocalStorage(res.data.token, res.data.id)
-    callback("Welcome Back", "success")
-  } catch (err) {
-    dispatch({type: AUTH_ERROR, payload: err.message})
-    callback(err.message, "error")
-  }
-}
+export const logIn = createAsyncAction({
+  type: types.auth.AUTH_LOG_IN,
+  api: async (_, data) => await api.auth.logIn(data),
+  onSuccess: dispatch => dispatch(enqueueSnackbar("Welcome User", { variant: "success" })),
+  onError: (dispatch, _, error) => dispatch(enqueueSnackbar(error.response.data, { variant: "error" }))
+});
 
 export const logOut = () => async dispatch => {
-  LS.remove('JWT_TOKEN')
-  dispatch({type: AUTH_LOG_OUT})
-}
+  dispatch({ type: types.auth.AUTH_LOG_OUT });
+};
 
-export const oauthThirdParty = ({access_token, party}, callback) => async (dispatch) => {
-  try {
-    const res = await axios.post(`/users/oauth/${party}`, {access_token})
-    dispatch({type: AUTH_SIGN_UP, payload: res.data.token})
-    setLocalStorage(res.data.token, res.data.id)
-    callback("Welcome Back", "success")
-  } catch (err) {
-    dispatch({type: AUTH_ERROR, payload: err.message})
-    callback(err.message, "error")
-  }
-}
+export const oauthThirdParty = createAsyncAction({
+  type: types.auth.AUTH_SIGN_UP,
+  api: async (_, party, accessToken) => await api.auth.oauthThirdParty(party, accessToken),
+  onSuccess: (dispatch, _, data) => dispatch(enqueueSnackbar("Welcome User", { variant: "success" })),
+  onError: (dispatch, _, error) => dispatch(enqueueSnackbar(error.response.data, { variant: "error" }))
+});

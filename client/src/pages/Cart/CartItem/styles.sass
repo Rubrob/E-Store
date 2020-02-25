@@ -1,0 +1,63 @@
+@import 'variables'
+
+
+.CartItemSelect
+  margin-right: 8px
+  & .MuiInputBase-input
+    padding: 0
+    padding-left: 12px
+    padding-right: 24px
+  & .MuiPaper-root.MuiMenu-paper.MuiPaper-elevation8.MuiPopover-paper.MuiPaper-rounded
+    &::-webkit-scrollbar
+      width: 0px !important
+
+.ProductToBuy
+  position: relative
+  display: flex
+  justify-content: space-between
+  padding: 8px
+
+  &:not(:last-child)::before
+    @include bottomBorder
+
+  &-selects
+    display: flex
+  &-content
+    display: flex
+    width: 100%
+    &-img
+      height: 150px
+      margin-right: 12px
+      img
+        height: inherit
+        display: block
+
+    &-data
+      display: flex
+      flex-direction: column
+      justify-content: space-between
+      width: 100%
+      text-transform: capitalize
+      &-title
+        display: flex
+        justify-content: space-between
+        align-items: center
+        font-weight: 600 !important
+
+  &-controls
+    display: flex
+    margin-top: 24px
+    justify-content: flex-end
+
+@media (max-width: 599.5px)
+  .ProductToBuy
+    padding: 8px 16px
+    &-selects
+      flex-direction: column
+    &-controls
+      & button
+        width: 100% !important
+    &-content
+      align-items: flex-start
+      &-img
+        height: 80px

@@ -1,35 +1,40 @@
 import React from "react";
 import "./styles.sass";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import {Typography, Button} from "@material-ui/core";
+import ReactIdSwiper from "react-id-swiper";
+import { Typography, Button } from "@material-ui/core";
 
+const settings = {
+  loop: true,
+  spaceBetween: 30,
+  centeredSlides: true,
+  autoplay: {
+    delay: 2500,
+    disableOnInteraction: true
+  },
+  containerClass: "HomeSlider"
+};
 
-const HomeSlider = ({slides, settings}) => {
-  const renderSlides = () => (
-    slides.map((item, index) => (
-      <div key={index} className="Carousel-block">
+const HomeSlider = ({ slides }) => {
+  const renderSlides = () =>
+    slides.map((item, idx) => (
+      <div key={idx} className="HomeSlider-block">
         <div>
           <img src={item.url} alt="img" />
-          <div className="Carousel-block-text">
-            <Typography variant="h4" className="Carousel-block-title">
-              {item.title}
-            </Typography>
-            <Button size="large" variant="contained" color="default">
-              Shop
-            </Button>
+          <div className="HomeSlider-block-text">
+            <div>
+              <Typography variant="h2" className="HomeSlider-block-title">
+                {item.title}
+              </Typography>
+              <Button size="large" variant="contained" color="default">
+                Shop
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    ))
-  )
+    ));
 
-  return (
-    <Slider {...settings}>
-      {renderSlides()}
-    </Slider>
-  )
-}
+  return <ReactIdSwiper {...settings}>{renderSlides()}</ReactIdSwiper>;
+};
 
-export default HomeSlider
+export default HomeSlider;

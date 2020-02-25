@@ -1,38 +1,52 @@
-require('dotenv').config();
-const express = require('express')
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
-const mongoose = require('mongoose')
-const path = require('path');
-const compression = require('compression');
-const config = require('./config')
-const app = express()
-const cors = require('cors');
-
-
-mongoose.connect(config.db.DB_URI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-
-// Middlewares
-if(!process.env.NODE_ENV === 'test'){
-    app.use(morgan('dev'))
-}
-
-app.use(cors())
-app.use(compression())
-app.use(bodyParser.json())
-app.use(express.static(path.join(__dirname, 'build')));
-
-// Routes
-app.use('/users', require('./routes/users'))
-app.use('/', require('./routes/products'))
-
-
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+require("dotenv").config();
+const path = require("path");
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const morgan = require("morgan");
+const cors = require("cors");
+const compression = require("compression");
+const app = express();
+const config = require("./config");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const store = new MongoDBStore({
+  uri: config.DB_URI,
+  collection: "sessions"
 });
 
-module.exports = app
+app.use(
+  session({
+    store,
+    name: "CART",
+    resave: false,
+    secret: config.SESSION_SECRET,
+    saveUninitialized: true,
+    unset: "destroy",
+    cookie: {
+      maxAge: config.COOKIES_MAX_AGE,
+      sameSite: true,
+      secure: false
+    }
+  })
+);
+mongoose.connect(config.DB_URI, {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+app.use(cors());
+// app.use(morgan("dev"));
+app.use(compression());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "build")));
+
+app.use("/api/users", require("./routes/users"));
+app.use("/api/products", require("./routes/products"));
+app.use("/api/", require("./routes/admin"));
+
+app.get("/*", (req, res) => res.sendFile(path.join(__dirname, "build", "index.html")));
+
+module.exports = app;

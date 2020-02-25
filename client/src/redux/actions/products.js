@@ -1,66 +1,29 @@
-import axios from 'axios'
-import _ from 'lodash'
-import {
-  SORT_BY_PRICE,
-  CHANGE_FILTER ,
-  FILTER_PRODUCTS_WITH_URL,
-  SEARCH,
-  RESET_FILTER,
-  FETCH_PRODUCTS_START,
-  FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_FAIL,
-  CURRENT_PAGE
-} from './types';
+import api from "api";
+import types from "./types";
+import { createAsyncAction } from "redux/utils";
 
-export const sortByPrice = (payload) => ({type: SORT_BY_PRICE, payload})
-export const changeFilter = (payload) => ({type: CHANGE_FILTER, payload})
-export const resetFilter = () => ({type: RESET_FILTER})
-export const filterProductsWithURL = (payload) => ({type: FILTER_PRODUCTS_WITH_URL, payload})
-export const searchProduct = (payload) => ({type: SEARCH, payload})
+export const dispatchProducts = createAsyncAction({
+  type: types.products.GET_PRODUCTS,
+  api: async (_, category_slug, params) =>
+    await api.products.getProducts(category_slug, params)
+});
 
-export const getCurrentProduct = (ids) => (dispatch, getState) => {
-  const page = {
-    product: [],
-    color: []
-  }
-  page.product = _.filter(getState().products.products, {_id: ids.productId})[0]
-  if(page.product){
-    page.color = _.filter(page.product.colors, {_id: ids.colorId})[0]
-  }
-  dispatch({type: CURRENT_PAGE, payload: page})
-}
+export const dispatchProduct = createAsyncAction({
+  type: types.products.GET_PRODUCT_PAGE,
+  api: async (_, category_slug, params) =>
+    await api.products.getProduct(category_slug, params)
+});
 
-export const filterURL = (str, split, count) => {  // splitWithTail
-  let parts = str.split(split)
-  let tail = parts.slice(count).join(split)
-  let result = parts.slice(0, count)
-  result.push(tail)
-  return result
-}
+export const dispatchClearSuggestions = () => ({
+  type: types.products.EMPTY_SUGGESTIONS
+});
 
-export const getFilters = (products) => {
-  const filters = {
-    sizes: [],
-    colors: []
-  }
-  products.forEach(product => {
-    product.colors.forEach(colors => {
-      filters.sizes.push(...colors.sizes)
-      filters.colors.push(colors.color)
-    })
-  })
-  filters.sizes = _.uniq(filters.sizes)
-  filters.colors = _.uniq(filters.colors).sort()
-  return filters
-}
+export const dispatchSearchSuggestions = createAsyncAction({
+  type: types.products.GET_SUGGESTIONS,
+  api: async (_, search_str) => await api.products.getSuggestions(search_str)
+});
 
-
-export const fetchProducts = () => async dispatch => {
-  dispatch({ type: FETCH_PRODUCTS_START })
-  try {
-    const res = await axios.get('/products')
-    dispatch({ type: FETCH_PRODUCTS_SUCCESS, payload: res.data.products })
-  } catch (err) {
-    dispatch({ type: FETCH_PRODUCTS_FAIL })
-  }
-}
+export const dispatchSubheaderTitle = payload => ({
+  type: types.products.SET_SUBHEADER_TITLE,
+  payload
+});

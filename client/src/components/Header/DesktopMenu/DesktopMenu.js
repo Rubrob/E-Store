@@ -1,88 +1,84 @@
-import React, {useState} from 'react'
-import './styles.sass'
-import {Link} from 'react-router-dom'
-import {Typography, Box} from '@material-ui/core'
-import cx from 'classnames'
+import React, { useState } from "react";
+import "./styles.sass";
+import { Link } from "react-router-dom";
+import { Typography } from "@material-ui/core";
+import cx from "classnames";
 
+const DesktopMenu = ({ menu }) => {
+  const [state, setState] = useState(null);
 
-const DesktopMenu = ({menu}) => {
-  const [state, setState] = useState(null)
-
-  const mapSubcategories = (subcategories) => (
-    subcategories.map(({title, slug}) => {
+  const mapSubcategories = subcategories =>
+    subcategories.map(({ title, slug }) => {
+      if (/All (Men|Women)'s/.test(title)) return null;
       return (
         <Typography
           key={title}
-          variant='body2'
-          color='textSecondary'
-          className='subcategory__block-title'
+          to={`/p/${slug}`}
+          onClick={() => setState(null)}
+          component={Link}
+          variant="body2"
+          color="textSecondary"
+          className="subcategory__block-title"
         >
-          <Link to={`/p/${slug}`} onClick={() => setState(null)}>
-            {title}
-          </Link>
+          {title}
         </Typography>
-      )
-    })
-  )
+      );
+    });
 
-  const menuItems = (menu) =>
-    menu.map((item) => {
-      return (
-        <Box key={item.title} className='category__block'>
-          <Typography
-            variant='h6'
-            component='div'
-            gutterBottom
-            className='category__block-title'
-            color='textPrimary'
-          >
-            <Link to={`/p/${item.slug}`} onClick={() => setState(null)}>
-              {item.title}
-            </Link>
-          </Typography>
-          <Box className='subcategory__block'>
-            {mapSubcategories(item.subcategories)}
-          </Box>
-        </Box>
-      )
-  });
+  const menuItems = menu =>
+    menu.map(({ title, slug, subcategories }) => (
+      <div key={slug} className="category__block">
+        <Typography
+          variant="h6"
+          component={Link}
+          gutterBottom
+          className="category__block-title"
+          color="textPrimary"
+          to={`/p/${slug}`}
+          onClick={() => setState(null)}
+        >
+          {title}
+        </Typography>
+        <div className="subcategory__block">
+          {mapSubcategories(subcategories)}
+        </div>
+      </div>
+    ));
 
-  const renderTrigers = () => (
-    menu.map(({title}) => (
+  const renderTrigers = () =>
+    menu.map(({ title }) => (
       <Typography
         key={title}
-        component='div'
+        component="div"
         onMouseEnter={() => setState(title)}
         onMouseLeave={() => setState(null)}
-        className={cx('triger', {active: state === title})}
-        children={title}
-      />
-    ))
-  );
+        className={cx("triger", { active: state === title })}
+      >
+        {title}
+      </Typography>
+    ));
 
-  const renderMenu = () => (
-    menu.map((item) =>
-      state === item.title && (
-        <Box
-          key={item.title}
-          className='DesktopMenu-menu'
-          onMouseEnter={() => setState(item.title)}
-          onMouseLeave={() => setState(null)}
-        >
-          {menuItems(item.categories)}
-        </Box>
-      )
-    )
-  );
+  const renderMenu = () =>
+    menu.map(
+      ({ title, categories }) =>
+        state === title && (
+          <div
+            key={title}
+            className="DesktopMenu-menu"
+            onMouseEnter={() => setState(title)}
+            onMouseLeave={() => setState(null)}
+          >
+            {menuItems(categories)}
+          </div>
+        )
+    );
 
-  return(
+  return (
     <>
-      <Box className='DesktopMenu'>
-        {renderTrigers()}
-      </Box>
+      <div className="DesktopMenu">{renderTrigers()}</div>
       {renderMenu()}
     </>
   );
-}
+};
 
-export default DesktopMenu
+export default DesktopMenu;

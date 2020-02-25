@@ -10,6 +10,7 @@
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "notistack": "^0.9.7",
+    "query-string": "^6.9.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
@@ -19,16 +20,14 @@
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.3.0",
-    "react-slick": "^0.24.0",
     "redux": "^4.0.1",
     "redux-form": "^8.2.4",
     "redux-form-input-masks": "^2.0.1",
     "redux-thunk": "^2.3.0",
-    "reduxsauce": "^1.1.1",
-    "slick-carousel": "^1.8.1",
     "swiper": "^5.2.1"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -51,6 +50,10 @@
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {
-    "redux-logger": "^3.0.6"
+    "redux-devtools-extension": "^2.13.8"
+  },
+  "optionalDependencies": {
+    "reduxsauce": "^1.1.1",
+    "source-map-explorer": "^2.2.2"
   }
 }

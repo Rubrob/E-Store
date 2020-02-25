@@ -1,0 +1,114 @@
+[{
+  "title": "Men",
+  "slug": "men",
+  "categories": [{
+    "subcategories": [{
+      "title": "All Men's Shoes",
+      "slug": "men-shoes"
+    }, {
+      "title": "Lifestyle",
+      "slug": "men-shoes-lifestyle"
+    }, {
+      "title": "Running",
+      "slug": "men-shoes-running"
+    }, {
+      "title": "Workout",
+      "slug": "men-shoes-workout"
+    }],
+    "title": "Shoes",
+    "slug": "men-shoes"
+  }, {
+    "subcategories": [{
+      "title": "All Men's Clothes",
+      "slug": "men-clothes"
+    }, {
+      "title": "Tops & T-Shirts",
+      "slug": "men-tops-and-t-shirts"
+    }, {
+      "title": "Shorts",
+      "slug": "men-shorts"
+    }, {
+      "title": "Pants",
+      "slug": "men-pants"
+    }, {
+      "title": "Hoodies & Sweatshirts",
+      "slug": "men-hoodies-and-sweatshirts"
+    }],
+    "title": "Clothes",
+    "slug": "men-clothes"
+  }, {
+    "subcategories": [{
+      "title": "All Men's Accessories",
+      "slug": "men-accessories"
+    }, {
+      "title": "Bags & Backpacks",
+      "slug": "men-bags-and-backpacks"
+    }, {
+      "title": "Hats & Beanies",
+      "slug": "men-hats-and-beanies"
+    }, {
+      "title": "Sunglasses",
+      "slug": "men-sunglasses"
+    }],
+    "title": "Accessories",
+    "slug": "men-accessories"
+  }]
+}, {
+  "title": "Women",
+  "slug": "women",
+  "categories": [{
+    "subcategories": [{
+      "title": "All Women's Shoes",
+      "slug": "women-shoes"
+    }, {
+      "title": "Lifestyle",
+      "slug": "women-shoes-lifestyle"
+    }, {
+      "title": "Running",
+      "slug": "women-shoes-running"
+    }, {
+      "title": "Workout",
+      "slug": "women-shoes-workout"
+    }],
+    "title": "Shoes",
+    "slug": "women-shoes"
+  }, {
+    "subcategories": [{
+      "title": "All Women's Clothes",
+      "slug": "women-clothes"
+    }, {
+      "title": "Tops & T-Shirts",
+      "slug": "women-tops-and-t-shirts"
+    }, {
+      "title": "Shorts",
+      "slug": "women-shorts"
+    }, {
+      "title": "Pants",
+      "slug": "women-pants"
+    }, {
+      "title": "Skirts & Dresses",
+      "slug": "women-skirts-and-dresses"
+    }, {
+      "title": "Hoodies & Sweatshirts",
+      "slug": "women-hoodies-and-sweatshirts"
+    }],
+    "title": "Clothes",
+    "slug": "women-clothes"
+  }, {
+    "subcategories": [{
+      "title": "All Women's Accessories",
+      "slug": "women-accessories"
+    }, {
+      "title": "Bags & Backpacks",
+      "slug": "women-bags-and-backpacks"
+    }, {
+      "title": "Hats & Beanies",
+      "slug": "women-hats-and-beanies"
+    }, {
+      "title": "Sunglasses",
+      "slug": "women-sunglasses"
+    }],
+    "title": "Accessories",
+    "slug": "women-accessories"
+  }]
+}]

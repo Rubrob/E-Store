@@ -1,9 +1,11 @@
-@import '../../../../variables'
+@import 'variables'
 
 .listItem
   width: 100%
   min-height: 54px
   border-bottom: 1px solid $mobile-menu-border !important
+  text-transform: capitalize
+  
   &.-header
     background: $white
     // color:#000
@@ -15,6 +17,3 @@
     & span
       margin-left: -24px
       font-weight: 600
-  & .link
-    width: 100%
-    text-transform: capitalize

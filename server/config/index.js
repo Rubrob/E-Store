@@ -1,29 +1,21 @@
-const {
-    DB_NAME,
-    DB_NAME_TEST,
-    DB_PW,
-    NODE_ENV,
-} = process.env;
+const { DB_PW, NODE_ENV } = process.env;
 
+const DB_NAME = "e-store-tmp"; // DB_NAME=e-store
+// const DB_NAME_TEST = "e-store_test";
+
+// https://jwt.io/
 module.exports = {
-    db: {
-        DB_NAME: process.env.DB_NAME,
-        DB_NAME_TEST: process.env.DB_NAME_TEST,
-        DB_PW: process.env.DB_PW,
-        DB_URI: `mongodb+srv://AtlasAdmin:${DB_PW}@cluster0-3qsgw.mongodb.net/${DB_NAME}?retryWrites=true`
-        // NODE_ENV === 'test' ?
-        //     `mongodb+srv://AtlasAdmin:${DB_PW}@cluster0-3qsgw.mongodb.net/${DB_NAME_TEST}?retryWrites=true` :
-        //     `mongodb+srv://AtlasAdmin:${DB_PW}@cluster0-3qsgw.mongodb.net/${DB_NAME}?retryWrites=true`
-    },
-    JWT_SECRET: process.env.JWT_SECRET,
-    oauth: {
-        google: {
-            G_CLIENT_ID: process.env.G_CLIENT_ID,
-            G_CLIENT_SECRET: process.env.G_CLIENT_SECRET
-        },
-        facebook: {
-            FB_CLIENT_ID: process.env.FB_CLIENT_ID,
-            FB_CLIENT_SECRET: process.env.FB_CLIENT_SECRET
-        }
-    }
-}
+  JWT_SECRET: "secretauthentication",
+  ADMIN_SECRET: "ADMIN_SECRET_CODE",
+  SESSION_SECRET: "SESSION_SECRET",
+  COOKIES_MAX_AGE: 60000 * 60 * 24 * 30, // 30 days
+  PER_PAGE: 24, // 24 = production
+  DB_URI: `mongodb+srv://AtlasAdmin:${DB_PW}@cluster0-3qsgw.mongodb.net/${DB_NAME}?retryWrites=true`,
+  // NODE_ENV === 'test' ?
+  //     `mongodb+srv://AtlasAdmin:${DB_PW}@cluster0-3qsgw.mongodb.net/${DB_NAME_TEST}?retryWrites=true` :
+  //     `mongodb+srv://AtlasAdmin:${DB_PW}@cluster0-3qsgw.mongodb.net/${DB_NAME}?retryWrites=true`
+  G_CLIENT_ID: process.env.G_CLIENT_ID,
+  G_CLIENT_SECRET: process.env.G_CLIENT_SECRET,
+  FB_CLIENT_ID: process.env.FB_CLIENT_ID,
+  FB_CLIENT_SECRET: process.env.FB_CLIENT_SECRET
+};

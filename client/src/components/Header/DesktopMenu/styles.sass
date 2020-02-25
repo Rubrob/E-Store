@@ -1,4 +1,4 @@
-@import '../../../variables'
+@import 'variables'
 
 .DesktopMenu
   display: flex
@@ -12,11 +12,11 @@
     z-index: 100
     cursor: pointer
     &.active::before
-      @include pseudo(100%, 3px)
       bottom: -1.5px
       right: 0
       background: $black
       border-radius: 20px
+      @include pseudo(100%, 3px)
 
   &-menu
     position: fixed
@@ -34,19 +34,16 @@
       position: relative
       padding: 20px 50px
       transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1)
-
       &:not(:last-child)::before
-        @include pseudo(1px, 100%)
         top: 0
         right: 0
-        background: $light-gray
+        background: $border-color
+        @include pseudo(1px, 100%)
 
       &-title
-        cursor: pointer
         transition: .4s
-        a
-          display: block
-          width: 100%
+        display: block
+        width: 100%
 
       .category__block-title:hover,
       .subcategory__block-title:hover,
@@ -59,29 +56,19 @@
         &-title
           position: relative
           width: 100%
-          margin-bottom: 3px
-          cursor: pointer
+          margin-bottom: 5px
           transition: .3s
-          a
-            margin-bottom: 2px
-            display: block
+          display: block
+          &::after
+            content: ''
+            position: absolute
+            right: 0px
+            bottom: -2px
+            width: 0
+            height: 1px
+            transition: inherit
+            opacity: .5
+            background: $black
+          &:hover::after
+            left: 0
             width: 100%
-
-            &::after
-              content: ''
-              position: absolute
-              width: 0
-              height: 1px
-              line-height: 16px
-              right: 0
-              bottom: 0px
-              z-index: 1
-              transition: .3s
-              opacity: .5
-              background: $black
-            &:hover::after
-              left: 0
-              z-index: 1000
-              width: 100%
-            &:hover
-              z-index: 10000

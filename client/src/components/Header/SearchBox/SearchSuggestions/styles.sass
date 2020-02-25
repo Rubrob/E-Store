@@ -1,0 +1,40 @@
+@import 'variables'
+
+.SearchSuggestions
+  padding: 24px
+  background: $white
+  box-sizing: border-box
+  &-items
+    display: flex
+    flex-wrap: wrap
+  &-total
+    display: inline-flex
+    justify-content: space-between
+    align-items: center
+    margin-top: 64px !important
+    cursor: pointer
+    & > span
+      display: inline-flex 
+      & > p
+        margin: 0 4px
+  &-item
+    width: 50% 
+    display: flex
+    align-items: center
+    padding: 8px 0
+    box-sizing: border-box
+    cursor: pointer
+    &:nth-child(odd)
+      padding-right: 8px
+    img
+      display: block
+      height: 100px
+      margin-right: 18px
+
+
+@media (max-width: 600px)
+  .SearchSuggestions
+    &-item
+      width: 100%
+    &-total
+      width: 100%

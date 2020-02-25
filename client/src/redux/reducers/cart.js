@@ -1,81 +1,31 @@
-import {
-  CHANGE_DELIVERY,
-  SUBMIT_SHIPPING,
-  SUBMIT_BILLING,
-  SUBMIT_CHECKOUT,
-  ADD_TO_CART,
-  CHANGE_PRODUCT_QUANTITY,
-  CHANGE_PRODUCT_SIZE,
-  DELETE_CART_PRODUCT,
-  EMPTY_CART,
-  RESET_CART,
-  TOTAL_PRICE_RECALCULATION
-} from '../actions/types'
-import _ from 'lodash'
-import {LS} from 'utils';
+import types, { SUCCESS } from "../actions/types";
 
-const initialState = {
-  cartProducts: LS.get('CART') || [],
-  currency: '$',
+const INITIAL_STATE = {
+  cart: [],
   checkout: {
     addresses: {
       shipping: {},
       billing: {}
     }
   },
-  defaultValues: {
-    delivery: 'standard'
-  },
-  total: 0,
-  count: 0,
+  totalPrice: 0,
+  totalQuantity: 0,
+  selectedDelivery: "standard",
   deliveryMethods: {
     standard: 0,
     expedited: 10,
     overnight: 15
   }
-}
+};
 
-// REDUCER CONTROLLERS
-const addCartItem = (products, payload) => {
-  const {productId, colorId, size} = payload
-  let alreadyInCart = _.find(products, {colorId, productId, size})
-
-  if(alreadyInCart){
-    alreadyInCart.qty += payload.qty
-  }else{
-    products.push(payload)
-  }
-  return products
-}
-
-const deleteCartItem = (cart, {productId, colorId, size}) => (
-  _.reject(cart, {productId, colorId, size})
-)
-
-const changeCartItemSize = (cart, payload) => {
-  const {productId, colorId, size, data} = payload
-  const target = _.find(cart, {productId, colorId, size})
-  if(target){
-    target.size = data
-  }
-  const [conflicted, other] = _.partition(cart, {productId, colorId, size: data})
-  return [..._.uniqBy(conflicted, 'size'), ...other]
-}
-
-const changeCartItemQuantity = (cart, {productId, colorId, size, data}) => {
-  const cartItem = _.find(cart, {productId, colorId, size})
-  if(cartItem){
-    cartItem.qty = data
-  }
-  return cart
-}
-
-
-const cartReducer = (state = initialState, { type, payload }) => {
-  switch(type){
-    case CHANGE_DELIVERY:
-      return { ...state, defaultValues: { ...state.defaultValues, delivery: payload } }
-    case SUBMIT_SHIPPING:
+export default (state = INITIAL_STATE, { type, payload }) => {
+  switch (type) {
+    case types.cart.CHANGE_DELIVERY:
+      return {
+        ...state,
+        selectedDelivery: payload
+      };
+    case types.cart.SUBMIT_SHIPPING:
       return {
         ...state,
         checkout: {
@@ -84,8 +34,8 @@ const cartReducer = (state = initialState, { type, payload }) => {
             shipping: payload
           }
         }
-      }
-    case SUBMIT_BILLING:
+      };
+    case types.cart.SUBMIT_BILLING:
       return {
         ...state,
         checkout: {
@@ -94,51 +44,27 @@ const cartReducer = (state = initialState, { type, payload }) => {
             billing: payload
           }
         }
-      }
-    case SUBMIT_CHECKOUT:
+      };
+    case types.cart.SUBMIT_CHECKOUT + SUCCESS:
       return {
         ...state,
-        checkout: { ...state.checkout, ...payload }
-      }
-    case ADD_TO_CART:
+        checkout: {
+          addresses: {
+            shipping: {},
+            billing: {}
+          }
+        },
+        cart: [],
+        totalPrice: 0,
+        totalQuantity: 0
+      };
+    case types.cart.VALIDATE_CART + SUCCESS:
       return {
         ...state,
-        cartProducts: addCartItem([...state.cartProducts], payload)
-      }
-    case CHANGE_PRODUCT_QUANTITY:
-      return {
-        ...state,
-        cartProducts: changeCartItemQuantity([...state.cartProducts], payload)
-      }
-    case CHANGE_PRODUCT_SIZE:
-      return {
-        ...state,
-        cartProducts: changeCartItemSize([...state.cartProducts], payload)
-      }
-    case DELETE_CART_PRODUCT:
-      return {
-        ...state,
-        cartProducts: deleteCartItem([...state.cartProducts], payload)
-      }
-    case EMPTY_CART:
-      return {
-        ...state,
-        cartProducts: [],
-        total: 0
-      }
-    case RESET_CART:
-      return {
-        ...state,
-        cartProducts: payload
-      }
-    case TOTAL_PRICE_RECALCULATION:
-      return {
-        ...state,
-        total: payload.totalPrice,
-        count: payload.totalCount
-      }
+        ...payload
+      };
+
     default:
-      return { ...state }
+      return { ...state };
   }
-}
-export default cartReducer
+};

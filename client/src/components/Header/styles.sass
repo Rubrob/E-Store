@@ -1,34 +1,38 @@
+@import 'variables'
+
 .Header
-  border-bottom: 1px solid #e5e5e5
+  border-bottom: 1px solid $border-color
   box-sizing: border-box
   &.blur
-    background: rgba(#fff, .8) !important
+    background: rgba($white, .8) !important
     backdrop-filter: blur(20px)
     -webkit-backdrop-filter: blur(20px)
 
-  .toolbar
+  &-toolbar
     align-items: center
     justify-content: space-between
 
-  .leftSide
+  &-leftSide
     display: flex
-    .logoButton
-      display: flex
-      align-items: center
-      margin-right: 20px
-      padding-left: 6px
-      .logo
-        height: 40px
+  &-logo
+    display: flex
+    align-items: center
+    margin-right: 20px
+    padding-left: 6px
+    & > img
+      height: 40px
 
-  .rightSide
+  &-rightSide
     display: flex
+    justify-content: flex-end
+    width: 100%
+    max-width: 450px
 
 @media (max-width: 599.5px)
   .Header
-    .leftSide
-      .logoButton
-        padding-left: 12px
-        .logo
-          height: 34px
+    &-logo
+      padding-left: 12px
+      & > img
+        height: 34px
     .MuiToolbar-gutters
       padding: 0 4px

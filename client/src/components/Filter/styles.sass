@@ -1,0 +1,49 @@
+@import 'variables'
+
+@mixin filterContainer($repeat)
+  display: grid
+  grid-gap: 4px
+  grid-template-columns: repeat($repeat, 1fr)
+  width: 100%
+  box-sizing: border-box
+
+.Filter
+  // display: flex
+  // flex-direction: column
+  width: 240px
+  // width: 100%
+  // margin-right: 20px
+  // background: #fff
+  // box-sizing: border-box
+  // transition: .4s
+  .Filter-reset
+    margin-top: 20px
+    margin-bottom: 40px
+  // &.hide
+    // position: relative
+    // transform: translateX(-280px)
+    // margin-left: -280px
+
+  .FilterBlock
+    border-bottom: 1px solid $border-color
+    margin: 0 -24px
+    // margin-top: 20px
+    &-content2 
+      width: 100%
+      padding: 16px 0
+    &-content
+      padding: 16px 0
+      @include filterContainer(3)
+      .size
+        border-color: $border-color
+      .color
+        justify-self: center
+        margin: 5px 0
+
+@media (max-width: 959.5px)
+  .Filter
+    margin: 0
+    width: 100%
+    // padding: 0 16px
+    .FilterBlock
+      margin: 0

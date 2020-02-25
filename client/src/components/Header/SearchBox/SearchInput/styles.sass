@@ -1,0 +1,28 @@
+@import 'variables'
+
+.SearchInput
+  background: rgba($border-color, .4)
+  padding: 8px 0 !important
+  border-radius: 24px
+  width: 100%
+  max-width: 250px
+
+@media(max-width: 960px)
+  .SearchInput
+    position: fixed !important
+    z-index: 2
+    top: 0
+    left: 0
+    display: flex
+    align-items: center
+    width: 100%
+    max-width: 100% 
+    border-bottom: 1px solid $border-color !important
+    border-radius: 0
+    padding: 12px 12px !important
+    box-sizing: border-box
+    background: $white
+    overflow: hidden
+
+    & .MuiInputBase-root
+      width: 100%

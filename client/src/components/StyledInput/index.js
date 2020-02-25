@@ -1,8 +1,12 @@
 import React from "react";
-import {TextField} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 
-
-const StyledInput = ({input, helperText, meta: {touched, invalid, error}, ...custom}) => (
+const StyledInput = ({
+  input,
+  helperText,
+  meta: { touched, invalid, error },
+  ...custom
+}) => (
   <TextField
     fullWidth
     variant="outlined"
@@ -11,6 +15,6 @@ const StyledInput = ({input, helperText, meta: {touched, invalid, error}, ...cus
     helperText={error && touched ? error : null}
     error={touched && invalid}
   />
-)
+);
 
-export default StyledInput
+export default StyledInput;

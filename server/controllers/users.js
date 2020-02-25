@@ -1,133 +1,68 @@
-const JWT = require('jsonwebtoken');
-const {JWT_SECRET} = require('../config');
-const User = require('../models/user');
-const Order = require('../models/order');
-const Product = require('../models/product');
-const mongoose = require('mongoose');
-
-
-singToken = (user) => {
-    return JWT.sign({
-        iss: 'nameOfTheSite',
-        sub: user._id,
-        iat: new Date().getTime(), //current time
-        exp: new Date().setDate(new Date().getDate() + 1) // current time + 1 day
-    }, JWT_SECRET)
-}
+const { User, Order } = require("../models");
+const { singToken } = require("../helpers");
 
 module.exports = {
-    signUp: async (req, res, next) => {
-        const {email, password, firstname, lastname} = req.value.body;
+  signUp: async (req, res, next) => {
+    const { email, password, firstname, lastname } = req.value.body;
 
-        const existingUser = await User.findOne({
-            "local.email": email
-        });
-        
-        if (existingUser) {
-            console.log('Email is already in use')
-            return res.status(403).json({
-                error: 'Email is already in use'
-            })
-        }
+    const existingUser = await User.findOne({
+      "local.email": email
+    });
 
-        const newUser = new User({
-            method: 'local',
-            local: {
-                email: email,
-                password: password,
-                firstname: firstname,
-                lastname: lastname
-            },
-        })
-        await newUser.save()
+    if (existingUser) {
+      console.log("Email is already in use");
+      return res.status(404).json({ message: "Email is already in use" });
+    }
 
-        // https://jwt.io/
-        const token = singToken(newUser)
+    const newUser = new User({
+      method: "local",
+      local: {
+        email: email,
+        password: password,
+        firstname: firstname,
+        lastname: lastname
+      }
+    });
+    await newUser.save();
 
-        res.status(200).json({
-            token,
-        })
-    },
+    const token = singToken(newUser);
+    res.status(200).json({ token });
+  },
+  login: async (req, res) => {
+    const token = singToken(req.user);
+    res.status(200).json({ token });
+  },
+  logout: async (req, res, next) => {
+    req.logout();
+    res.redirect("/");
+  },
+  getUser: async (req, res, next) => {
+    const method = req.user.method;
+    const givenName = req.user[method].firstname;
+    const familyName = req.user[method].lastname;
+    res.status(200).json({
+      fullname: `${givenName} ${familyName}`,
+      addresses: req.user.addresses
+    });
+  },
+  updateUserAddresses: async (req, res, next) => {
+    const user = await User.findById(req.user._id);
 
-    login: async (req, res, next) => {
-        const token = singToken(req.user);
-        res.status(200).json({
-            token,
-        })
-    },
-    logout: async (req, res, next) => {
-        req.logout()
-        res.redirect('/')
-    },
+    await user.updateOne({
+      addresses: {
+        ...user.addresses,
+        ...req.body
+      }
+    });
 
-    getUser: async (req, res, next) => {
-        const method = req.user.method
-        const givenName = req.user[method].firstname
-        const familyName = req.user[method].lastname
-        res.status(200).json({
-            fullname: `${givenName} ${familyName}`,
-            addresses: req.user.addresses
-        })
-    },
+    res.status(200).json({ addresses: req.body });
+  },
+  getUserOrders: async (req, res, next) => {
+    const orders = await Order.find({ user_id: req.user._id })
+      .select("items created_at")
+      .populate({ path: "items.color", select: "color preview_image price slug" })
+      .populate({ path: "items.product", select: "title subtitle slug" });
 
-    updateUser: async (req, res, next) => {
-        const user = await User.findOne({
-            "_id": req.user._id
-        })
-
-        await user.update({
-            addresses: {
-                ...user.addresses,
-                ...req.body
-            }
-        })
-        await user.save()
-
-        res.status(200).json({
-            addresses: user.addresses
-        })
-    },
-
-    getUserOrders: async (req, res, next) => {
-        const orders = await Order
-          .find({"user_id": req.user._id})
-          .select("order date")
-          
-        res.status(200).json({
-          orders
-        })
-    },
-
-    createOrder: async (req, res, next) => {
-        let user_id = null
-        try {
-            if(req.headers.authorization) {
-                const token = req.headers.authorization.split(' ')[1]
-                const payload = JWT.verify(token, JWT_SECRET)
-                const user = await User.findById(payload.sub)
-                if(user) {
-                    user_id = user._id
-                }
-            } 
-        } catch (error) {
-            res.json({
-                message: "Token is invalid"
-            })
-        }
-        const {order, delivery, addresses} = req.body
-
-        const newOrder = new Order({
-          user_id,
-          order,
-          delivery,
-          addresses
-        })
-        await newOrder.save()
-  
-        res.status(200).json({
-          message: 'Thank you for order!',
-          order: newOrder
-        })
-    },
-
-}
+    res.status(200).json({ orders });
+  }
+};

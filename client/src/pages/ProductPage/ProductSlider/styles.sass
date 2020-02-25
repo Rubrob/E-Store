@@ -1,0 +1,74 @@
+@import 'variables'
+
+.ProductSlider  
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-left: 20px
+  min-height: 100%
+  width: 70%
+  padding: 10px
+  box-sizing: border-box
+  background: #eceff0
+
+  & .s1 
+    display: flex
+    flex-direction: column
+    padding: 20px
+    max-width: 60px
+    margin-left: 50px
+    transform: translateX(-50px)
+  & .s2 
+    transform: translateX(-50px)
+
+
+@media (max-width: 959.5px)
+  .ProductSlider  
+    width: 100%
+    margin-left: 0
+    & .s1 
+      display: none
+    & .s2 
+      transform: translateX(0)
+  
+@media (max-width: 599.5px)
+  .ProductSlider 
+    padding: 0 0 8px
+
+.slider1 
+  // background: red 
+  // height: 100%
+  overflow: hidden
+  width: 60px
+  max-height: 320px 
+  & .swiper-slide 
+    opacity: .5
+    -webkit-filter: grayscale(100%)
+    filter: grayscale(100%)
+    transition: .5s
+    &-active 
+      -webkit-filter: grayscale(0)
+      filter: grayscale(0)
+      opacity: 1
+
+.slider2 
+  max-height: 600px
+  min-height: 200px
+  overflow: hidden
+  max-width: 600px
+  min-width: 300px
+  position: relative
+
+  & .swiper-arrows--prev, .swiper-arrows--next 
+    position: absolute
+    top: 50%
+    height: 64px
+    margin-top: -32px
+    z-index: 1
+    &::after 
+      display: none
+
+  & .swiper-arrows--prev 
+    left: 0
+  & .swiper-arrows--next 
+    right: 0
