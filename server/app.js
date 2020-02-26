@@ -49,4 +49,12 @@ app.use("/api/", require("./routes/admin"));
 
 app.get("/*", (req, res) => res.sendFile(path.join(__dirname, "build", "index.html")));
 
+app.listen(config.PORT, () =>
+  console.log(`
+
+  Application runnin on http://localhost:${config.PORT}/
+
+  `)
+);
+
 module.exports = app;
