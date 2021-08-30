@@ -7,7 +7,10 @@
         "server:dev": "cross-env NODE_ENV=production nodemon server/index.js",
         "client:dev": "npm start --prefix client",
         "start": "node server/index.js",
-        "build": "npm run build --prefix client",
+        "install:client": "cd client && npm install",
+        "build:client": "npm run build --prefix client",
+
+        "build": "npm run install:client && npm run build:client",
         "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
         "test": "cross-env NODE_ENV=test mocha --timeout 5000 __tests__/server/**/*.test.js",
         "report": "cross-env NODE_ENV=test nyc --reporter=lcov mocha --timeout 5000 __tests__/server/**/*.test.js",
@@ -34,9 +37,7 @@
         "passport-facebook-token": "^3.3.0",
         "passport-google-plus-token": "^2.1.0",
         "passport-jwt": "^4.0.0",
-        "passport-local": "^1.0.0",
-        "react-id-swiper": "^2.4.0",
-        "swiper": "^5.2.1"
+        "passport-local": "^1.0.0"
     },
     "devDependencies": {
         "chai": "^4.2.0",
