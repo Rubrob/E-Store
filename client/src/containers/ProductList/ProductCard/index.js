@@ -14,7 +14,7 @@ const ProductCard = ({
   const {title, price, colors, subcategory, _id, gender, category} = product
   const [preview, setPreview] = useState(false)
   const [mainImage, setMainImage] = useState({
-    url: colors[0].preview,
+    url: colors[0].preview || '../images/slide_4.jpg',
     id: colors[0]._id
   })
 

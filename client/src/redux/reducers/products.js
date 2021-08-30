@@ -165,6 +165,7 @@ export default (state = initialState, {type, payload}) => {
     case FETCH_PRODUCTS_SUCCESS:
       return {
         ...state,
+        filtered: payload,
         products: payload,
         isFetching: false,
         isFetchingError: false

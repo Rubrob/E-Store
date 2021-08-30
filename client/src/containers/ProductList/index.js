@@ -56,7 +56,8 @@ const ProductList = ({
 
 export default connect(
   (state) => ({
-    filtered: state.products.filtered,
+    // filtered: state.products.filtered,
+    filtered: state.products.products,
     searchedStr: state.products.searchedStr,
     currency: state.products.currency,
     isFilterOpen: state.trigers.filter
